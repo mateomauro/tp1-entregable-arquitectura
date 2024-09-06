@@ -36,4 +36,13 @@ public class Factura_Producto {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+
+    @Override
+    public String toString() {
+        return "Factura_Producto{" +
+                "idFactura=" + idFactura +
+                ", idProducto=" + idProducto +
+                ", cantidad=" + cantidad +
+                '}';
+    }
 }

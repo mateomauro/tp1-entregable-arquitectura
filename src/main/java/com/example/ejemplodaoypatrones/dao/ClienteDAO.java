@@ -1,7 +1,13 @@
 package com.example.ejemplodaoypatrones.dao;
 
 import com.example.ejemplodaoypatrones.entities.Cliente;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +35,24 @@ public class ClienteDAO implements CrudDAO<Cliente> {
             System.out.println("fue insertado");
         }
         ps.close();
+    }
+    // inserta los clientes a la tabla cliente desde el csv
+    public void insertClientsCSV() throws SQLException, IOException {
+        // hay que cambiarle el path a esto, en mi compu es así pero va a cambiar de cada compu de ustedes
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
+                FileReader("C:\\Users\\HP\\Desktop\\ARQUITECTURAS WEB\\TPS\\TP1-Integrador\\tp1-entregable-arquitectura\\src\\main\\resources\\clientes.csv"));
+        for(CSVRecord row: parser) {
+            String query = "INSERT INTO `cliente`(`nombre`, `email`) VALUES (?,?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1,row.get("nombre"));
+            ps.setString(2,row.get("email"));
+            int value = ps.executeUpdate();
+            if (value > 0){
+                conn.commit();
+                System.out.println("fueron insertados todos los clientes del csv");
+            }
+            ps.close();
+        }
     }
 
     @Override
