@@ -36,6 +36,7 @@ public class ClienteDAO implements CrudDAO<Cliente> {
         }
         ps.close();
     }
+
     // inserta los clientes a la tabla cliente desde el csv
     public void insertClientsCSV() throws SQLException, IOException {
         // hay que cambiarle el path a esto, en mi compu es así pero va a cambiar de cada compu de ustedes

@@ -21,36 +21,19 @@ public class ProductoDAO implements CrudDAO<Producto> {
 
     @Override
     public void insert(Producto producto) throws SQLException {
-
-    }
-
-    @Override
-    public void delete(int id) throws SQLException {
-
-    }
-
-    @Override
-    public void update(Producto producto, int id) throws SQLException {
-
-    }
-
-    @Override
-    public Producto getOne(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Producto> getAll() throws SQLException {
-        String query = "SELECT * FROM producto";
+        String query = "INSERT INTO producto (nombre, valor) VALUES (?,?)";
         PreparedStatement ps = conn.prepareStatement(query);
-        ResultSet productos = ps.executeQuery();
-        ArrayList<Producto> listaProductos = new ArrayList<>();
-        while (productos.next()){
-            listaProductos.add(new Producto(productos.getInt(1),productos.getString(2), productos.getFloat(3)));
+        ps.setString(1, producto.getNombre());
+        ps.setFloat(2, producto.getValor());
+        int value = ps.executeUpdate();
+        if(value > 0){
+            conn.commit();
+            System.out.println("Se inserto");
         }
         ps.close();
-        return listaProductos;
     }
+
+
     // Insertar los productos del CSV a la base.
     public void insertProductCSV() throws SQLException, IOException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
@@ -71,6 +54,63 @@ public class ProductoDAO implements CrudDAO<Producto> {
             ps.close();
         }
     }
+
+    @Override
+    public void delete(int id) throws SQLException {
+        String query = "DELETE FROM producto WHERE idProducto = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, id);
+        int value = ps.executeUpdate();
+        if(value > 0){
+            conn.commit();
+            System.out.println("se borro el id "+id);
+        }
+        ps.close();
+    }
+
+    @Override
+    public void update(Producto producto, int id) throws SQLException {
+        String query = "UPDATE producto set nombre = ?, valor = ? WHERE idProducto = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1,producto.getNombre());
+        ps.setFloat(2,producto.getValor());
+        ps.setInt(3, id);
+        int value = ps.executeUpdate();
+        if(value > 0){
+            conn.commit();
+            System.out.println("Se modifico correctamente el id "+id);
+        }
+        ps.close();
+    }
+
+    @Override
+    public Producto getOne(int id) throws SQLException {
+        String query = "SELECT * FROM producto WHERE idProducto = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        Producto producto = null;
+        if(rs.next()){
+            producto = new Producto(rs.getInt(1), rs.getString(2) ,rs.getFloat(3));
+            conn.commit();
+        }
+        return producto;
+    }
+
+
+    @Override
+    public ArrayList<Producto> getAll() throws SQLException {
+        String query = "SELECT * FROM producto";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ResultSet productos = ps.executeQuery();
+        ArrayList<Producto> listaProductos = new ArrayList<>();
+        while (productos.next()){
+            listaProductos.add(new Producto(productos.getInt(1),productos.getString(2), productos.getFloat(3)));
+        }
+        ps.close();
+        return listaProductos;
+    }
+
 
     public Producto productoQueMasRecaudo() {
         Producto producto = new Producto();

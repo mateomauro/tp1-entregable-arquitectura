@@ -4,6 +4,7 @@ import com.example.ejemplodaoypatrones.dao.ClienteDAO;
 import com.example.ejemplodaoypatrones.dao.FacturaDAO;
 import com.example.ejemplodaoypatrones.dao.Factura_ProductoDAO;
 import com.example.ejemplodaoypatrones.dao.ProductoDAO;
+import com.example.ejemplodaoypatrones.dao.Factura_ProductoDAO;
 
 public abstract class AbstractFactory {
     public static final int MYSQL_JDBC = 1;

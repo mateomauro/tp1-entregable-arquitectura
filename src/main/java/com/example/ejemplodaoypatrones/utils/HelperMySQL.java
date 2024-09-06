@@ -49,7 +49,7 @@ public class HelperMySQL {
 //    }
 
     public void createTables() throws SQLException {
-        String tableCliente = "CREATE TABLE IF NOT EXISTS Cliente(" +
+        String tableCliente = "CREATE TABLE IF NOT EXISTS cliente(" +
                 "idCliente INT NOT NULL AUTO_INCREMENT, " +
                 "nombre VARCHAR(500), " +
                 "email VARCHAR(150), " +
@@ -57,15 +57,15 @@ public class HelperMySQL {
         this.conn.prepareStatement(tableCliente).execute();
         this.conn.commit();
 
-        String tableFactura = "CREATE TABLE IF NOT EXISTS Factura(" +
+        String tableFactura = "CREATE TABLE IF NOT EXISTS factura(" +
                 "idFactura INT NOT NULL AUTO_INCREMENT, " +
                 "idCliente INT NOT NULL, " +
                 "CONSTRAINT Factura_pk PRIMARY KEY (idFactura), " +
-                "CONSTRAINT FK_cliente FOREIGN KEY (idCliente) REFERENCES Cliente (idCliente));";
+                "CONSTRAINT FK_cliente FOREIGN KEY (idCliente) REFERENCES cliente (idCliente));";
         this.conn.prepareStatement(tableFactura).execute();
         this.conn.commit();
 
-        String tableProducto = "CREATE TABLE IF NOT EXISTS Producto(" +
+        String tableProducto = "CREATE TABLE IF NOT EXISTS producto(" +
                 "idProducto INT NOT NULL AUTO_INCREMENT, " +
                 "nombre VARCHAR(45) NOT NULL, " +
                 "valor FLOAT NOT NULL, " +
@@ -73,13 +73,13 @@ public class HelperMySQL {
         this.conn.prepareStatement(tableProducto).execute();
         this.conn.commit();
 
-        String tableFactura_Producto = "CREATE TABLE IF NOT EXISTS Factura_Producto(" +
+        String tableFactura_Producto = "CREATE TABLE IF NOT EXISTS factura_producto(" +
                 "idFactura INT NOT NULL, " +
                 "idProducto INT NOT NULL, " +
                 "cantidad INT NOT NULL, " +
                 "CONSTRAINT Factura_Producto_pk PRIMARY KEY (idFactura, idProducto), " +
-                "CONSTRAINT FK_Factura_Producto FOREIGN KEY (idProducto) REFERENCES Producto (idProducto), " +
-                "CONSTRAINT FK_Factura FOREIGN KEY (idFactura) REFERENCES Factura (idFactura));";
+                "CONSTRAINT FK_Factura_Producto FOREIGN KEY (idProducto) REFERENCES producto (idProducto), " +
+                "CONSTRAINT FK_Factura FOREIGN KEY (idFactura) REFERENCES factura (idFactura));";
         this.conn.prepareStatement(tableFactura_Producto).execute();
         this.conn.commit();
     }

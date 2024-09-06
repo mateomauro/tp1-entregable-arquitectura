@@ -12,6 +12,8 @@ import com.example.ejemplodaoypatrones.factory.AbstractFactory;
 import com.example.ejemplodaoypatrones.utils.HelperMySQL;
 
 import java.util.ArrayList;
+import com.example.ejemplodaoypatrones.dao.Factura_ProductoDAO;
+import com.example.ejemplodaoypatrones.entities.Factura_Producto;
 
 public class Main {
 
