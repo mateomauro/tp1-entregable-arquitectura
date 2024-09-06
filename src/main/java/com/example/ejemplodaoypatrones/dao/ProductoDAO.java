@@ -111,9 +111,20 @@ public class ProductoDAO implements CrudDAO<Producto> {
     }
 
 
-    public Producto productoQueMasRecaudo() {
+    public Producto getProductoQueMasRecaudo() throws SQLException {
         Producto producto = new Producto();
-
+        String query = "SELECT p.nombre, p.idProducto, p.valor, SUM(fp.cantidad * p.valor) AS recaudacion " +
+                "FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto " +
+                "GROUP BY p.nombre ORDER BY recaudacion DESC LIMIT 1";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ResultSet pro = ps.executeQuery();
+        if (pro.next()) {
+            producto.setIdProducto(pro.getInt(2));
+            producto.setNombre(pro.getString(1));
+            producto.setValor(pro.getFloat(3));
+        }
+        ps.close();
         return producto;
     }
+
 }

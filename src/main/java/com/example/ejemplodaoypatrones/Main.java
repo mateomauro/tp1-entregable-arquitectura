@@ -32,15 +32,20 @@ public class Main {
 //        System.out.println();
         ClienteDAO cliente = chosenFactory.getClienteDAO();
         FacturaDAO factura = chosenFactory.getFacturaDAO();
-        Factura_ProductoDAO factura_producto = chosenFactory.getFactura_ProductoDAO();
         ProductoDAO producto = chosenFactory.getProductoDAO();
+        Factura_ProductoDAO factura_producto = chosenFactory.getFactura_ProductoDAO();
         //cliente.insert(new Cliente("mateo", "seRompio@hotmail.com"));
         //cliente.delete(2);
         //cliente.update(new Cliente("tomas", "tomas@gmail.com"), 4);
-         cliente.insertClientsCSV();
-        producto.insertProductCSV();
-        factura.insertFacturaCSV();
-        factura_producto.insertFactura_ProductoCSV();
+
+
+//         cliente.insertClientsCSV();
+//        producto.insertProductCSV();
+//        factura.insertFacturaCSV();
+//        factura_producto.insertFactura_ProductoCSV();
+
+        System.out.println(producto.getProductoQueMasRecaudo());
+        System.out.println(cliente.getlistaFacturacion());
         //Cliente clienteTomas = cliente.getOne(4);
         //System.out.println(clienteTomas);
 //        ArrayList<Cliente> listaClientes = cliente.getAll();

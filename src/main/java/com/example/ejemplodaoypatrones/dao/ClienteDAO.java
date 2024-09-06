@@ -110,4 +110,20 @@ public class ClienteDAO implements CrudDAO<Cliente> {
         ps.close();
         return listaClientes;
     }
+
+    public ArrayList<Cliente> getlistaFacturacion() throws SQLException {
+        String query = "SELECT c.idCliente, c.nombre, c.email, " +
+                "COUNT(*) AS cantidad FROM cliente c INNER JOIN factura f " +
+                "ON c.idCliente = f.idCliente GROUP BY c.idCliente ORDER BY " +
+                "cantidad DESC";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ResultSet lista = ps.executeQuery();
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        while (lista.next()){
+            Cliente cliente = new Cliente(lista.getInt(1),lista.getString(2),lista.getString(3));
+            clientes.add(cliente);
+        }
+        ps.close();
+        return clientes;
+    }
 }
