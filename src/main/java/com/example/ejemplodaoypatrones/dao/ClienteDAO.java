@@ -22,7 +22,6 @@ public class ClienteDAO implements CrudDAO<Cliente> {
         this.conn = conn;
     }
 
-
     @Override
     public void insert(Cliente cliente) throws SQLException {
         String query = "INSERT INTO `cliente`(`nombre`, `email`) VALUES (?,?)";
@@ -40,8 +39,7 @@ public class ClienteDAO implements CrudDAO<Cliente> {
     // inserta los clientes a la tabla cliente desde el csv
     public void insertClientsCSV() throws SQLException, IOException {
         // hay que cambiarle el path a esto, en mi compu es así pero va a cambiar de cada compu de ustedes
-        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
-                FileReader("C:\\Users\\HP\\Desktop\\ARQUITECTURAS WEB\\TPS\\TP1-Integrador\\tp1-entregable-arquitectura\\src\\main\\resources\\clientes.csv"));
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/clientes.csv"));
         for(CSVRecord row: parser) {
             String query = "INSERT INTO `cliente`(`nombre`, `email`) VALUES (?,?)";
             PreparedStatement ps = conn.prepareStatement(query);

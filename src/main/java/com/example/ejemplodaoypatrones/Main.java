@@ -22,8 +22,8 @@ public class Main {
         //dbMySQL.dropTables();
         dbMySQL.createTables();
 
-//        dbMySQL.populateDB();
-//        dbMySQL.closeConnection();
+        //dbMySQL.populateDB();
+        //dbMySQL.closeConnection();
 //
         AbstractFactory chosenFactory = AbstractFactory.getDAOFactory(1);
 //        System.out.println();
@@ -37,26 +37,26 @@ public class Main {
         //cliente.insert(new Cliente("mateo", "seRompio@hotmail.com"));
         //cliente.delete(2);
         //cliente.update(new Cliente("tomas", "tomas@gmail.com"), 4);
-        cliente.insertClientsCSV();
+         cliente.insertClientsCSV();
         producto.insertProductCSV();
         factura.insertFacturaCSV();
         factura_producto.insertFactura_ProductoCSV();
         //Cliente clienteTomas = cliente.getOne(4);
         //System.out.println(clienteTomas);
-        ArrayList<Cliente> listaClientes = cliente.getAll();
-        System.out.println("Lista clientes: " + listaClientes);
-        System.out.println();
-
-        ArrayList<Factura> listaFactura = factura.getAll();
-        System.out.println("Lista factura: " + listaFactura);
-        System.out.println();
-
-        ArrayList<Factura_Producto> listaFactura_Productos = factura_producto.getAll();
-        System.out.println("Lista factura_productos: " + listaFactura_Productos);
-        System.out.println();
-
-        ArrayList<Producto> listaProductos = producto.getAll();
-        System.out.println("Lista productos: " + listaProductos);
+//        ArrayList<Cliente> listaClientes = cliente.getAll();
+//        System.out.println("Lista clientes: " + listaClientes);
+//        System.out.println();
+//
+//        ArrayList<Factura> listaFactura = factura.getAll();
+//        System.out.println("Lista factura: " + listaFactura);
+//        System.out.println();
+//
+//        ArrayList<Factura_Producto> listaFactura_Productos = factura_producto.getAll();
+//        System.out.println("Lista factura_productos: " + listaFactura_Productos);
+//        System.out.println();
+//
+//        ArrayList<Producto> listaProductos = producto.getAll();
+//        System.out.println("Lista productos: " + listaProductos);
 
 //
 //

@@ -36,8 +36,7 @@ public class ProductoDAO implements CrudDAO<Producto> {
 
     // Insertar los productos del CSV a la base.
     public void insertProductCSV() throws SQLException, IOException {
-        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
-                FileReader("C:\\Users\\HP\\Desktop\\ARQUITECTURAS WEB\\TPS\\TP1-Integrador\\tp1-entregable-arquitectura\\src\\main\\resources\\productos.csv"));
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/productos.csv"));
         for(CSVRecord row: parser) {
             String query = "INSERT INTO `producto`(`nombre`, `valor`) VALUES (?,?)";
             PreparedStatement ps = conn.prepareStatement(query);

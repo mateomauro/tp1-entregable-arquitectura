@@ -40,8 +40,7 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
     // Inserta los productos que fueron vendidos ( o sea, que pertenecen a una factura ) a la base.
     public void insertFactura_ProductoCSV() throws SQLException, IOException {
         // hay que ver acá el tema de la ruta
-        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
-                FileReader("C:\\Users\\HP\\Desktop\\ARQUITECTURAS WEB\\TPS\\TP1-Integrador\\tp1-entregable-arquitectura\\src\\main\\resources\\facturas-productos.csv"));
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/facturas-productos.csv"));
         for(CSVRecord row: parser) {
             String query = "INSERT INTO `factura_producto`(`idFactura`, `idProducto`, `cantidad`) VALUES (?,?,?)";
             PreparedStatement ps = conn.prepareStatement(query);
