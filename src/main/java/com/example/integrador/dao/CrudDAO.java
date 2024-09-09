@@ -1,4 +1,4 @@
-package com.example.ejemplodaoypatrones.dao;
+package com.example.integrador.dao;
 
 import java.sql.SQLException;
 import java.util.List;

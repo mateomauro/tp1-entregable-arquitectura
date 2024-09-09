@@ -1,6 +1,7 @@
-package com.example.ejemplodaoypatrones.dao;
+package com.example.integrador.dao;
 
-import com.example.ejemplodaoypatrones.entities.Producto;
+import com.example.integrador.dto.ProductoDTO;
+import com.example.integrador.entities.Producto;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -111,17 +112,15 @@ public class ProductoDAO implements CrudDAO<Producto> {
     }
 
 
-    public Producto getProductoQueMasRecaudo() throws SQLException {
-        Producto producto = new Producto();
+    public ProductoDTO getProductoQueMasRecaudo() throws SQLException {
         String query = "SELECT p.nombre, p.idProducto, p.valor, SUM(fp.cantidad * p.valor) AS recaudacion " +
                 "FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto " +
                 "GROUP BY p.nombre ORDER BY recaudacion DESC LIMIT 1";
         PreparedStatement ps = conn.prepareStatement(query);
         ResultSet pro = ps.executeQuery();
+        ProductoDTO producto = null;
         if (pro.next()) {
-            producto.setIdProducto(pro.getInt(2));
-            producto.setNombre(pro.getString(1));
-            producto.setValor(pro.getFloat(3));
+            producto = new ProductoDTO(pro.getInt(2),pro.getString(1), pro.getFloat(3), pro.getFloat(4)); 
         }
         ps.close();
         return producto;

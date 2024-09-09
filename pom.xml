@@ -54,7 +54,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.ejemplodaoypatrones/com.example.ejemplodaoypatrones.HelloApplication
+                                com.example.ejemplodaoypatrones/com.example.integrador.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

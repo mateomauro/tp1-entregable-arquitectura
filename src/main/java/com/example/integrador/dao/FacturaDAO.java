@@ -1,7 +1,6 @@
-package com.example.ejemplodaoypatrones.dao;
+package com.example.integrador.dao;
 
-import com.example.ejemplodaoypatrones.entities.Cliente;
-import com.example.ejemplodaoypatrones.entities.Factura;
+import com.example.integrador.entities.Factura;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -13,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FacturaDAO implements CrudDAO<Factura>{
 

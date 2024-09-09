@@ -1,11 +1,11 @@
-package com.example.ejemplodaoypatrones.dao;
+package com.example.integrador.dao;
 
-import com.example.ejemplodaoypatrones.entities.Cliente;
+import com.example.integrador.dto.ClienteDTO;
+import com.example.integrador.entities.Cliente;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClienteDAO implements CrudDAO<Cliente> {
     private Connection conn;
@@ -32,6 +31,8 @@ public class ClienteDAO implements CrudDAO<Cliente> {
         if (value > 0){
             conn.commit();
             System.out.println("fue insertado");
+        }else {
+            System.out.println("no fue insertado");
         }
         ps.close();
     }
@@ -111,19 +112,42 @@ public class ClienteDAO implements CrudDAO<Cliente> {
         return listaClientes;
     }
 
-    public ArrayList<Cliente> getlistaFacturacion() throws SQLException {
+    //el siguiente metodo trae a los clientes que mas facturaron en cantidad de facturas, hicimos los dos
+    //metodos porque en el enunciado no estaba claro si era por cantidad o por monto
+        public ArrayList<ClienteDTO> getlistaFacturacionXcantidad() throws SQLException {
         String query = "SELECT c.idCliente, c.nombre, c.email, " +
                 "COUNT(*) AS cantidad FROM cliente c INNER JOIN factura f " +
                 "ON c.idCliente = f.idCliente GROUP BY c.idCliente ORDER BY " +
                 "cantidad DESC";
         PreparedStatement ps = conn.prepareStatement(query);
         ResultSet lista = ps.executeQuery();
-        ArrayList<Cliente> clientes = new ArrayList<>();
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
         while (lista.next()){
-            Cliente cliente = new Cliente(lista.getInt(1),lista.getString(2),lista.getString(3));
+            ClienteDTO cliente = new ClienteDTO(lista.getInt(1),lista.getString(2),lista.getString(3), lista.getFloat(4));
             clientes.add(cliente);
         }
         ps.close();
         return clientes;
     }
+
+
+    //el siguiente metodo trae a los clientes que mas facturaron por monto, hicimos los dos
+    //metodos porque en el enunciado no estaba claro si era por cantidad o por monto
+    public ArrayList<ClienteDTO> getlistaFacturacionXmonto() throws SQLException {
+        String query = "SELECT c.*, SUM(fp.cantidad*p.valor) as monto " +
+                "FROM cliente c INNER JOIN factura f ON c.idCliente = f.idCliente " +
+                "INNER JOIN factura_producto fp ON fp.idFactura = f.idFactura " +
+                "INNER JOIN producto p ON p.idProducto = fp.idProducto " +
+                "GROUP BY c.idCliente ORDER BY monto DESC";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ResultSet lista = ps.executeQuery();
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        while (lista.next()){
+            ClienteDTO cliente = new ClienteDTO(lista.getInt(1),lista.getString(2),lista.getString(3), lista.getFloat(4));
+            clientes.add(cliente);
+        }
+        ps.close();
+        return clientes;
+    }
+
 }

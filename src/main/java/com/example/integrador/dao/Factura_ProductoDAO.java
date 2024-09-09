@@ -1,6 +1,6 @@
-package com.example.ejemplodaoypatrones.dao;
+package com.example.integrador.dao;
 
-import com.example.ejemplodaoypatrones.entities.Factura_Producto;
+import com.example.integrador.entities.Factura_Producto;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
     private Connection conn;
@@ -23,7 +22,7 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
 
     @Override
     public void insert(Factura_Producto factura_producto) throws SQLException {
-        String query = "INSERT INTO Factura_ProductoDAO(idFactura,idProducto, cantidad) VALUES (?,?,?)";
+        String query = "INSERT INTO factura_producto(idFactura,idProducto, cantidad) VALUES (?,?,?)";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, factura_producto.getIdFactura());
         ps.setInt(2, factura_producto.getIdProducto());
@@ -33,6 +32,8 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
         if (value > 0){
             conn.commit();
             System.out.println("fue insertada la Factura_Producto" + factura_producto);
+        }else{
+            System.out.println("no se puede hacer");
         }
         ps.close();
     }
@@ -82,11 +83,13 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
     public void update(Factura_Producto factura_producto, int idFacturaProducto) throws SQLException { }
 
     public void update(Factura_Producto factura_producto, int idFactura, int idProducto) throws SQLException {
-        String query = "UPDATE Factura_Producto SET idFactura = ?, idProducto = ?, cantidad = ? WHERE idFactura = ? AND idProducto = ?";
+        String query = "UPDATE factura_producto SET idFactura = ?, idProducto = ?, cantidad = ? WHERE idFactura = ? AND idProducto = ?";
         PreparedStatement ps = conn.prepareStatement(query);
-        ps.setInt(1, idFactura);
-        ps.setInt(2, idProducto);
+        ps.setInt(1, factura_producto.getIdFactura());
+        ps.setInt(2, factura_producto.getIdProducto());
         ps.setInt(3, factura_producto.getCantidad());
+        ps.setInt(4, idFactura);
+        ps.setInt(5, idProducto);
 
         int value = ps.executeUpdate();
         if (value > 0){
@@ -96,11 +99,19 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
         ps.close();
     }
 
+    // este método no se utiliza ya que se necesitan 2 id (idFactura, idProducto)
+    // y el CRUD DAO tiene el método con uno solo.
     @Override
-    public Factura_Producto getOne(int id) throws SQLException {
+    public Factura_Producto getOne(int id) throws SQLException { return null;}
+
+    // En el siguiente método se utiliza el "GetOne()" con ambos ID requeridos
+    // por las 2 claves PK y FK.
+    public Factura_Producto getOne(int idFactura, int idProducto) throws SQLException {
         String query = "SELECT * FROM Factura_Producto WHERE idFactura = ? and idProducto = ?";
         PreparedStatement ps = conn.prepareStatement(query);
-        ps.setInt(1, id);
+        ps.setInt(1, idFactura);
+        ps.setInt(2, idProducto);
+
         ResultSet result = ps.executeQuery();
         Factura_Producto facturaProducto = null;
         if(result.next()){

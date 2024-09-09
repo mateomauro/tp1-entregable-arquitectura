@@ -1,4 +1,4 @@
-package com.example.ejemplodaoypatrones.entities;
+package com.example.integrador.entities;
 
 public class Cliente {
     private int idCLiente;
