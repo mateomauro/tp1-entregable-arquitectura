@@ -58,18 +58,13 @@ public class MySQLDAOFactory extends AbstractFactory {
     }
 
     @Override
-    public ClienteDAO getClienteDAO() {
-        return new ClienteDAO(createConnection());
-    }
+    public ClienteDAO getClienteDAO() { return new ClienteDAO(createConnection()); }
 
     @Override
-    public FacturaDAO getFacturaDAO() {
-        return new FacturaDAO(createConnection());
-    }
+    public FacturaDAO getFacturaDAO() { return new FacturaDAO(createConnection()); }
 
     @Override
-    public Factura_ProductoDAO getFactura_ProductoDAO() {
-        return new Factura_ProductoDAO(createConnection());
+    public Factura_ProductoDAO getFactura_ProductoDAO() { return new Factura_ProductoDAO(createConnection());
     }
 
     @Override

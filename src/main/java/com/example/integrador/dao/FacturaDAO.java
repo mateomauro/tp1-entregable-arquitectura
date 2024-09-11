@@ -90,9 +90,8 @@ public class FacturaDAO implements CrudDAO<Factura>{
         return lista_facturas;
     }
 
-    // Inserta los productos que fueron vendidos ( o sea, que pertenecen a una factura ) a la base.
+    // Inserta las filas del archivo facturas.csv a la base.
     public void insertFacturaCSV() throws SQLException, IOException {
-        // hay que ver acá el tema de la ruta
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(
                 new FileReader("src/main/resources/facturas.csv"));
         for(CSVRecord row: parser) {
@@ -100,10 +99,6 @@ public class FacturaDAO implements CrudDAO<Factura>{
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, Integer.parseInt(row.get("idFactura")));
             ps.setInt(2, Integer.parseInt(row.get("idCliente")));
-
-            //System.out.println(row.get("idProducto"));
-            //System.out.println(row.get("nombre"));
-            //System.out.println(row.get("valor"));
             int value = ps.executeUpdate();
             if (value > 0){
                 conn.commit();

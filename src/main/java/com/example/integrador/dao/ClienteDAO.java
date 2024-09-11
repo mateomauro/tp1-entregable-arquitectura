@@ -38,8 +38,7 @@ public class ClienteDAO implements CrudDAO<Cliente> {
     }
 
     // inserta los clientes a la tabla cliente desde el csv
-    public void insertClientsCSV() throws SQLException, IOException {
-        // hay que cambiarle el path a esto, en mi compu es así pero va a cambiar de cada compu de ustedes
+    public void insertClientesCSV() throws SQLException, IOException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/clientes.csv"));
         for(CSVRecord row: parser) {
             String query = "INSERT INTO `cliente`(`nombre`, `email`) VALUES (?,?)";

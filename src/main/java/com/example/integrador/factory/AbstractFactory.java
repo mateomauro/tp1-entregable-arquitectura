@@ -12,13 +12,12 @@ public abstract class AbstractFactory {
     public abstract ProductoDAO getProductoDAO();
     public abstract FacturaDAO getFacturaDAO();
     public abstract Factura_ProductoDAO getFactura_ProductoDAO();
-    //    public abstract DireccionDAO getDireccionDAO();
+
     public static AbstractFactory getDAOFactory(int whichFactory) {
         switch (whichFactory) {
             case MYSQL_JDBC : {
                 return MySQLDAOFactory.getInstance();
             }
-            // esto no habría que implementarlo?
             case DERBY_JDBC: return null;
             default: return null;
         }

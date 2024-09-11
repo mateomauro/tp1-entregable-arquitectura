@@ -38,7 +38,7 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
         ps.close();
     }
 
-    // Inserta los productos que fueron vendidos ( o sea, que pertenecen a una factura ) a la base.
+    // Inserta las filas del archivo facturas_productos.csv a la base.
     public void insertFactura_ProductoCSV() throws SQLException, IOException {
         // hay que ver acá el tema de la ruta
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/facturas-productos.csv"));
@@ -48,10 +48,6 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
             ps.setInt(1, Integer.parseInt(row.get("idFactura")));
             ps.setInt(2, Integer.parseInt(row.get("idProducto")));
             ps.setInt(3, Integer.parseInt(row.get("cantidad")));
-
-            //System.out.println(row.get("idProducto"));
-            //System.out.println(row.get("nombre"));
-            //System.out.println(row.get("valor"));
             int value = ps.executeUpdate();
             if (value > 0){
                 conn.commit();
@@ -72,9 +68,9 @@ public class Factura_ProductoDAO implements CrudDAO<Factura_Producto> {
         int value = ps.executeUpdate();
         if (value > 0) {
             conn.commit();
-            System.out.println("se ha eliminado la Factura_Producto con id: " + idFactura + "y " + idProducto);
+            System.out.println("se ha eliminado la Factura_Producto con id: " + idFactura + " y " + idProducto);
         }else {
-            System.out.println("No se ha eliminado porque no existe la Factura_Producto con el id: " + idFactura + "y " + idProducto);
+            System.out.println("No se ha eliminado porque no existe la Factura_Producto con el id: " + idFactura + " y " + idProducto);
         }
         ps.close();
     }
