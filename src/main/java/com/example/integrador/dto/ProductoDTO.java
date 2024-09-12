@@ -36,7 +36,7 @@ public class ProductoDTO {
                 "idProducto=" + idProducto +
                 ", nombre='" + nombre + '\'' +
                 ", valor=" + valor +
-                ", recaudacion=" + recaudacion +
+                ", recaudacion=$" + recaudacion +
                 '}';
     }
 }

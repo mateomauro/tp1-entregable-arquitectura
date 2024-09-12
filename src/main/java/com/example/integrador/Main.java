@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // CREAMOS LAS TABLAS
         HelperMySQL dbMySQL = new HelperMySQL();
+        dbMySQL.createDatabase();
         dbMySQL.createTables();
 
         // ELEGIMOS LA BD MySQL DEL FACTORY
@@ -31,6 +32,7 @@ public class Main {
 
         /*3) Escriba un programa JDBC que retorne el producto que más recaudó. Se define
         “recaudación” como cantidad de productos vendidos multiplicado por su valor.*/
+        System.out.println();
         System.out.println("El producto que mas recaudo es: " + producto.getProductoQueMasRecaudo());
 
         /*4) Escriba un programa JDBC que imprima una lista de clientes, ordenada por a cuál se le
@@ -40,6 +42,7 @@ public class Main {
         forma 2) los clientes que mas facturaron en cuanto a recaudacion
         entonces decidimos hacer las dos por si acaso
          */
+        System.out.println();
         System.out.println("Forma 1: " + cliente.getlistaFacturacionXcantidad());
 
         System.out.println("Forma 2: " + cliente.getlistaFacturacionXmonto());
