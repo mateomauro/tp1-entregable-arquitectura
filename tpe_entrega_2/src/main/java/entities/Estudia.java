@@ -4,9 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import java.io.Serializable;
 
 @Entity
-public class Estudia {
+public class Estudia implements Serializable {
     @Id
     private int id_Alumno;
     @Id

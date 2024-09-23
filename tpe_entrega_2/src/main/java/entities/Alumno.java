@@ -1,14 +1,13 @@
 package entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Alumno {
+public class Alumno implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Alumno;
     @Column
     private String nombre;
@@ -25,7 +24,7 @@ public class Alumno {
     @Column
     private int legajo;
     @Column
-    @ManyToMany(mappedBy ="inscriptos")
+    @OneToMany
     private List<Carrera> carreras;
 
     public Alumno() {

@@ -1,19 +1,18 @@
 package entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Carrera{
+public class Carrera implements Serializable{
     @Id
     private int id_Carrera;
     @Column
     private String nombre;
-    @ManyToMany
-    private List<Alumno> inscriptos;
+    @OneToMany
+    private List<Alumno> alumnos;
+
     public Carrera() {}
 
 }
