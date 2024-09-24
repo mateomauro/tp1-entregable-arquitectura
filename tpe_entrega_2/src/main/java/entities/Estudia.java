@@ -1,30 +1,37 @@
 package entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "estudia")
 public class Estudia implements Serializable {
     @Id
-    private int id_Alumno;
+    @ManyToOne
+    private Alumno alumno;
     @Id
-    private int id_Carrera;
-    @Column
+    @ManyToOne
+    private Carrera carrera;
+    @Column(name = "se_graduo")
     private boolean seGraduo;
-    @Column
+
     private int antiguedad;
 
     public Estudia() {}
 
-    public int getId_Alumno() {
-        return id_Alumno;
+    public Estudia(Alumno alumno, Carrera carrera, boolean seGraduo, int antiguedad) {
+        this.alumno = alumno;
+        this.carrera = carrera;
+        this.seGraduo = seGraduo;
+        this.antiguedad = antiguedad;
     }
 
-    public int getId_Carrera() {
-        return id_Carrera;
+    public Alumno get_alumno() {
+        return this.alumno;
+    }
+
+    public Carrera get_carrera() {
+        return carrera;
     }
 
     public boolean isSeGraduo() {
