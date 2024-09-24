@@ -12,7 +12,7 @@ public class Alumno implements Serializable {
     @Id
     @Column(name = "id_alumno")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Alumno;
+    private long id_Alumno;
 
     private String nombre;
 
@@ -33,8 +33,7 @@ public class Alumno implements Serializable {
 
     public Alumno() {}
 
-    public Alumno(Long id_Alumno, String nombre, String apellido, int edad, String genero, int dni, String ciudad, int legajo) {
-        this.id_Alumno = id_Alumno;
+    public Alumno(String nombre, String apellido, int edad, String genero, int dni, String ciudad, int legajo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
@@ -45,7 +44,7 @@ public class Alumno implements Serializable {
         this.carreras = new ArrayList<Estudia>();
     }
 
-    public Long getId_Alumno() {
+    public long getId_Alumno() {
         return id_Alumno;
     }
 
