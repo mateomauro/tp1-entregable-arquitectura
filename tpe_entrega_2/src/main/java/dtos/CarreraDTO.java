@@ -1,5 +1,6 @@
 package dtos;
 
+import entities.Alumno;
 import entities.Estudia;
 
 import java.io.Serializable;
@@ -11,9 +12,13 @@ public class CarreraDTO implements Serializable {
 
     private String nombre_carrera;
 
-    private List<Estudia> alumnos;
+    private long inscriptos;
 
     private long can_inscriptos;
+
+    private long cant_egresados;
+
+    private long anio;
 
     public CarreraDTO() {}
 
@@ -21,6 +26,15 @@ public class CarreraDTO implements Serializable {
         this.id_carrera = id_carrera;
         this.nombre_carrera = nombre_carrera;
         this.can_inscriptos = can_inscriptos;
+    }
+
+    public CarreraDTO(String nombre, long cant_inscriptos, long cant_egresados, long anio) {
+        this.nombre_carrera = nombre;
+        this.inscriptos = cant_inscriptos;
+        this.cant_egresados = cant_egresados;
+        this.anio = anio;
+
+        // | TUDAI | 10 años | inscriptos actualmente: datosAlumnos | cant egresados |
     }
 
     public String toString(){
@@ -41,14 +55,6 @@ public class CarreraDTO implements Serializable {
 
     public void setNombre_carrera(String nombre_carrera) {
         this.nombre_carrera = nombre_carrera;
-    }
-
-    public List<Estudia> getAlumnos() {
-        return alumnos;
-    }
-
-    public void setAlumnos(List<Estudia> alumnos) {
-        this.alumnos = alumnos;
     }
 
     public long getCan_inscriptos() {

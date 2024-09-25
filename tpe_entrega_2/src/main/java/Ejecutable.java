@@ -1,3 +1,4 @@
+import dtos.AlumnoDTO;
 import dtos.CarreraDTO;
 import servicios.AlumnoServicio;
 import servicios.CarreraServicio;
@@ -75,6 +76,15 @@ public class Ejecutable {
         //List<AlumnoDTO> res = alumnoServicio.getEstudianteByCarreraAndResidencia("TUDAI","Tandil");
         //System.out.println(res);
 
-        System.out.println("Ya termino");
+        /**
+         * 3) Generar un reporte de las carreras, que para cada carrera incluya información de los inscriptos y egresados
+         *    por año. Se deben ordenar las carreras alfabéticamente, y presentar los años de manera cronológica.
+         *    NO ANDA LOREN, es el unico punto que nos falta, y despues detalles.
+         */
+        List<CarreraDTO> res = carreraServicio.getReporteCarreras();
+        System.out.println(res);
+
+        
+        //System.out.println("Ya termino");
     }
 }
