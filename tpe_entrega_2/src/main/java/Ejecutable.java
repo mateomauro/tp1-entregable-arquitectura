@@ -1,8 +1,10 @@
+import dtos.CarreraDTO;
 import servicios.AlumnoServicio;
 import servicios.CarreraServicio;
 import servicios.EstudiaServicio;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class Ejecutable {
 

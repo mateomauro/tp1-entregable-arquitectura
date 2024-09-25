@@ -29,7 +29,7 @@ public class CarreraServicio {
 
     public List<CarreraDTO> getCarrerasConCantidad(){
         em.getTransaction().begin();
-        String jpql = "SELECT new dtos.CarreraDTO(c.id, c.nombre, COUNT(e.alumno.id)) FROM Carrera c JOIN Estudia e ON (c.id = e.carrera.id) GROUP BY c.id, c.nombre ORDER BY COUNT(e.alumno.id) DESC";
+        String jpql = "SELECT new dtos.CarreraDTO(c.id, c.nombre, COUNT(e.alumno.id)) FROM Carrera c JOIN c.alumnos e GROUP BY c.id, c.nombre ORDER BY COUNT(e.alumno.id) DESC";
         TypedQuery<CarreraDTO> TypedQuery = em.createQuery(jpql, CarreraDTO.class);
         List<CarreraDTO> carreras = TypedQuery.getResultList();
         em.getTransaction().commit();
