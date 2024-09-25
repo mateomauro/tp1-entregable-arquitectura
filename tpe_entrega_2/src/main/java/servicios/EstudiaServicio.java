@@ -1,6 +1,5 @@
-package servicio;
+package servicios;
 
-import entities.Alumno;
 import entities.Estudia;
 import utils.JPAUtil;
 

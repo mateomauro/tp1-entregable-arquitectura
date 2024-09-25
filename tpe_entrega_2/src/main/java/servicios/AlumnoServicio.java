@@ -1,5 +1,6 @@
-package servicio;
+package servicios;
 
+import dtos.AlumnoDTO;
 import entities.Alumno;
 import utils.JPAUtil;
 
@@ -50,6 +51,17 @@ public class AlumnoServicio {
         TypedQuery<Alumno> TypedQuery = em.createQuery(jpql, Alumno.class);
         TypedQuery.setParameter(1, genero);
         List<Alumno> listaAlumnos = TypedQuery.getResultList();
+        em.getTransaction().commit();
+        return listaAlumnos;
+    }
+
+    public List<AlumnoDTO> getEstudianteByCarreraAndResidencia(String carrera, String ciudad) {
+        em.getTransaction().begin();
+        String jpql = "SELECT new dtos.AlumnoDTO(a.nombre,a.apellido,a.edad,a.genero,a.dni,a.ciudad,a.legajo,e.carrera.nombre) FROM Alumno a JOIN Estudia e ON (a.id_alumno = e.alumno.id_alumno) WHERE e.carrera.nombre = ?1 AND a.ciudad = ?2";
+        TypedQuery<AlumnoDTO> TypedQuery = em.createQuery(jpql, AlumnoDTO.class);
+        TypedQuery.setParameter(1, carrera);
+        TypedQuery.setParameter(2, ciudad);
+        List<AlumnoDTO> listaAlumnos = TypedQuery.getResultList();
         em.getTransaction().commit();
         return listaAlumnos;
     }
