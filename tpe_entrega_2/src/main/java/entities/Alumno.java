@@ -8,24 +8,30 @@ import java.util.List;
 @Entity
 @Table(name = "alumno")
 public class Alumno implements Serializable {
-
     @Id
     @Column(name = "id_alumno")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_Alumno;
+    private Long id_alumno;
 
+    @Column
     private String nombre;
 
+    @Column
     private String apellido;
 
+    @Column
     private int edad;
 
+    @Column
     private String genero;
 
+    @Column
     private int dni;
 
+    @Column
     private String ciudad;
 
+    @Column
     private int legajo;
 
     @OneToMany(mappedBy = "alumno")
@@ -44,8 +50,19 @@ public class Alumno implements Serializable {
         this.carreras = new ArrayList<Estudia>();
     }
 
+    public Alumno(Long id_alumno, String nombre, String apellido, int edad, String genero, int dni, String ciudad, int legajo) {
+        this.id_alumno = id_alumno;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.genero = genero;
+        this.dni = dni;
+        this.ciudad = ciudad;
+        this.legajo = legajo;
+    }
+
     public long getId_Alumno() {
-        return id_Alumno;
+        return id_alumno;
     }
 
     public String getNombre() {
@@ -78,5 +95,19 @@ public class Alumno implements Serializable {
 
     public String getCiudad() {
         return ciudad;
+    }
+
+    @Override
+    public String toString() {
+        return "Alumno{" +
+                "id_alumno=" + id_alumno +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", edad=" + edad +
+                ", genero='" + genero + '\'' +
+                ", dni=" + dni +
+                ", ciudad='" + ciudad + '\'' +
+                ", legajo=" + legajo +
+                '}';
     }
 }

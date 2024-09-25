@@ -7,12 +7,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "carrera")
-public class Carrera implements Serializable{
+public class Carrera implements Serializable {
     @Id
     @Column(name = "id_carrera")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_Carrera;
+    private Long id_carrera;
 
+    @Column
     private String nombre;
 
     @OneToMany(mappedBy = "carrera")
@@ -26,11 +27,11 @@ public class Carrera implements Serializable{
     }
 
     public long getId_Carrera() {
-        return id_Carrera;
+        return id_carrera;
     }
 
     public void setId_Carrera(long id_Carrera) {
-        this.id_Carrera = id_Carrera;
+        this.id_carrera = id_Carrera;
     }
 
     public String getNombre() {

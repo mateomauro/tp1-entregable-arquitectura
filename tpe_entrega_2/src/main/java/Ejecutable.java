@@ -1,36 +1,49 @@
 import entities.Alumno;
 import entities.Carrera;
 import entities.Estudia;
-import entities.EstudiaPK;
+import servicio.AlumnoServicio;
+import servicio.CarreraServicio;
+import servicio.EstudiaServicio;
 import utils.JPAUtil;
 
 import javax.persistence.EntityManager;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Ejecutable {
 
     public static void main(String[] args) throws SQLException {
-        JPAUtil jpu = new JPAUtil();
-        EntityManager em = jpu.getEntityManager();
 
-        Alumno a1 = new Alumno("Pedro","Ramirez",21,"Masculino",11555896,"Tandil",1555538);
-        Carrera c1 = new Carrera("TUDAI");
+        AlumnoServicio alumnoServicio = new AlumnoServicio();
+        CarreraServicio carreraServicio = new CarreraServicio();
+        EstudiaServicio estudiaServicio = new EstudiaServicio();
 
-        em.getTransaction().begin();
-        em.persist(a1);
-        em.persist(c1);
+        //a) dar de alta un estudiante
+        alumnoServicio.darAltaEstudiante(new Alumno("delfi","ipsu",20,"macho",423445398,"tandil",2334435));
+        //carreraServicio.darAltaCarrera(new Carrera("tudai"));
 
-        em.flush();
 
-        EstudiaPK epk = new EstudiaPK(a1.getId_Alumno(), c1.getId_Carrera());
-        Estudia e1 = new Estudia(epk,a1,c1,false,5);
+        //b) matricular un estudiante en una carrera
+        //Alumno a1 = alumnoServicio.getAlumnoXid(1);
+        //Carrera c1 = carreraServicio.getCarreraXid(1);
+        //estudiaServicio.matricularEstudianteAcarrera(new Estudia(a1,c1,false,2));
 
-        em.persist(e1);
+        //c) recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
+        //List<Alumno> listaDeAlumnos = alumnoServicio.getEstudiantesXorden();
+        //System.out.println(listaDeAlumnos);
 
-        em.getTransaction().commit();
-        em.close();
 
-        System.out.println(e1.getId());
+        //d) recuperar un estudiante, en base a su número de libreta universitaria
+        //Alumno alumnoXlegajo = alumnoServicio.getEstudianteByLegajo(2334435);
+        //System.out.println(alumnoXlegajo);
+
+        //e) recuperar todos los estudiantes, en base a su género.
+        //List<Alumno> listaDeAlumnosBygenero = alumnoServicio.getAlumnosBygenero("macho");
+        //System.out.println(listaDeAlumnosBygenero);
+
+        //f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
+
+
 
         System.out.println("Ya termino");
     }
