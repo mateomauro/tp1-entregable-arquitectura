@@ -1,4 +1,4 @@
-package servicios;
+package repositories;
 
 import entities.Estudia;
 import utils.JPAUtil;
@@ -12,12 +12,9 @@ public class EstudiaServicio {
         this.em = JPAUtil.getEntityManager();
     }
 
-    public void matricularEstudianteAcarrera(Estudia estudia){
+    public void matricularAlumnoAcarrera(Estudia estudia){
         em.getTransaction().begin();
         em.persist(estudia);
         em.getTransaction().commit();
     }
-
-
-
 }
