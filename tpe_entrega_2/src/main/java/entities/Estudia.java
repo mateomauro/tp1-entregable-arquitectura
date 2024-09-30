@@ -2,6 +2,8 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "estudia")
 public class Estudia implements Serializable {
@@ -19,18 +21,24 @@ public class Estudia implements Serializable {
     @Column(name = "se_graduo")
     private boolean seGraduo;
 
-    @Column
-    private int antiguedad;
+    @Column(name="graduacion", nullable = true)
+    private LocalDate anio_graduacion;
 
     // Constructor vacío
     public Estudia() {}
 
     // Constructor con parámetros
-    public Estudia(Alumno alumno, Carrera carrera, boolean seGraduo, int antiguedad) {
+    public Estudia(Alumno alumno, Carrera carrera, boolean seGraduo) {
         this.alumno = alumno;
         this.carrera = carrera;
         this.seGraduo = seGraduo;
-        this.antiguedad = antiguedad;
+    }
+
+    public Estudia(Alumno alumno, Carrera carrera, boolean seGraduo, LocalDate anio) {
+        this.alumno = alumno;
+        this.carrera = carrera;
+        this.seGraduo = seGraduo;
+        this.anio_graduacion = anio;
     }
 
     // Getters y setters
@@ -46,7 +54,11 @@ public class Estudia implements Serializable {
         return seGraduo;
     }
 
-    public int getAntiguedad() {
-        return antiguedad;
+    public LocalDate getAntiguedad() {
+        return anio_graduacion;
+    }
+
+    public void SetGraduacion(LocalDate anio_graduacion) {
+        this.anio_graduacion = anio_graduacion;
     }
 }
