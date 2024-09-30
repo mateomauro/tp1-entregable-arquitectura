@@ -5,10 +5,10 @@ import utils.JPAUtil;
 
 import javax.persistence.EntityManager;
 
-public class EstudiaServicio {
+public class EstudiaRepository {
     private EntityManager em;
 
-    public EstudiaServicio(){
+    public EstudiaRepository(){
         this.em = JPAUtil.getEntityManager();
     }
 

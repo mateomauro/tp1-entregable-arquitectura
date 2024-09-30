@@ -2,7 +2,6 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "estudia")
@@ -18,26 +17,26 @@ public class Estudia implements Serializable {
     @JoinColumn(name = "id_carrera", referencedColumnName = "id_carrera")
     private Carrera carrera;
 
-    @Column(name = "se_graduo")
-    private boolean seGraduo;
+    @Column(name = "anio_ingreso")
+    private int anio_ingreso;
 
-    @Column(name="graduacion", nullable = true)
-    private LocalDate anio_graduacion;
+    @Column(name="anio_graduacion", nullable = true,columnDefinition = "int default '0'")
+    private int anio_graduacion;
 
     // Constructor vacío
     public Estudia() {}
 
     // Constructor con parámetros
-    public Estudia(Alumno alumno, Carrera carrera, boolean seGraduo) {
+    public Estudia(Alumno alumno, Carrera carrera, int inicio) {
         this.alumno = alumno;
         this.carrera = carrera;
-        this.seGraduo = seGraduo;
+        this.anio_ingreso = inicio;
     }
 
-    public Estudia(Alumno alumno, Carrera carrera, boolean seGraduo, LocalDate anio) {
+    public Estudia(Alumno alumno, Carrera carrera, int inicio, int anio) {
         this.alumno = alumno;
         this.carrera = carrera;
-        this.seGraduo = seGraduo;
+        this.anio_ingreso = anio;
         this.anio_graduacion = anio;
     }
 
@@ -50,15 +49,15 @@ public class Estudia implements Serializable {
         return carrera;
     }
 
-    public boolean isSeGraduo() {
-        return seGraduo;
+    public int getAnio_ingreso() {
+        return this.anio_ingreso;
     }
 
-    public LocalDate getAntiguedad() {
+    public int getAnio_graduacion() {
         return anio_graduacion;
     }
 
-    public void SetGraduacion(LocalDate anio_graduacion) {
+    public void SetGraduacion(int anio_graduacion) {
         this.anio_graduacion = anio_graduacion;
     }
 }

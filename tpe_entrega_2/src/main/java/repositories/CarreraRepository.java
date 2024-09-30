@@ -8,10 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class CarreraServicio {
+public class CarreraRepository {
     private EntityManager em;
 
-    public CarreraServicio(){
+    public CarreraRepository(){
         this.em = JPAUtil.getEntityManager();
     }
 
@@ -40,12 +40,13 @@ public class CarreraServicio {
 
     public List<CarreraDTO> getReporteCarreras(){
         em.getTransaction().begin();
-        String jpql = "SELECT new dtos.CarreraDTO(c.nombre,COUNT(e.seGraduo), YEAR(e.anio_graduacion)) FROM Carrera c JOIN c.alumnos e GROUP BY c.nombre,e.anio_graduacion ORDER BY c.nombre ASC, e.anio_graduacion DESC";
+        String jpql = "SELECT new dtos.CarreraDTO(c.nombre,COUNT(c.alumnos),COUNT(), e.anio_graduacion) FROM Carrera c JOIN c.alumnos e GROUP BY c.nombre,e.anio_graduacion ORDER BY c.nombre ASC, e.anio_graduacion DESC";
         TypedQuery<CarreraDTO> TypedQuery = em.createQuery(jpql, CarreraDTO.class);
         List<CarreraDTO> carreras = TypedQuery.getResultList();
         em.getTransaction().commit();
         return carreras;
     }
+
     //c.alumnos
 
     // TUDAI | 2010 | 10 inscriptos actualmente | egresados : (juan, pepito, carlitos, maria) |

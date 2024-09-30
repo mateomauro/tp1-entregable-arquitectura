@@ -11,11 +11,11 @@ public class CarreraDTO implements Serializable {
 
     private String nombre_carrera;
 
-    private List<Estudia> inscriptos;
+    private long inscriptos;
 
     private long cant_inscriptos;
 
-    private long cant_egresados;
+    private long egresados;
 
     private int anio_graduacion;
 
@@ -27,18 +27,25 @@ public class CarreraDTO implements Serializable {
         this.cant_inscriptos = can_inscriptos;
     }
 
-    public CarreraDTO(String nombre, long cant_egresados, int anio) {
+    public CarreraDTO(String nombre, long cant_inscriptos, long cant_egresados, int anio) {
         this.nombre_carrera = nombre;
-        //this.inscriptos = inscriptos;
-        this.cant_egresados = cant_egresados;
+        this.inscriptos = inscriptos;
+        this.egresados = cant_egresados;
         this.anio_graduacion = anio;
 
         // | TUDAI | 10 años | inscriptos actualmente: datosAlumnos | cant egresados |
     }
 
     public String toString(){
-        return "| Carrera: " + this.nombre_carrera + " | inscriptos: " + this.cant_inscriptos + " |";
+        if(anio_graduacion!=0) {
+            return "| Carrera: " + this.nombre_carrera + " | inscriptos: " + this.cant_inscriptos + " | Anio graduacion: "+this.anio_graduacion + " |";
+        }
+        else{
+            return "| Carrera: " + this.nombre_carrera + " | inscriptos: " + this.cant_inscriptos + " | ";
+        }
     }
+
+    // | TUDAI | 2018 | inscriptos(loren,delfi,tomas) | cant egresados: 2 |
 
     public long getId_carrera() {
         return id_carrera;
