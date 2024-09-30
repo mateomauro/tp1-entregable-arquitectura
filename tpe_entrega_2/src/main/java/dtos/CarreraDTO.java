@@ -1,6 +1,9 @@
 package dtos;
 
+import entities.Estudia;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class CarreraDTO implements Serializable {
 
