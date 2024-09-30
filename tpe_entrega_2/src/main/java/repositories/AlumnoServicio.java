@@ -1,4 +1,4 @@
-package servicios;
+package repositories;
 
 import dtos.AlumnoDTO;
 import entities.Alumno;
@@ -15,27 +15,27 @@ public class AlumnoServicio {
         this.em = JPAUtil.getEntityManager();
     }
     
-    public void darAltaEstudiante(Alumno alumno){
+    public void darAltaAlumno(Alumno alumno){
         em.getTransaction().begin();
         em.persist(alumno);
         em.getTransaction().commit();
     }
 
-    public Alumno getAlumnoXid(long id){
+    public Alumno getAlumnoById(long id){
         return em.find(Alumno.class, id);
     }
 
     //nos falta el criterio
-    public List<Alumno> getEstudiantesXorden(){
+    public List<Alumno> getAlumnosByOrder(){
         em.getTransaction().begin();
         String jpql = "SELECT new Alumno(a.id_alumno,a.nombre,a.apellido,a.edad,a.genero,a.dni, a.ciudad, a.legajo) FROM Alumno a ORDER BY edad";
         TypedQuery<Alumno> TypedQuery = em.createQuery(jpql, Alumno.class);
-        List<Alumno> listaAlumnos = TypedQuery.getResultList();
+        List<Alumno> listAlumnos = TypedQuery.getResultList();
         em.getTransaction().commit();
-        return listaAlumnos;
+        return listAlumnos;
     }
 
-    public Alumno getEstudianteByLegajo(int legajo){
+    public Alumno getAlumnoByLegajo(int legajo){
         em.getTransaction().begin();
         String jpql = "SELECT new Alumno(a.id_alumno,a.nombre,a.apellido,a.edad,a.genero,a.dni, a.ciudad, a.legajo) FROM Alumno a WHERE a.legajo = ?1";
         TypedQuery<Alumno> TypedQuery = em.createQuery(jpql, Alumno.class);
@@ -45,24 +45,24 @@ public class AlumnoServicio {
         return alumno;
     }
 
-    public List<Alumno> getAlumnosBygenero(String genero){
+    public List<Alumno> getAlumnosByGenero(String genero){
         em.getTransaction().begin();
         String jpql = "SELECT new Alumno(a.id_alumno,a.nombre,a.apellido,a.edad,a.genero,a.dni, a.ciudad, a.legajo) FROM Alumno a WHERE a.genero = ?1";
         TypedQuery<Alumno> TypedQuery = em.createQuery(jpql, Alumno.class);
         TypedQuery.setParameter(1, genero);
-        List<Alumno> listaAlumnos = TypedQuery.getResultList();
+        List<Alumno> listAlumnos = TypedQuery.getResultList();
         em.getTransaction().commit();
-        return listaAlumnos;
+        return listAlumnos;
     }
 
-    public List<AlumnoDTO> getEstudianteByCarreraAndResidencia(String carrera, String ciudad) {
+    public List<AlumnoDTO> getAlumnosByCarreraAndCity(String carrera, String ciudad) {
         em.getTransaction().begin();
         String jpql = "SELECT new dtos.AlumnoDTO(a.nombre,a.apellido,a.edad,a.genero,a.dni,a.ciudad,a.legajo,e.carrera.nombre) FROM Alumno a JOIN a.carreras e WHERE e.carrera.nombre = ?1 AND a.ciudad = ?2";
         TypedQuery<AlumnoDTO> TypedQuery = em.createQuery(jpql, AlumnoDTO.class);
         TypedQuery.setParameter(1, carrera);
         TypedQuery.setParameter(2, ciudad);
-        List<AlumnoDTO> listaAlumnos = TypedQuery.getResultList();
+        List<AlumnoDTO> listAlumnos = TypedQuery.getResultList();
         em.getTransaction().commit();
-        return listaAlumnos;
+        return listAlumnos;
     }
 }
