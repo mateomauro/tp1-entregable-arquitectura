@@ -27,48 +27,95 @@ public class CarreraDTO implements Serializable {
         this.cant_inscriptos = can_inscriptos;
     }
 
+    //este constructor es para combinar ambos constructores
     public CarreraDTO(String nombre, long cant_inscriptos, long cant_egresados, int anio) {
         this.nombre_carrera = nombre;
-        this.inscriptos = inscriptos;
+        this.cant_inscriptos = cant_inscriptos;
         this.egresados = cant_egresados;
         this.anio = anio;
-
-        // | TUDAI | 10 años | inscriptos actualmente: datosAlumnos | cant egresados |
     }
 
-    // | TUDAI | 2018 | inscriptos(loren,delfi,tomas) | cant egresados: 2 |
+
+    //creamos este constructur para devolver la consulta jpql de el ejercicio 3
+    //y conseguir la cantidad de inscriptos
+    public CarreraDTO(String nombre, int anio, long cant_inscriptos) {
+        this.nombre_carrera = nombre;
+        this.cant_inscriptos = cant_inscriptos;
+        this.anio = anio;
+    }
+
+    //creamos este constructur para devolver la consulta jpql de el ejercicio 3
+    //y conseguir la cantidad de egresados
+    public CarreraDTO(String nombre, long cant_egresados, int anio) {
+        this.nombre_carrera = nombre;
+        this.egresados = cant_egresados;
+        this.anio = anio;
+    }
+
 
     public long getId_carrera() {
         return id_carrera;
-    }
-
-    public void setId_carrera(long id_carrera) {
-        this.id_carrera = id_carrera;
     }
 
     public String getNombre_carrera() {
         return nombre_carrera;
     }
 
-    public void setNombre_carrera(String nombre_carrera) {
-        this.nombre_carrera = nombre_carrera;
+    public long getInscriptos() {
+        return inscriptos;
     }
 
     public long getCant_inscriptos() {
         return cant_inscriptos;
     }
 
-    public void setCant_inscriptos(int cant_inscriptos) {
+    public long getEgresados() {
+        return egresados;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setId_carrera(long id_carrera) {
+        this.id_carrera = id_carrera;
+    }
+
+    public void setEgresados(long egresados) {
+        this.egresados = egresados;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public void setCant_inscriptos(long cant_inscriptos) {
         this.cant_inscriptos = cant_inscriptos;
+    }
+
+    public void setInscriptos(long inscriptos) {
+        this.inscriptos = inscriptos;
+    }
+
+    public void setNombre_carrera(String nombre_carrera) {
+        this.nombre_carrera = nombre_carrera;
     }
 
     @Override
     public String toString() {
-        return "CarreraDTO{" +
+        if (anio == 0){
+            return "CarreraDTO{" +
+                    "nombre_carrera='" + nombre_carrera + '\'' +
+                    ", cant_inscriptos=" + cant_inscriptos +
+                    ", egresados=" + egresados +
+                    '}';
+        }else {
+            return "CarreraDTO{" +
                 "nombre_carrera='" + nombre_carrera + '\'' +
                 ", anio=" + anio +
                 ", cant_inscriptos=" + cant_inscriptos +
                 ", egresados=" + egresados +
                 '}';
+        }
     }
 }

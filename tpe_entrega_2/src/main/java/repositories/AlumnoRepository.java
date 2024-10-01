@@ -22,16 +22,7 @@ public class AlumnoRepository {
         this.em = JPAUtil.getEntityManager();
     }
 
-    public void cargarCSV() throws IOException {
-        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/alumnos.csv"));
-        em.getTransaction().begin();
-        for(CSVRecord row: parser) {
-            Alumno alumno = new Alumno(row.get("nombre"), row.get("apellido"), Integer.parseInt(row.get("edad")), row.get("genero"), Integer.parseInt(row.get("dni")), row.get("ciudad"), Integer.parseInt(row.get("legajo")));
-            em.persist(alumno);
-        }
-        em.getTransaction().commit();
-    }
-    
+
     public void darAltaAlumno(Alumno alumno){
         em.getTransaction().begin();
         em.persist(alumno);
@@ -42,7 +33,7 @@ public class AlumnoRepository {
         return em.find(Alumno.class, id);
     }
 
-    //nos falta el criterio
+    //ORDENADO POR EDAD
     public List<Alumno> getAlumnosByOrder(){
         em.getTransaction().begin();
         String jpql = "SELECT new Alumno(a.id_alumno,a.nombre,a.apellido,a.edad,a.genero,a.dni, a.ciudad, a.legajo) FROM Alumno a ORDER BY edad";
@@ -57,7 +48,7 @@ public class AlumnoRepository {
         String jpql = "SELECT new Alumno(a.id_alumno,a.nombre,a.apellido,a.edad,a.genero,a.dni, a.ciudad, a.legajo) FROM Alumno a WHERE a.legajo = ?1";
         TypedQuery<Alumno> TypedQuery = em.createQuery(jpql, Alumno.class);
         TypedQuery.setParameter(1, legajo);
-        Alumno alumno = new Alumno();
+        Alumno alumno = null;
         if(TypedQuery.getResultList().size() > 0){
             alumno = TypedQuery.getSingleResult();
         }

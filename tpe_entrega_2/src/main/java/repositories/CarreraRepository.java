@@ -13,24 +13,13 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CarreraRepository {
     private EntityManager em;
 
     public CarreraRepository(){
         this.em = JPAUtil.getEntityManager();
-    }
-
-    public void cargarCSV() throws IOException {
-        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/carreras.csv"));
-        em.getTransaction().begin();
-        for(CSVRecord row: parser) {
-            Carrera carrera = new Carrera(row.get("nombre"));
-            em.persist(carrera);
-        }
-        em.getTransaction().commit();
     }
 
     public void darAltaCarrera(Carrera carrera){
@@ -53,84 +42,65 @@ public class CarreraRepository {
     }
 
 
-     //   3) Generar un reporte de las carreras, que para cada carrera incluya información de los inscriptos y egresados
-     //      por año. Se deben ordenar las carreras alfabéticamente, y presentar los años de manera cronológica.
-
-//    public List<CarreraDTO> getReporteCarreras(){
-//        em.getTransaction().begin();
-//        Query TypedQuery = em.createNativeQuery("SELECT c.nombre AS carrera, e.anio_ingreso AS anio, COUNT(DISTINCT e.id_alumno) AS cantidad_inscriptos, (SELECT COUNT(DISTINCT e2.id_alumno) FROM estudia e2 WHERE e2.id_carrera = c.id_carrera AND e2.anio_graduacion > 0 AND e2.anio_ingreso = e.anio_ingreso) AS cantidad_recibidos FROM carrera c  INNER JOIN estudia e ON c.id_carrera = e.id_carrera GROUP BY c.nombre, e.anio_ingreso, cantidad_recibidos ORDER BY c.nombre, e.anio_ingreso");
-//        List<dtos.CarreraDTO> carreras = TypedQuery.getResultList();
-//        em.getTransaction().commit();
-//        return carreras;
-//    }
-
-    public List<CarreraDTO> getReporteCarreras() {
+    /*
+    Aqui hicimos dos consultas jpql como te comentamos sergio, en las cuales luego combinamos
+    con codigo java
+     */
+    public List<CarreraDTO> getReporteCarreras(){
         em.getTransaction().begin();
+        String jpqlXinscriptos = "SELECT new dtos.CarreraDTO(c.nombre, e.anio_ingreso, COUNT(e)) FROM Carrera c JOIN c.alumnos e GROUP BY c.nombre, e.anio_ingreso ORDER BY c.nombre, e.anio_ingreso";
+        TypedQuery<CarreraDTO> TypedQuery1 = em.createQuery(jpqlXinscriptos, CarreraDTO.class);
+        List<CarreraDTO> inscriptos = TypedQuery1.getResultList();
 
-        Query query = em.createNativeQuery(
-                "SELECT\n" +
-                        "    carrera,\n" +
-                        "    SUM(cant_inscriptos) AS cant_inscriptos,\n" +
-                        "    SUM(cant_graduados) AS cant_graduados,\n" +
-                        "    anio\n" +
-                        "FROM (\n" +
-                        "         SELECT\n" +
-                        "             c.nombre AS carrera,\n" +
-                        "             COUNT(DISTINCT e.id_alumno) AS cant_inscriptos,\n" +
-                        "             0 AS cant_graduados,\n" +
-                        "             e.anio_ingreso AS anio\n" +
-                        "         FROM\n" +
-                        "             estudia e\n" +
-                        "                 JOIN\n" +
-                        "             carrera c ON e.id_carrera = c.id_carrera\n" +
-                        "         GROUP BY\n" +
-                        "             c.nombre, e.anio_ingreso\n" +
-                        "\n" +
-                        "         UNION ALL\n" +
-                        "\n" +
-                        "         SELECT\n" +
-                        "             c.nombre AS carrera,\n" +
-                        "             0 AS cant_inscriptos,\n" +
-                        "             COUNT(DISTINCT e.id_alumno) AS cant_graduados,\n" +
-                        "             e.anio_graduacion AS anio\n" +
-                        "         FROM\n" +
-                        "             estudia e\n" +
-                        "                 JOIN\n" +
-                        "             carrera c ON e.id_carrera = c.id_carrera\n" +
-                        "         WHERE\n" +
-                        "             e.anio_graduacion > 0\n" +
-                        "         GROUP BY\n" +
-                        "             c.nombre, e.anio_graduacion\n" +
-                        "     ) AS subQuery\n" +
-                        "WHERE\n" +
-                        "    anio IS NOT NULL\n" +
-                        "GROUP BY\n" +
-                        "    carrera, anio\n" +
-                        "ORDER BY\n" +
-                        "    carrera ASC, anio ASC;\n"
-        );
-
-        List<Object[]> results = query.getResultList();
-        List<CarreraDTO> carreras = new ArrayList<>();
-
-        for (Object[] result : results) {
-            String nombreCarrera = (String) result[0];  // Índice 0: carrera
-            long cantidadInscriptos = ((Number) result[1]).longValue();  // Índice 1: cant_inscriptos
-            long cantidadEgresados = ((Number) result[2]).longValue();  // Índice 2: cant_graduados
-            int anio = ((Number) result[3]).intValue();  // Índice 3: anio
-
-            CarreraDTO carreraDTO = new CarreraDTO(nombreCarrera, cantidadInscriptos, cantidadEgresados, anio);
-
-            carreras.add(carreraDTO);
-        }
+        String jpqlXegresados = "SELECT new dtos.CarreraDTO(c.nombre, COUNT(e),e.anio_graduacion) FROM Carrera c JOIN c.alumnos e WHERE e.anio_graduacion > 0 GROUP BY c.nombre,e.anio_graduacion ORDER BY c.nombre, e.anio_graduacion";
+        TypedQuery<CarreraDTO> TypedQuery2 = em.createQuery(jpqlXegresados, CarreraDTO.class);
+        List<CarreraDTO> egresados = TypedQuery2.getResultList();
 
         em.getTransaction().commit();
-        return carreras;
+
+        return this.fucionarJPQL(inscriptos, egresados);
     }
 
+    //aqui las combinamos
+    private List<CarreraDTO> fucionarJPQL(List<CarreraDTO> inscriptos, List<CarreraDTO> egresados) {
+        //Aqui creamos el mapa para guardar los resultado finales (osea las combinacion final)
+        Map<String, CarreraDTO> resultadoMap = new HashMap<>();
 
-    //c.alumnos
+        //recorremos los inscriptos
+        for (CarreraDTO inscrip : inscriptos) {
+            //generamos una key que es la combinacion de el nombre de la carrera y el anio = tudai_2020
+            String key = inscrip.getNombre_carrera() + "_" + inscrip.getAnio();
+            CarreraDTO dto = new CarreraDTO(inscrip.getNombre_carrera(), inscrip.getAnio(), inscrip.getCant_inscriptos());
+            resultadoMap.put(key, dto);
+        }
 
-    // TUDAI | 2010 | 10 inscriptos actualmente | egresados : (juan, pepito, carlitos, maria) |
+        /*
+        aqui recorremos los egresados y cuando encuentra en el hashMap un clave igual
+        le setea los egresado, el caso contrario agrega un nuevo dto al map con inscriptos 0
+         */
+        for (CarreraDTO egresa : egresados) {
+            String key = egresa.getNombre_carrera() + "_" + egresa.getAnio();
+            if (resultadoMap.containsKey(key)) {
+                CarreraDTO dto = resultadoMap.get(key);
+                dto.setEgresados(egresa.getEgresados());
+            } else {
+                CarreraDTO dto = new CarreraDTO(egresa.getNombre_carrera(), 0, egresa.getEgresados(), egresa.getAnio());
+                resultadoMap.put(key, dto);
+            }
+        }
+
+        List<CarreraDTO> resultado = new ArrayList<>(resultadoMap.values());
+
+        //los ordenamos primero por nombre y luego por anio
+        Collections.sort(resultado, (o1, o2) -> {
+            int comparison = o1.getNombre_carrera().compareTo(o2.getNombre_carrera());
+            if (comparison != 0) {
+                return comparison;
+            }
+            return Integer.compare(o1.getAnio(), o2.getAnio());
+        });
+
+        return resultado;
+    }
 
 }

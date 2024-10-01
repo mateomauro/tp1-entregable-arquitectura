@@ -19,63 +19,94 @@ public class Executable {
         CarreraRepository carreraServicio = new CarreraRepository();
         EstudiaRepository estudiaServicio = new EstudiaRepository();
 
-        //alumnoServicio.cargarCSV();
-        //carreraServicio.cargarCSV();
-        //estudiaServicio.cargarCSV();
+        //CREAMOS LOS ALUMNOS
+        Alumno mateoMauro = new Alumno("mateo","mauro",22,"Masculino",43867965,"Tandil",25254);
+        Alumno tomasDonati = new Alumno("tomas", "donati", 23, "Masculino",345345345,"Tandil", 25253);
+        Alumno lorenzoIpsu = new Alumno("lorenzo", "ipsu", 25, "Masculino",2121231,"Tandil", 25251);
+        Alumno delfinaFerreyra = new Alumno("delfina", "ferreyra", 24, "Femenino",6786786,"Tandil", 25259);
+        Alumno enzoDelSole = new Alumno("enzo", "del sole", 23, "Masculino",9999999,"Tandil", 25258);
+        Alumno emilioColombo = new Alumno("emilio", "colombo", 22, "Masculino",11111111,"Tandil", 1111);
+        Alumno lucianoMauro = new Alumno("luciano", "mauro", 30, "Masculino",5555555,"Tandil", 25257);
 
-        //System.out.println("Dar de alta un alumno");
-        //alumnoServicio.darAltaAlumno(new Alumno("Martin","Perez",20,"Masculino",423445398,"Tandil",2334435));
+        //a) dar de alta un estudiante
+        alumnoServicio.darAltaAlumno(mateoMauro);
+        alumnoServicio.darAltaAlumno(tomasDonati);
+        alumnoServicio.darAltaAlumno(lorenzoIpsu);
+        alumnoServicio.darAltaAlumno(delfinaFerreyra);
+        alumnoServicio.darAltaAlumno(enzoDelSole);
+        alumnoServicio.darAltaAlumno(emilioColombo);
+        alumnoServicio.darAltaAlumno(lucianoMauro);
 
-        //System.out.println("Matricular un alumno en una carrera");
+        //CREAMOS CARRERA
+        Carrera tudai = new Carrera("TUDAI");
+        Carrera ing = new Carrera("ING");
+        Carrera abogacia = new Carrera("ABOGACIA");
 
-        //Alumno a1 = alumnoServicio.getAlumnoById(1);
-        //Alumno a2 = alumnoServicio.getAlumnoById(2);
-        //Alumno a3 = alumnoServicio.getAlumnoById(3);
-        //Alumno a4 = alumnoServicio.getAlumnoById(4);
-        //Alumno a5 = alumnoServicio.getAlumnoById(5);
-        //Alumno a6 = alumnoServicio.getAlumnoById(6);
-        //Alumno a7 = alumnoServicio.getAlumnoById(7);
-        //Alumno a8 = alumnoServicio.getAlumnoById(8);
-        //
-        //Carrera c1 = carreraServicio.getCarreraById(1);
-        //Carrera c2 = carreraServicio.getCarreraById(2);
-        //Carrera c3 = carreraServicio.getCarreraById(3);
-        //
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a1,c1,2009));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a2,c2,2009, 2017));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a3,c3,2010));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a4,c1,2019));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a5,c2,2005,2011));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a6,c1,2015,2017));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a7,c3,2022));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a1,c3,2014,2019));
-        //estudiaServicio.matricularAlumnoAcarrera(new Estudia(a8,c1,1985,2018));
+        //INSERTAMOS LAS CARRERAS
+        carreraServicio.darAltaCarrera(tudai);
+        carreraServicio.darAltaCarrera(ing);
+        carreraServicio.darAltaCarrera(abogacia);
 
-        System.out.println("Recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple");
+        //b) matricular un estudiante en una carrera
+        estudiaServicio.matricularAlumnoAcarrera(new Estudia(mateoMauro,tudai,2022,2024));
+        estudiaServicio.matricularAlumnoAcarrera(new Estudia(tomasDonati,tudai,2022,2024));
+        estudiaServicio.matricularAlumnoAcarrera(new Estudia(lorenzoIpsu,tudai,2020,2022));
+        estudiaServicio.matricularAlumnoAcarrera(new Estudia(delfinaFerreyra,abogacia,2020,2024));
+        estudiaServicio.matricularAlumnoAcarrera(new Estudia(enzoDelSole,abogacia,2018,2020));
+        estudiaServicio.matricularAlumnoAcarrera(new Estudia(emilioColombo,ing,2020));
+        estudiaServicio.matricularAlumnoAcarrera(new Estudia(lucianoMauro,ing,2020));
+
+
+        //c) recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
+        System.out.println("Recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.(ordenado por edad de menor a mayor)" );
         List<Alumno> listaDeAlumnosOrdenadosPorEdad = alumnoServicio.getAlumnosByOrder();
-        System.out.println(listaDeAlumnosOrdenadosPorEdad);
+        for (Alumno alumno:listaDeAlumnosOrdenadosPorEdad){
+            System.out.println(alumno);
+        }
 
-        //Hay que ver este, por que cuando no existe el alumno con ese numero de legajo, se rompe
-        System.out.println("Recuperar un estudiante, en base a su número de libreta universitaria");
-        Alumno alumnoBylegajo = alumnoServicio.getAlumnoByLegajo(2334435);
+        System.out.println("--------------------------------------------------------------------");
+
+        //d) recuperar un estudiante, en base a su número de libreta universitaria.
+        System.out.println("Recuperar un estudiante, en base a su número de libreta universitaria.  (legajo: 25254)");
+        Alumno alumnoBylegajo = alumnoServicio.getAlumnoByLegajo(25254);
         System.out.println(alumnoBylegajo);
 
-        System.out.println("Recuperar todos los estudiantes, en base a su género.");
+        System.out.println("--------------------------------------------------------------------");
+
+        //e) recuperar todos los estudiantes, en base a su género.
+        System.out.println("Recuperar todos los estudiantes, en base a su género. (genero: Masculino)");
         List<Alumno> listaDeAlumnosBygenero = alumnoServicio.getAlumnosByGenero("Masculino");
-        System.out.println(listaDeAlumnosBygenero);
+        for (Alumno alumno:listaDeAlumnosBygenero){
+            System.out.println(alumno);
+        }
 
-        System.out.println("Recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.");
+        System.out.println("--------------------------------------------------------------------");
+
+        //f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
+        System.out.println("Recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos. (ordenado de mayor a menor)");
         List<CarreraDTO> carrerasConAlumnosInscriptos = carreraServicio.getCarrerasConAlumnosInscriptos();
-        System.out.println(carrerasConAlumnosInscriptos);
+        for (CarreraDTO carreraDTO:carrerasConAlumnosInscriptos){
+            System.out.println(carreraDTO);
+        }
 
-        System.out.println("Recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.");
+        System.out.println("--------------------------------------------------------------------");
+
+        //g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
+        System.out.println("Recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia. (carrera: TUDAI, ciudad: Tandil");
         List<AlumnoDTO> alumnosPorCarrera = alumnoServicio.getAlumnosByCarreraAndCity("TUDAI","Tandil");
-        System.out.println(alumnosPorCarrera);
+        for (AlumnoDTO alumnoDTO:alumnosPorCarrera){
+            System.out.println(alumnoDTO);
+        }
 
+        System.out.println("--------------------------------------------------------------------");
+
+        /*3) Generar un reporte de las carreras, que para cada carrera incluya información de los
+        inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y presentar
+        los años de manera cronológica*/
         System.out.println("Generar un reporte de las carreras, que para cada carrera incluya información de los inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y presentar los años de manera cronológica.");
         List<CarreraDTO> reporteCarreras = carreraServicio.getReporteCarreras();
-        System.out.println(reporteCarreras);
-        
-        System.out.println("Ya termino");
+        for (CarreraDTO carreraDTO:reporteCarreras){
+            System.out.println(carreraDTO);
+        }
     }
 }

@@ -20,24 +20,23 @@ public class Estudia implements Serializable {
     @Column(name = "anio_ingreso")
     private int anio_ingreso;
 
+    //le ponemos set default 0 porque significa que no se graduo todavia
     @Column(name="anio_graduacion", nullable = true,columnDefinition = "int default '0'")
     private int anio_graduacion;
 
-    // Constructor vacío
     public Estudia() {}
 
-    // Constructor con parámetros
     public Estudia(Alumno alumno, Carrera carrera, int inicio) {
         this.alumno = alumno;
         this.carrera = carrera;
         this.anio_ingreso = inicio;
     }
 
-    public Estudia(Alumno alumno, Carrera carrera, int inicio, int anio) {
+    public Estudia(Alumno alumno, Carrera carrera, int inicio, int fin) {
         this.alumno = alumno;
         this.carrera = carrera;
-        this.anio_ingreso = anio;
-        this.anio_graduacion = anio;
+        this.anio_ingreso = inicio;
+        this.anio_graduacion = fin;
     }
 
     // Getters y setters
