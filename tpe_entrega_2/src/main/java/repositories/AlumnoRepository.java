@@ -2,10 +2,17 @@ package repositories;
 
 import dtos.AlumnoDTO;
 import entities.Alumno;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import utils.JPAUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 public class AlumnoRepository {
@@ -13,6 +20,16 @@ public class AlumnoRepository {
     
     public AlumnoRepository(){
         this.em = JPAUtil.getEntityManager();
+    }
+
+    public void cargarCSV() throws IOException {
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("src/main/resources/alumnos.csv"));
+        em.getTransaction().begin();
+        for(CSVRecord row: parser) {
+            Alumno alumno = new Alumno(row.get("nombre"), row.get("apellido"), Integer.parseInt(row.get("edad")), row.get("genero"), Integer.parseInt(row.get("dni")), row.get("ciudad"), Integer.parseInt(row.get("legajo")));
+            em.persist(alumno);
+        }
+        em.getTransaction().commit();
     }
     
     public void darAltaAlumno(Alumno alumno){
@@ -40,7 +57,10 @@ public class AlumnoRepository {
         String jpql = "SELECT new Alumno(a.id_alumno,a.nombre,a.apellido,a.edad,a.genero,a.dni, a.ciudad, a.legajo) FROM Alumno a WHERE a.legajo = ?1";
         TypedQuery<Alumno> TypedQuery = em.createQuery(jpql, Alumno.class);
         TypedQuery.setParameter(1, legajo);
-        Alumno alumno = TypedQuery.getSingleResult();
+        Alumno alumno = new Alumno();
+        if(TypedQuery.getResultList().size() > 0){
+            alumno = TypedQuery.getSingleResult();
+        }
         em.getTransaction().commit();
         return alumno;
     }

@@ -49,4 +49,13 @@ public class Carrera implements Serializable {
     public void setAlumnos(List<Estudia> alumnos) {
         this.alumnos = alumnos;
     }
+
+    @Override
+    public String toString() {
+        return "Carrera{" +
+                "id_carrera=" + id_carrera +
+                ", nombre='" + nombre + '\'' +
+                ", alumnos=" + alumnos +
+                '}';
+    }
 }
