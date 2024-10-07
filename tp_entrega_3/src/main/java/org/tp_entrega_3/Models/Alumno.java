@@ -1,12 +1,13 @@
-package Models;
+package org.tp_entrega_3.Models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
-
 public class Alumno {
     @Id
     private long id_alumno;
@@ -17,6 +18,8 @@ public class Alumno {
     private int edad;
     private String genero;
     private long legajo;
+    @OneToMany(mappedBy = "alumno")
+    private List<Estudia> carreras;
 
 
     public Alumno(String nombre, String apellido, String ciudad, long dni, int edad, String genero, long legajo) {
@@ -30,7 +33,6 @@ public class Alumno {
     }
 
     public Alumno() {
-
     }
 
     @Override
