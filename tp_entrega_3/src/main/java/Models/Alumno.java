@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Setter
-@Getter
+
 public class Alumno {
     @Id
     private long id_alumno;
