@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="tpe_entrega_1" target="20" />
+      <module name="tpe_entrega_2" target="22" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
