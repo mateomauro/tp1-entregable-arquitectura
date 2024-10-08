@@ -5,11 +5,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Data
-public class Carrera {
+public class Carrera implements Serializable {
     @Id
     private Long id_carrera;
     private String nombre;

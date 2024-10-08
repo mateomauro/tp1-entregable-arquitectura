@@ -1,18 +1,24 @@
 package org.tp_entrega_3.Controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tp_entrega_3.Repositories.CarreraRepository;
 import org.tp_entrega_3.dtos.CarreraDTO;
 
 import java.util.*;
 @RestController
+@RequestMapping("/carreras")
 public class CarreraController {
+    @Autowired
     private final CarreraRepository repository;
 
     public CarreraController(CarreraRepository repository) {
         this.repository = repository;
     }
 
+    @GetMapping("/getReporteCarreras")
     public List<CarreraDTO> getReporteCarreras(){
         List<CarreraDTO> inscriptos = repository.getReporteCarrerasByInscriptos();
         List<CarreraDTO> egresados = repository.getReporteCarrerasByEgresados();
