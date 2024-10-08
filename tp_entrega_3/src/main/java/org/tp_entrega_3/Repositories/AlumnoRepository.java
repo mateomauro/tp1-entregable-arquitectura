@@ -38,5 +38,6 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE Alumno SET nombre = :nombre, apellido = :apellido, ciudad = :ciudad, dni = :dni, edad = :edad, genero = :genero, legajo = :legajo WHERE id_alumno = :id", nativeQuery = true)
-    public Alumno update(@Param("id") Long id, @Param("nombre") String nombre, @Param("apellido") String apellido, @Param("ciudad") String ciudad, @Param("dni") Long dni, @Param("edad") int edad, @Param("genero") String genero, @Param("legajo") Long legajo);
+    void update(@Param("id") Long id, @Param("nombre") String nombre, @Param("apellido") String apellido, @Param("ciudad") String ciudad, @Param("dni") Long dni, @Param("edad") int edad, @Param("genero") String genero, @Param("legajo") Long legajo);
+
 }

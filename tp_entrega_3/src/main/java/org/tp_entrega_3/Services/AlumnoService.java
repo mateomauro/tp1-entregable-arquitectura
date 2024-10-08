@@ -42,10 +42,10 @@ public class AlumnoService {
     }
 
     public Alumno update(Long id, Alumno alumno) throws Exception {
-        try{
-            return repository.update(id, alumno.getNombre(), alumno.getApellido(), alumno.getCiudad(), alumno.getDni(), alumno.getEdad(), alumno.getGenero(), alumno.getLegajo());
-        }
-        catch (Exception e){
+        try {
+            repository.update(id, alumno.getNombre(), alumno.getApellido(), alumno.getCiudad(), alumno.getDni(), alumno.getEdad(), alumno.getGenero(), alumno.getLegajo());
+            return alumno;
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
