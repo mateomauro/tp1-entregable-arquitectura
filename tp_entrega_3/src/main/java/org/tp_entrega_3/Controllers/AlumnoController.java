@@ -27,10 +27,46 @@ public class AlumnoController {
         }
     }
 
+    @GetMapping("/ByOrderEdad")
+    public ResponseEntity<?> getAlumnosByOrder() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByOrder());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos los alumnos.\"}");
+        }
+    }
+
+    @GetMapping("/ByGenero/{genero}")
+    public ResponseEntity<?> getAlumnosByGenero(@PathVariable String genero) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByGenero(genero));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos los alumnos.\"}");
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getAlumnoById(@PathVariable Long id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnoById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
+        }
+    }
+
+    @GetMapping("/ByLegajo/{legajo}")
+    public ResponseEntity<?> getAlumnoByLegajo(@PathVariable Integer legajo) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnoByLegajo(legajo));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
+        }
+    }
+
+    @GetMapping("/ByCarreraYCiudad/{carrera}/{ciudad}")
+    public ResponseEntity<?> getAlumnosByCarreraAndCity(@PathVariable String carrera, @PathVariable String ciudad) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByCarreraAndCity(carrera,ciudad));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
         }

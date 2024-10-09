@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.tp_entrega_3.Models.Alumno;
 import org.tp_entrega_3.Repositories.AlumnoRepository;
+import org.tp_entrega_3.dtos.AlumnoDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +25,41 @@ public class AlumnoService {
         }
     }
 
+    public List<Alumno> getAlumnosByOrder() throws Exception {
+        try{
+            return repository.getAlumnosByOrder();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
     public Optional<Alumno> getAlumnoById(Long id) throws Exception{
         try{
             return repository.getAlumnoById(id);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public Alumno getAlumnoByLegajo(Integer legajo) throws Exception{
+        try{
+            return repository.getAlumnoByLegajo(legajo);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<Alumno> getAlumnosByGenero(String genero) throws Exception{
+        try{
+            return repository.getAlumnosByGenero(genero);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<AlumnoDTO> getAlumnosByCarreraAndCity(String carrera, String ciudad) throws Exception{
+        try{
+            return repository.getAlumnosByCarreraAndCity(carrera, ciudad);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
