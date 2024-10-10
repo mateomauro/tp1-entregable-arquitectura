@@ -1,8 +1,7 @@
 package org.tp_entrega_3.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,16 +11,18 @@ import java.util.List;
 @Data
 public class Carrera implements Serializable {
     @Id
-    private Long id_carrera;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id_carrera;
     private String nombre;
     @OneToMany(mappedBy = "carrera")
+    @JsonIgnore
     private List<Estudia> alumnos;
 
-    public Carrera(String nombre, List<Estudia> alumnos) {
-        this.nombre = nombre;
-        this.alumnos = alumnos;
-    }
+
     public Carrera(){}
+    public Carrera(String nombre) {
+        this.nombre = nombre;
+    }
 
     @Override
     public String toString() {

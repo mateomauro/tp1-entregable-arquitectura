@@ -1,30 +1,65 @@
-package org.tp_entrega_3.Controllers;
+package org.tp_entrega_3.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.tp_entrega_3.Repositories.CarreraRepository;
 import org.tp_entrega_3.dtos.CarreraDTO;
+import org.tp_entrega_3.Models.Carrera;
 
 import java.util.*;
-@RestController
-@RequestMapping("/carreras")
-public class CarreraController {
+
+@Service("CarreraService")
+public class CarreraService {
     @Autowired
-    private final CarreraRepository repository;
+    private CarreraRepository repository;
 
-    public CarreraController(CarreraRepository repository) {
-        this.repository = repository;
+    public List<Carrera> findAll() throws Exception {
+        try {
+            return repository.findAll();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
-    @GetMapping("/getReporteCarreras")
-    public List<CarreraDTO> getReporteCarreras(){
-        List<CarreraDTO> inscriptos = repository.getReporteCarrerasByInscriptos();
-        List<CarreraDTO> egresados = repository.getReporteCarrerasByEgresados();
-        return fucionarJPQL(inscriptos, egresados);
+    public Carrera findById(int id) throws Exception {
+        try {
+            return repository.getCarreraById(id);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
+    public Carrera findByName(String name) throws Exception {
+        try {
+            return repository.getCarreraByName(name);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    // f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos
+    public List<CarreraDTO> getCarrerasConAlumnosInscriptos() throws Exception {
+        try {
+            return repository.getCarrerasConAlumnosInscriptos();
+        }
+        catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    // h) generar un reporte de las carreras, que para cada carrera incluya información de los
+    // inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y
+    // presentar los años de manera cronológica.
+    public List<CarreraDTO> getReporteCarreras() throws Exception {
+        try {
+            List<CarreraDTO> inscriptos = repository.getReporteCarrerasByInscriptos();
+            List<CarreraDTO> egresados = repository.getReporteCarrerasByEgresados();
+            return fucionarJPQL(inscriptos, egresados);
+        }
+        catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
     private List<CarreraDTO> fucionarJPQL(List<CarreraDTO> inscriptos, List<CarreraDTO> egresados) {
         //Aqui creamos el mapa para guardar los resultado finales (osea las combinacion final)
         Map<String, CarreraDTO> resultadoMap = new HashMap<>();

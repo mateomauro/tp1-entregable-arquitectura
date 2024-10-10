@@ -7,7 +7,6 @@ import java.io.Serializable;
 public class CarreraDTO implements Serializable {
     private long id_carrera;
     private String nombre_carrera;
-    private long inscriptos;
     private long cant_inscriptos;
     private long egresados;
     private int anio;
@@ -28,7 +27,6 @@ public class CarreraDTO implements Serializable {
         this.egresados = cant_egresados;
         this.anio = anio;
     }
-
 
     //creamos este constructur para devolver la consulta jpql de el ejercicio 3
     //y conseguir la cantidad de inscriptos
