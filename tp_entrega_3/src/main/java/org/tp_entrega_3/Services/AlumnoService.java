@@ -82,4 +82,17 @@ public class AlumnoService {
             throw new Exception(e.getMessage());
         }
     }
+
+    public Boolean deleteById(Long id) throws Exception{
+        try {
+            Optional<Alumno> alum = repository.getAlumnoById(id);
+            if(alum != null) {
+                repository.deleteById(id);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
