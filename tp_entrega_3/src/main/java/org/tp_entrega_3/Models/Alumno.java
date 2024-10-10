@@ -26,7 +26,8 @@ public class Alumno implements Serializable {
     @JsonIgnore
     private List<Estudia> carreras;
 
-    public Alumno(String nombre, String apellido, int edad, String genero, int dni, String ciudad, int legajo) {
+
+     public Alumno(String nombre, String apellido, int edad, String genero, int dni, String ciudad, int legajo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;

@@ -20,7 +20,6 @@ public interface CarreraRepository extends JpaRepository<Carrera, Integer> {
     @Query("SELECT new org.tp_entrega_3.dtos.CarreraDTO(c.id_carrera, c.nombre, COUNT(e.alumno.id_alumno)) FROM Carrera c JOIN c.alumnos e GROUP BY c.id_carrera, c.nombre ORDER BY COUNT(e.alumno.id_alumno) DESC")
     public List<CarreraDTO> getCarrerasConAlumnosInscriptos();
 
-
     // h) generar un reporte de las carreras, que para cada carrera incluya información de los
     // inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y
     // presentar los años de manera cronológica.

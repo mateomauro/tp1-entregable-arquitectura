@@ -28,6 +28,7 @@ public class CarreraDTO implements Serializable {
         this.anio = anio;
     }
 
+
     //creamos este constructur para devolver la consulta jpql de el ejercicio 3
     //y conseguir la cantidad de inscriptos
     public CarreraDTO(String nombre, int anio, long cant_inscriptos) {

@@ -5,18 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tp_entrega_3.Models.Alumno;
-import org.tp_entrega_3.Repositories.AlumnoRepository;
 import org.tp_entrega_3.Services.AlumnoService;
 
 @RestController
 @RequestMapping("/alumnos")
 public class AlumnoController {
     @Autowired
-    private final AlumnoService alumnoService;
-
-    public AlumnoController(AlumnoService alumnoService) {
-        this.alumnoService = alumnoService;
-    }
+    private AlumnoService alumnoService;
 
     @GetMapping("")
     public ResponseEntity<?> getAllAlumnos() {
@@ -27,51 +22,7 @@ public class AlumnoController {
         }
     }
 
-    @GetMapping("/ByOrderEdad")
-    public ResponseEntity<?> getAlumnosByOrder() {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByOrder());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos los alumnos.\"}");
-        }
-    }
-
-    @GetMapping("/ByGenero/{genero}")
-    public ResponseEntity<?> getAlumnosByGenero(@PathVariable String genero) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByGenero(genero));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos los alumnos.\"}");
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getAlumnoById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnoById(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
-        }
-    }
-
-    @GetMapping("/ByLegajo/{legajo}")
-    public ResponseEntity<?> getAlumnoByLegajo(@PathVariable Integer legajo) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnoByLegajo(legajo));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
-        }
-    }
-
-    @GetMapping("/ByCarreraYCiudad/{carrera}/{ciudad}")
-    public ResponseEntity<?> getAlumnosByCarreraAndCity(@PathVariable String carrera, @PathVariable String ciudad) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByCarreraAndCity(carrera,ciudad));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
-        }
-    }
-
+    // a) dar de alta un estudiante
     @PostMapping("")
     public ResponseEntity<?> save(@RequestBody Alumno entity){
         try{
@@ -81,81 +32,72 @@ public class AlumnoController {
         }
     }
 
+    // c) recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
+    @GetMapping("/OrderByEdad")
+    public ResponseEntity<?> getAlumnosByOrder() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByOrder());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos los alumnos ordenados por Edad.\"}");
+        }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getAlumnoById(@PathVariable int id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnoById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
+        }
+    }
+
+    @GetMapping("/ByDNI/{dni}")
+    public ResponseEntity<?> getAlumnoByDNI(@PathVariable int dni) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnoByDNI(dni));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
+        }
+    }
+
+    // d) recuperar un estudiante, en base a su número de libreta universitaria.
+    @GetMapping("/ByLegajo/{legajo}")
+    public ResponseEntity<?> getAlumnoByLegajo(@PathVariable Integer legajo) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnoByLegajo(legajo));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por ID.\"}");
+        }
+    }
+
+    // e) recuperar todos los estudiantes, en base a su género.
+    @GetMapping("/ByGenero/{genero}")
+    public ResponseEntity<?> getAlumnosByGenero(@PathVariable String genero) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByGenero(genero));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos los alumnos.\"}");
+        }
+    }
+
+    // g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
+    @GetMapping("/ByCarreraAndCiudad/{carrera}/{ciudad}")
+    public ResponseEntity<?> getAlumnosByCarreraAndCiudad(@PathVariable String carrera, @PathVariable String ciudad) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.getAlumnosByCarreraAndCiudad(carrera,ciudad));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde buscando por Carrera y Ciudad.\"}");
+        }
+    }
+
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Alumno entity){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody Alumno entity){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(alumnoService.update(id,entity));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo editar, revise los campos e intente nuevamente.\"}");
         }
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(alumnoService.deleteById(id));
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo editar, revise los campos e intente nuevamente.\"}");
-        }
-    }
-    /**
-     *Repo
-     *  @Modifying
-     *     @Transactional
-     *     @Query(value = "UPDATE Alumno SET nombre = :nombre, apellido = :apellido, edad = :edad WHERE id = :id", nativeQuery = true)
-     *     int updateAlumno(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("edad") int edad, @Param("id") Long id);
-     * Service
-     *     public void actualizarAlumno(Long id, String nombre, String apellido, int edad) {
-     *         alumnoRepositorio.updateAlumno(nombre, apellido, edad, id);
-     *     }
-     * Controller
-     *     @PutMapping("/{id}")
-     *     public ResponseEntity<String> actualizarAlumno(@RequestBody Alumno alumno) {
-     *         alumnoServicio.actualizarAlumno(alumno.getId(), alumno.getNombre(), alumno.getApellido(), alumno.getEdad());
-     *         return ResponseEntity.ok("Alumno actualizado exitosamente"
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * {
-     *         "id_alumno": 0,
-     *         "nombre": "loren",
-     *         "apellido": "feer",
-     *         "ciudad": "tandil",
-     *         "dni": 123123,
-     *         "edad": 25,
-     *         "genero": "masculino",
-     *         "legajo": 1223123,
-     *         "carreras": []
-     *     },
-     *     {
-     *         "id_alumno": 1,
-     *         "nombre": "el perro el tomi",
-     *         "apellido": "donati",
-     *         "ciudad": "tandil",
-     *         "dni": 56498741,
-     *         "edad": 22,
-     *         "genero": "anda a saber",
-     *         "legajo": 322165,
-     *         "carreras": []
-     *     },
-     *     {
-     *         "id_alumno": 2,
-     *         "nombre": "la perra delfi",
-     *         "apellido": "ferreyra",
-     *         "ciudad": "la plata",
-     *         "dni": 567986451,
-     *         "edad": 223,
-     *         "genero": "bue mejor ni hablar",
-     *         "legajo": 59894,
-     *         "carreras": []
-     *     }
-     */
 }
