@@ -7,6 +7,10 @@ import org.microservice_user.Entities.Account;
 import org.microservice_user.Entities.User;
 import org.microservice_user.Repository.AccountRepository;
 import org.microservice_user.Repository.UserRepository;
+import org.microservice_user.feignClients.ScooterFeignClient;
+import org.microservice_user.feignClients.TripFeignClient;
+import org.microservice_user.feignClients.model.ScooterDTO;
+import org.microservice_user.feignClients.model.TripDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +24,10 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private AccountRepository accountRepository;
-
-    //private ScooterFeignClient scooterFeignClient;
-    //private TripFeignClient tripFeignClient;
+    @Autowired
+    private ScooterFeignClient scooterFeignClient;
+    @Autowired
+    private TripFeignClient tripFeignClient;
 
     // CRUD - READ - GET
     public List<UserResponseDTO> findAll() throws Exception {
@@ -145,7 +150,7 @@ public class UserService {
         return account;
     }
     // TODO // REVISAR EXCEPTIONS, TRY { } CATCH { } ->>>>
-    /*public TripDTO startTrip(Long id_user) throws Exception /*{
+    public TripDTO startTrip(Long id_user) throws Exception {
         User user = userRepository.findById(id_user).get();
 
         // Obtener scooter más cercano
@@ -155,10 +160,12 @@ public class UserService {
         }
         return null;
     }
+
     public TripDTO endTrip(Long id_user) throws Exception {
         User user = userRepository.findById(id_user).get();
         return tripFeignClient.endTrip(user.getId_user());
     }
+
     public TripDTO pauseTrip(Long id_user) throws Exception {
         User user = userRepository.findById(id_user).get();
         return tripFeignClient.pauseTrip(user.getId_user());
@@ -167,5 +174,5 @@ public class UserService {
     public List<ScooterDTO> getScooterNearby(Long id_user, Double radius){
         User user = userRepository.findById(id_user).get();
         return scooterFeignClient.getScooterNearby(user.getLatitude(), user.getLongitude(), radius);
-    }*/
+    }
 }

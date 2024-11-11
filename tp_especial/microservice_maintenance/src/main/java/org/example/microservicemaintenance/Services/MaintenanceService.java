@@ -3,6 +3,8 @@ package org.example.microservicemaintenance.Services;
 import org.example.microservicemaintenance.DTOs.MaintenanceDTO;
 import org.example.microservicemaintenance.DTOs.MaintenanceReportDTO;
 import org.example.microservicemaintenance.DTOs.MaintenanceScooterDTO;
+import org.example.microservicemaintenance.FeignClient.ScooterFeignClient;
+import org.example.microservicemaintenance.FeignClient.TripFeignClient;
 import org.example.microservicemaintenance.Repository.MaintenanceRepository;
 import org.example.microservicemaintenance.Entities.Maintenance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,10 @@ public class MaintenanceService {
 
     @Autowired
     private MaintenanceRepository maintenanceReposity;
-    //@Autowired
-    //private ScooterFeingClient scooterFiengClient;
-    //@Autowired
-    //private TripFeignClient tripFeignClient;
+    @Autowired
+    private ScooterFeignClient scooterFeignClient;
+    @Autowired
+    private TripFeignClient tripFeignClient;
 
     private final double KM_MAX = 3500;
     private final Duration TIEMPO_MAX = Duration.ofHours(350);

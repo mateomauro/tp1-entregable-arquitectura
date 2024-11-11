@@ -113,7 +113,7 @@ public class UserController {
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo vincular la cuenta con el usuario, intente nuevamente más tarde.\"}");
         }
-    }
+    }*/
 
     // Obtener Monopatines Cercanos - Se necesita el ID del User y el radius a buscar.
     @GetMapping("/scootersNearby/user/{id_user}/radius/{radius}")
@@ -125,6 +125,6 @@ public class UserController {
         }
     }
 
-     */
+
 
 }

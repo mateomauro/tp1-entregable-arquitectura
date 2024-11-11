@@ -3,10 +3,10 @@ package org.example.microservicemaintenance;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EntityScan(basePackages = "org/example/microservicemaintenance/Entities")
-//@ComponentScan(basePackages = "Controller")
+@EnableFeignClients
 public class MicroServiceMaintenanceApplication {
 
     public static void main(String[] args) {
