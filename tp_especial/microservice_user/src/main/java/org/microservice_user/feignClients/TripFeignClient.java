@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(name = "micro_trip")
+@FeignClient(name = "micro-trip", url="http://localhost:8085")
 public interface TripFeignClient {
 
     @PostMapping("/api/trips/startTrip/user/{id_user}/scooter/{id_scooter}")

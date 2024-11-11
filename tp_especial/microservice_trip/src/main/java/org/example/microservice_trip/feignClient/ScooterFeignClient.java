@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 
 
-@FeignClient(name="micro_scooter",url="http://localhost:8082")
+@FeignClient(name="micro-scooter",url="http://localhost:8082")
 public interface ScooterFeignClient {
 
     @GetMapping("/api/scooters/{id}")

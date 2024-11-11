@@ -20,6 +20,6 @@ public class Main {
 
     @PostConstruct
     public void init() throws Exception {
-        //loadDatabase.loadUsers();
+        loadDatabase.loadUsers();
     }
 }

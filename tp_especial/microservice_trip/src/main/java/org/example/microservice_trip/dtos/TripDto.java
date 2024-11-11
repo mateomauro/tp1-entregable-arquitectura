@@ -1,11 +1,18 @@
 package org.example.microservice_trip.dtos;
 
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.microservice_trip.entities.Trip;
 
 import java.sql.Time;
 import java.util.Date;
 
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TripDto {
     private long id_scooter;
     private long id_account;
@@ -19,25 +26,5 @@ public class TripDto {
         this.id_scooter = id_scooter;
         this.end_date = end_date;
         this.km_traveled = km_traveled;
-    }
-
-    public long getId_scooter() {
-        return id_scooter;
-    }
-
-    public long getId_account() {
-        return id_account;
-    }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
-    public Date getEnd_date() {
-        return end_date;
-    }
-
-    public double getKm_traveled() {
-        return km_traveled;
     }
 }

@@ -12,10 +12,6 @@ import java.time.LocalDate;
 public interface AdminRepository extends JpaRepository<Rate,Long> {
 //van las querys y metodos q busquen en la base de datos
 
-    //definir precio
-    @Modifying
-    @Query("UPDATE Rate r SET r.price = :rateNew, r.priceForPause =:priceForPauseNew WHERE r.idRate =:idRate")
-    void updateRate(@Param("idRate") Long idRate, @Param("priceNew") Double priceNew, @Param("priceForPauseNew") Double priceForPauseNew);
 
     //Facturacion en rango de meses de cierto año
     @Modifying

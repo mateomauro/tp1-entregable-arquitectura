@@ -8,25 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@FeignClient(name = "microservice_scooter", url = "http://localhost:8082")
+@FeignClient(name = "micro-scooter", url = "http://localhost:8082")
 public interface ScooterFeignClients {
 
-    @PostMapping("")
+    @PostMapping("/api/scooters")
     ScooterDTO insertScooter(@RequestBody ScooterDTO scooterDTO);
 
-    @PutMapping("/update/{idScooter}")
+    @PutMapping("/api/scooters/update/{idScooter}")
     ScooterDTO updateScooter(@PathVariable long idScooter, @RequestBody ScooterDTO scooterDTO);
 
-    @GetMapping("/actives")
+    @GetMapping("/api/scooters/actives")
     List<ScooterDTO> getActivs();
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/scooters/{id}")
     ScooterDTO deleteScooter(@PathVariable Long id);
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/scooters/{id}")
     ScooterDTO getScooterById(@PathVariable Long id);
 
-    @GetMapping("")
+    @GetMapping("/api/scooters")
     List<ScooterDTO> findAllScooters();
 
 }

@@ -15,21 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service("AdminService")
+@Service
 public class AdminService {
 
     @Autowired
     private AdminRepository adminRepository;
-
+    @Autowired
     private TripFeignClients tripFeignClients;
+    @Autowired
     private MaintenanceFeignClients maintenanceFeignClients;
+    @Autowired
     private AccountFeignClients accountFeignClients;
+    @Autowired
     private ScooterFeignClients scooterFeignClients;
+    @Autowired
     private ParkingFeignClients parkingFeignClients;
+    @Autowired
     private PauseFeignClients pauseFeignClients;
+
 
     //TARIFAS:
     //Guardar tarifa pasada por parametro
+    @Transactional
     public RateDTO saveRate(RateDTO rateNew) throws Exception {
         Rate rate = mapToRate(rateNew);
         try {
@@ -49,10 +56,10 @@ public class AdminService {
 
     //Actualizar precio de la tarifa
     @Transactional //en caso de errores se revierten los datos
-    public RateDTO updateRate(Long idRate, RateDTO rateNew) throws Exception {
+    public RateDTO updateRate(Long idRate, Rate rateNew) throws Exception {
         try {
             if (adminRepository.existsById(idRate)) {
-                adminRepository.updateRate(idRate, rateNew.getPrice(), rateNew.getPriceForPause());
+                Rate r = this.adminRepository.save(rateNew);
                 return new RateDTO(idRate, rateNew.getPrice(), rateNew.getPriceForPause());
             }
         } catch (Exception e) {
@@ -79,6 +86,7 @@ public class AdminService {
     }
 
     //Devolver todas las tarifas
+    @Transactional
     public List<RateDTO> findAll() throws Exception {
         try {
             List<Rate> rates = adminRepository.findAll();
@@ -107,7 +115,6 @@ public class AdminService {
     }
 
     //Editar monopatin
-    @Transactional
     public ScooterDTO updateScooter(Long idScooter, ScooterDTO scooterDTO) throws Exception {
         try {
             return scooterFeignClients.updateScooter(idScooter, scooterDTO);
@@ -222,10 +229,10 @@ public class AdminService {
 
     //ajuste de precios a partir de cierta fecha
     @Transactional
-    public RateDTO updateRateForDate(LocalDate date, RateDTO rateNew) throws Exception {
+    public RateDTO updateRateForDate(LocalDate date, Rate rateNew) throws Exception {
         try {
             if (!date.isBefore(LocalDate.now())) {
-                adminRepository.updateRate(rateNew.getIdRate(), rateNew.getPrice(), rateNew.getPriceForPause());
+                adminRepository.save(rateNew);
                 return new RateDTO(rateNew.getIdRate(), rateNew.getPrice(), rateNew.getPriceForPause());
             }
         } catch (Exception e) {
@@ -236,20 +243,21 @@ public class AdminService {
 
     //monopatines con más de X viajes en un cierto año.
     public List<ScooterDTO> fetchScootersByTripsInYear(int year, int countTrip) throws Exception {
+        List<ScooterDTO> scooterForTripByYear = new ArrayList<>();
         try {
             List<TripDTO> moreForTripByYear = tripFeignClients.tripByYearAndCountTrip(year, countTrip);
-            if (!moreForTripByYear.isEmpty())
+            if (!moreForTripByYear.isEmpty()) {
                 for (TripDTO trip : moreForTripByYear) {
                     ScooterDTO scooter = scooterFeignClients.getScooterById(trip.getId_scooter());
-                    List<ScooterDTO> scooperForTripByYear = new ArrayList<>();
                     if (scooter != null) {
-                        scooperForTripByYear.add(scooter);
+                        scooterForTripByYear.add(scooter);
                     }
                 }
+            }
+            return scooterForTripByYear;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
     }
 
     //cantidad de monopatines actualmente en operación,

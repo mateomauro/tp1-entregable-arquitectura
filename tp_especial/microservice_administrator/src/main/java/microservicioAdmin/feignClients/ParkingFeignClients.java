@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "microservice_parking", url = "http://localhost:8084")
+@FeignClient(name = "micro-parking", url = "http://localhost:8084")
 public interface ParkingFeignClients {
-    @PutMapping("")
+    @PostMapping("/api/parkings")
     ParkingDTO insertParking(@RequestBody ParkingDTO parkingDTO);
 
-    @PutMapping("/update/id_parking")
-    ParkingDTO updateParking(@PathVariable Long idParking ,ParkingDTO parkingDTO);
+    @PutMapping("/api/parkings/update/{id_parking}")
+    ParkingDTO updateParking(@PathVariable Long id_parking , @RequestBody ParkingDTO parkingDTO);
 
-    @DeleteMapping("/delete/{id_paraking}")
-    ScooterDTO deleteParking(@PathVariable long idParking);
+    @DeleteMapping("/api/parkings/delete/{id_parking}")
+    ParkingDTO deleteParking(@PathVariable long id_parking);
 
-    @GetMapping("")
+    @GetMapping("/api/parkings")
     List<ParkingDTO> getAllParkings();
 
-    @GetMapping("/parking/{id}")
+    @GetMapping("/api/parkings/parking/{id}")
     ParkingDTO getById(Long idParking);
 
 }

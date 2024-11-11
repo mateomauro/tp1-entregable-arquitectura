@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/administrators")
+@RequestMapping("/api/admin")
 public class AdminController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class AdminController {
 
     //Editar el precio de una tarifa
     @PutMapping("/update/{idRate}")
-    public ResponseEntity<?> updateRate(@PathVariable Long idRate, @RequestBody RateDTO rateNew) {
+    public ResponseEntity<?> updateRate(@PathVariable Long idRate, @RequestBody Rate rateNew) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.updateRate(idRate, rateNew));
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class AdminController {
 
     //editar scooter
     @PutMapping("/update/{idScooter}")
-    public ResponseEntity<?> updateScooter(Long idScooter, ScooterDTO scooterDTO) {
+    public ResponseEntity<?> updateScooter(@PathVariable Long idScooter, @RequestBody ScooterDTO scooterDTO) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.updateScooter(idScooter, scooterDTO));
         } catch (Exception e) {
@@ -85,15 +85,15 @@ public class AdminController {
         }
     }
 
-    /*
+
 
     //eliminar scooter con el id que se pasa por parametro
     @DeleteMapping("/delete/{idScooter}")
-    public ResponseEntity<?> deleteScooter(Long scooterId) {
+    public ResponseEntity<?> deleteScooter(@PathVariable Long idScooter) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteScooter(scooterId));
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteScooter(idScooter));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde para eliminar el monopatin con id " + scooterId + ".\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde para eliminar el monopatin con id " + idScooter + ".\"}");
         }
     }
 
@@ -110,7 +110,7 @@ public class AdminController {
 //PARKING:
 
     //insertar una parada
-    @PostMapping("")
+    @PostMapping("/insertParking")
     public ResponseEntity<ParkingDTO> insertParking(@RequestBody ParkingDTO parkingNew) throws Exception {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.insertParking(parkingNew));
@@ -120,8 +120,8 @@ public class AdminController {
     }
 
     //editar una parada
-    @GetMapping("/update/{idParking}/{parkingNew}")
-    public ResponseEntity<?> updateParking(Long idParking, ParkingDTO parkingNew) throws Exception {
+    @GetMapping("/update/{idParking}")
+    public ResponseEntity<?> updateParking(@PathVariable Long idParking, @RequestBody ParkingDTO parkingNew) throws Exception {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.updateParking(idParking, parkingNew));
         } catch (Exception e) {
@@ -131,7 +131,7 @@ public class AdminController {
 
     //eliminar la parada con el id que se pasa por parametro
     @GetMapping("/delete/{parkingId}")
-    public ResponseEntity<?> deleteParking(Long parkingId) {
+    public ResponseEntity<?> deleteParking(@PathVariable Long parkingId) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteParking(parkingId));
         } catch (Exception e) {
@@ -152,20 +152,20 @@ public class AdminController {
 //OTROS METODOS:
 
     //precio de tarifa
-    @GetMapping("/calculateCost/{idViaje}")
+    /*@GetMapping("/calculateCost/{idViaje}")
     public ResponseEntity<?> calculateRateOfTrip(@PathVariable Long idViaje) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.calculateRateOfTrip(idViaje));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente mas tarde para calcular el costo del viaje.\"}");
         }
-    }
+    }*/
 
     //anular cuenta
-    @PutMapping("/Cuenta/{idCuenta}/{annul}")
-    public ResponseEntity<?> annulledAccount(@PathVariable Long idCuenta, @PathVariable boolean annul) {
+    @PutMapping("/accounts/{idAccount}/{annul}")
+    public ResponseEntity<?> annulledAccount(@PathVariable Long idAccount, @PathVariable boolean annul) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.annulledAccount(idCuenta, annul));
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.annulledAccount(idAccount, annul));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se pudo cancelar la cuenta.\"}");
         }
@@ -182,8 +182,8 @@ public class AdminController {
     }
 
     //ajuste de precios a partir de cierta fecha
-    @GetMapping("/updateRate/{date}/{rateNew}")
-    public ResponseEntity<?> updateRateForDate(LocalDate date, RateDTO rateNew) {
+    @PutMapping("/updateRate/{date}")
+    public ResponseEntity<?> updateRateForDate(@PathVariable LocalDate date, @RequestBody Rate rateNew) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.updateRateForDate(date, rateNew));
         } catch (Exception e) {
@@ -192,20 +192,21 @@ public class AdminController {
     }
 
     // monopatines con más de X viajes en un cierto año.
-    @GetMapping("/scooters/{year}/{countTrip}")
+    /*@GetMapping("/scooters/{year}/{countTrip}")
     public ResponseEntity<?> fetchScootersByTripsInYear(@PathVariable int year, @PathVariable int countTrip) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.fetchScootersByTripsInYear(year, countTrip));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se encontraron monopatines con esa cantidad de viajes, en dicho año\"}");
         }
-    }
+    }*/
 
+    @GetMapping("/scooters/inOperation")
     public ResponseEntity<?> countScootersInOperationAndMaintenance(){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.countScootersInOperationAndMaintenance());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se pudieron encontrar el reporte de monopatines\"}");
         }
-    }*/
+    }
 }

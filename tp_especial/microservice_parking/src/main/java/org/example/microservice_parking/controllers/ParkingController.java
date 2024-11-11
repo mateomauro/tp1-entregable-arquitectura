@@ -3,15 +3,17 @@ package org.example.microservice_parking.controllers;
 import lombok.RequiredArgsConstructor;
 import org.example.microservice_parking.dtos.ParkingDto;
 import org.example.microservice_parking.service.ParkingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/parkings")
-@RequiredArgsConstructor
+@RequestMapping("/api/parkings")
 public class ParkingController {
-    private final ParkingService parkingService;
+
+    @Autowired
+    private ParkingService parkingService;
 
     //FIND ALL PARKING
     @GetMapping("")

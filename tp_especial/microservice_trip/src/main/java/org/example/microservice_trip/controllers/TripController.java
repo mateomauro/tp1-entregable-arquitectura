@@ -16,9 +16,9 @@ import java.sql.Time;
 
 @RestController
 @RequestMapping("/api/trips")
-@RequiredArgsConstructor
 public class TripController {
-    private final TripService tripService;
+
+    private TripService tripService;
 
     //get all trips
     @GetMapping("")
@@ -94,7 +94,7 @@ public class TripController {
 
     //UNPAUSE A TRIP
     @PutMapping("/unpauseTrip/{id_account}/{id_scooter}")
-    public ResponseEntity<?> unpauseTrip(@PathVariable long id_account,@PathVariable long id_scooter) {
+    public ResponseEntity<?> unpauseTrip(@PathVariable long id_account, @PathVariable long id_scooter) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(tripService.unpauseTrip(id_account,id_scooter));
         }catch (Exception e) {

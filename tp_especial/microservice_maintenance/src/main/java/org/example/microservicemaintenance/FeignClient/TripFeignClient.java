@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "micro_trip", url = "http://localhost:8085")
+@FeignClient(name = "micro-trip", url = "http://localhost:8085")
 public interface TripFeignClient {
 
     @GetMapping("/api/trips/pauseByScooters")

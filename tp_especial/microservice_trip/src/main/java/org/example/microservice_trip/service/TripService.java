@@ -22,16 +22,11 @@ import java.time.temporal.Temporal;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class TripService{
-    @Autowired
-    private final TripRepository tripRepository;
-    @Autowired
-    private final PauseRepository pauseRepository;
-    @Autowired
-    private final ScooterFeignClient scooterFeignClient;
-    @Autowired
-    private final ParkingFeignClient parkingFeignClient;
+    private TripRepository tripRepository;
+    private PauseRepository pauseRepository;
+    private ScooterFeignClient scooterFeignClient;
+    private ParkingFeignClient parkingFeignClient;
 
 
     //get all trips
