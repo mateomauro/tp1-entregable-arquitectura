@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "6f796931-49a3-4fb4-8794-152a93915f4b",
+		"name": "Maintenance Service",
+		"description": "Maintenance Services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24111662"
+	},
+	"item": [
+		{
+			"name": "Maintenance All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/maintenance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"maintenance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Maintenance One",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/maintenance/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"maintenance",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Maintenance Report",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/maintenance/generateReport",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"maintenance",
+						"generateReport"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Maintenance Scooters notRepared",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/maintenance/scooterNotRepaired",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"maintenance",
+						"scooterNotRepaired"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Maintenance Add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id_skateboard\": 120,\r\n    \"repair\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/maintenance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"maintenance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Maintenance Modific",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id_maintenance\": 2,\r\n    \"id_skateboard\": 3,\r\n    \"repair\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/maintenance/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"maintenance",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Maintenance Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/maintenance/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"maintenance",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
