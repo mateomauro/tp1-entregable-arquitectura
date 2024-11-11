@@ -1,0 +1,18 @@
+package microservicioAdmin.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import microservicioAdmin.entities.Rate;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class RateDTO {
+    private Long idRate;
+    private Double price;
+    private Double priceForPause;
+}
