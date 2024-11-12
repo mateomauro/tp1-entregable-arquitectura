@@ -14,6 +14,6 @@ public interface ScooterFeignClient {
     public List<Scooter> getAllScooter();
 
     @GetMapping("/api/scooters/{id}/toMaintenance")
-    public Scooter getScooterMaintenance(@PathVariable long idScooter);
+    public Scooter disableScooterMaintenance(@PathVariable long id);
 
 }

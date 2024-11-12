@@ -51,9 +51,9 @@ public class MaintenanceController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> repairSkateBoard(@RequestBody Maintenance maintenance){
+    public ResponseEntity<?> repairSkateBoard(){
         try{
-            return ResponseEntity.status(HttpStatus.CREATED).body(maintenanceService.save(maintenance));
+            return ResponseEntity.status(HttpStatus.CREATED).body(maintenanceService.checkMaintenance());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: No se pudo ingresar, revise los campos e intente nuevamente.");
         }

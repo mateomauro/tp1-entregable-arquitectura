@@ -3,6 +3,8 @@ package org.example.microservicemaintenance.Services;
 import org.example.microservicemaintenance.DTOs.MaintenanceDTO;
 import org.example.microservicemaintenance.DTOs.MaintenanceReportDTO;
 import org.example.microservicemaintenance.DTOs.MaintenanceScooterDTO;
+import org.example.microservicemaintenance.FeignClient.Model.Pause;
+import org.example.microservicemaintenance.FeignClient.Model.Scooter;
 import org.example.microservicemaintenance.FeignClient.ScooterFeignClient;
 import org.example.microservicemaintenance.FeignClient.TripFeignClient;
 import org.example.microservicemaintenance.Repository.MaintenanceRepository;
@@ -26,7 +28,8 @@ public class MaintenanceService {
     private TripFeignClient tripFeignClient;
 
     private final double KM_MAX = 3500;
-    private final Duration TIEMPO_MAX = Duration.ofHours(350);
+    private final double TIME_MAX = 350;
+    //private final Duration TIME_MAX = Duration.ofHours(350);
 
     private MaintenanceDTO convertToDTO(Maintenance maintenance) {
         return new MaintenanceDTO(
@@ -54,28 +57,50 @@ public class MaintenanceService {
         }
     }
 
+    //Reporte de mantenimiento con pausas incluidas
     public List<MaintenanceReportDTO> getReport(){
-        //Tendria que filtrar o no pausas con query param
-        //Llamo al servicio scooter y trip
-        //Asi genero el reporte monopatin x km,tiempo uso y tiempo de uso
-        return null;
+        List<Scooter> scooters = scooterFeignClient.getAllScooter();
+        List<Pause> pausesByScooterInTrip = tripFeignClient.getAllTripPause();
+        List<MaintenanceReportDTO> reportDTO = List.of();
+        for (Scooter scooter: scooters){
+            for (Pause pauses: pausesByScooterInTrip){
+                if(scooter.getId_scooter() == pauses.getId_scooter()){
+                    reportDTO.add(new MaintenanceReportDTO(scooter.getKm_traveled(), scooter.getUsage_time(),
+                            scooter.getId_scooter(), pauses.getHours(), pauses.getMinutes()));
+                }
+            }
+        }
+        return reportDTO;
     }
 
-    public MaintenanceDTO save(Maintenance maintenance) throws Exception {
+
+    public List<MaintenanceDTO> checkMaintenance() throws Exception {
+        List<Scooter> scooters = scooterFeignClient.getAllScooter();
+        List<MaintenanceDTO> maintenances = List.of();
+        for (Scooter scooter :scooters){
+            if(scooter.getKm_traveled() > KM_MAX && scooter.getUsage_time() > TIME_MAX){
+                //Guardo el scooter para el mantenimiento
+                Maintenance maintenance = new Maintenance(false, scooter.getId_scooter());
+                //Lo mando a mantenmiento
+                this.save(maintenance);
+                //Lo saco de servicio al monopatin
+                this.scooterFeignClient.disableScooterMaintenance(scooter.getId_scooter());
+                maintenances.add(new MaintenanceDTO(maintenance.getId_maintenance(),maintenance.getId_skateboard(), maintenance.isRepair()));
+            }
+        }
+        return maintenances;
+    }
+
+    //Agrego los
+    public void save(Maintenance maintenance) throws Exception {
         try {
-            long skateBoard = maintenance.getId_skateboard();
-            //Aca tendria que buscar si existe el monopatin relacionando con el servicio
-            //Ademas tendria que preguntar si el KM_MAX > km(que viene del monopatin) y el tiempo lo mismo
-            if(skateBoard != 0) { //En este if llamo al metodo
-                Maintenance main = maintenanceReposity.save(maintenance);
-                //Si el monopatin fue reparado lo borro
-                //if(main.isRepair()){ maintenanceReposity.deleteById(main.getId_maintenance());}
-                return new MaintenanceDTO(main.getId_maintenance(),main.getId_skateboard(), main.isRepair());
+            Maintenance main = maintenanceReposity.save(maintenance);
+            if(main.isRepair()){
+                maintenanceReposity.deleteById(main.getId_maintenance());
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
     }
 
     public MaintenanceDTO delete(long id) throws Exception{
