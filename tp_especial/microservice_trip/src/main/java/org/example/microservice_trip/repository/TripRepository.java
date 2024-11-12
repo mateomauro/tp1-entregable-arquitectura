@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
-    @Query("SELECT t.id_scooter FROM Trip t WHERE t.id_account = :id_user")
+    @Query("SELECT t.id_scooter FROM Trip t WHERE t.id_account = :id_user AND t.end_date IS NULL ")
     Long findIdScooter(@Param("id_user") Long id_user);
 
     //modify a trip

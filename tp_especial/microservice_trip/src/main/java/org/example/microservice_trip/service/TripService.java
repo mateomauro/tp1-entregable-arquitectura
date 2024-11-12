@@ -69,13 +69,16 @@ public class TripService{
 
     //START A TRIP
     // TENDRÍA Q DEVOLVER TRIP DTO
-    public Trip save(long id_account, long id_scooter) throws Exception {
+    public TripDto save(long id_account, long id_scooter) throws Exception {
         try {
+            //traigo el scooter para saber donde incia el viaje
             ScooterDto scooterDto = scooterFeignClient.getScooterById(id_scooter);
+            //traigo la parada donde el scooter comienza el viaje
             ParkingDto parkingDto = parkingFeignClient.getParkingByLatitudeAndLongitude(scooterDto.getLatitude(),scooterDto.getLongitude());
-            // Sets end_date to null and start_date to the current date
+            // la fecha del viaje la setiamos en null y la parada destino en -1
             Trip nuevoTrip = new Trip(id_scooter,id_account,null, new Date(),0,parkingDto.getId_parking(), -1);
-            return tripRepository.save(nuevoTrip);
+            tripRepository.save(nuevoTrip);
+            return new TripDto(nuevoTrip.getId_account(), nuevoTrip.getStart_date(),nuevoTrip.getId_scooter(),nuevoTrip.getEnd_date(), nuevoTrip.getKm_traveled());
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -85,23 +88,36 @@ public class TripService{
     @Transactional
     public TripDto endTrip(long id_user) throws Exception{
         try {
+            //traemos el scooter que esta usando
             Long id_scooter = tripRepository.findIdScooter(id_user);
+            System.out.println("scooter es :" + id_scooter);
+            //traemos el scooter para saber en que latitud y longitud esta
             ScooterDto scooterDto = scooterFeignClient.getScooterById(id_scooter);
+            //traemos la parada en la que el scooter esta
             ParkingDto parkingDtoEnd = parkingFeignClient.getParkingByLatitudeAndLongitude(scooterDto.getLatitude(),scooterDto.getLongitude());
-            System.out.println(parkingDtoEnd);
+
+            //si el scooter esta en una parada "scooterCan = true"
             boolean scooterCan = parkingDtoEnd != null;
 
+            System.out.println(scooterCan);
+            //si es false , hay una exception
             if (!scooterCan){
                 throw new Exception("error");
             }
 
+            //traemos el viaje completo
             Trip trip = tripRepository.getByUserAndByScooter(id_user,id_scooter);
+            System.out.println("viaje: " + trip);
+            //traemos el parking donde comenzo el scooter
             ParkingDto parkingDtoStart = parkingFeignClient.getParkingById(trip.getId_start_parking());
+            System.out.println("parking inicio: " + parkingDtoStart);
+            //calculamos la distancia que hizo el scooter
             double kmTraveled = this.calculateDistance(parkingDtoStart.getLatitud(),parkingDtoStart.getLongitud(),parkingDtoEnd.getLatitud(),parkingDtoEnd.getLongitud());
-
+            System.out.println("distancia: " + kmTraveled);
             Date rigthNow = new Date();
+            //finalizamos el trip con la fecha actual y los km realizados
             tripRepository.endTrip(trip.getId_trip(), rigthNow, parkingDtoEnd.getId_parking(), kmTraveled);
-
+            System.out.println("finalizo el viaje");
             trip = tripRepository.findById(trip.getId_trip());
             trip.setEnd_date(rigthNow);
             trip.setId_end_parking(parkingDtoEnd.getId_parking());

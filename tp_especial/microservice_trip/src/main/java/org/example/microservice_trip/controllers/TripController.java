@@ -118,7 +118,7 @@ public class TripController {
 
 
     //GET ALL PAUSE BY ID TRIP
-    @GetMapping("/pauseByIdTrip/{id_trip}")
+    @GetMapping("/pauseByIdTrip/trip/{id_trip}")
     public ResponseEntity<?> getAllPauseByIdTrip(@PathVariable long id_trip){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(tripService.getAllPauseByIdTrip(id_trip));

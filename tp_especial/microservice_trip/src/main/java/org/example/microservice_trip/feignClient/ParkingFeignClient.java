@@ -16,6 +16,6 @@ public interface ParkingFeignClient {
     @GetMapping("/api/parkings/parkingByLatitudeAndLongitude/{latitude}/{longitude}")
     ParkingDto getParkingByLatitudeAndLongitude(@PathVariable double latitude, @PathVariable double longitude);
 
-    @GetMapping("/api/parkings/ParkingById/{id_parking}")
+    @GetMapping("/api/parkings/parkingById/{id_parking}")
     ParkingDto getParkingById(@PathVariable long id_parking);
 }
