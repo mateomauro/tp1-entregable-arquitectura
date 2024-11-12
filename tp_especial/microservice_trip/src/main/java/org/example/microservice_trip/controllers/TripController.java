@@ -18,6 +18,7 @@ import java.sql.Time;
 @RequestMapping("/api/trips")
 public class TripController {
 
+    @Autowired
     private TripService tripService;
 
     //get all trips
@@ -63,40 +64,42 @@ public class TripController {
     }
 
     //START A TRIP
-    @PostMapping("/startTrip/{id_account}/{id_scooter}")
-    public ResponseEntity<?> save(@PathVariable long id_account, @PathVariable long id_scooter){
+    // startTrip/user/{id_user}/scooter/{id_scooter}
+    @PostMapping("/startTrip/user/{id_user}/scooter/{id_scooter}")
+    public ResponseEntity<?> save(@PathVariable long id_user, @PathVariable long id_scooter){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(tripService.save(id_account,id_scooter));
+            return ResponseEntity.status(HttpStatus.OK).body(tripService.save(id_user,id_scooter));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo ingresar, revise los campos e intente nuevamente.\"}");
         }
     }
 
     //END A TRIP
-    @PutMapping("/endTrip/{id_account}/{id_scooter}")
-    public ResponseEntity<?> endTrip(@PathVariable long id_account, @PathVariable long id_scooter){
+    // /api/trips/endTrip/user/{id_user}
+    @PutMapping("/endTrip/user/{id_user}")
+    public ResponseEntity<?> endTrip(@PathVariable long id_user){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(tripService.endTrip(id_account, id_scooter));
+            return ResponseEntity.status(HttpStatus.OK).body(tripService.endTrip(id_user));
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo editar, revise los campos e intente nuevamente.\"}");
         }
     }
 
     //PAUSE A TRIP
-    @PostMapping("/pauseTrip/{id_account}/{id_scooter}")
-    public ResponseEntity<?> pauseTrip(@PathVariable long id_account, @PathVariable long id_scooter){
+    @PostMapping("/pauseTrip/user/{id_user}")
+    public ResponseEntity<?> pauseTrip(@PathVariable long id_user){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(tripService.pauseTrip(id_account,id_scooter));
+            return ResponseEntity.status(HttpStatus.OK).body(tripService.pauseTrip(id_user));
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo ingresar, revise los campos e intente nuevamente.\"}");
         }
     }
 
     //UNPAUSE A TRIP
-    @PutMapping("/unpauseTrip/{id_account}/{id_scooter}")
-    public ResponseEntity<?> unpauseTrip(@PathVariable long id_account, @PathVariable long id_scooter) {
+    @PutMapping("/unpauseTrip/user/{id_user}")
+    public ResponseEntity<?> unpauseTrip(@PathVariable long id_user) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(tripService.unpauseTrip(id_account,id_scooter));
+            return ResponseEntity.status(HttpStatus.OK).body(tripService.unpauseTrip(id_user));
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo despausar.\"}");
 

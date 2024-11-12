@@ -15,7 +15,8 @@ import java.util.List;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
-
+    @Query("SELECT t.id_scooter FROM Trip t WHERE t.id_account = :id_user")
+    Long findIdScooter(@Param("id_user") Long id_user);
 
     //modify a trip
     @Modifying
@@ -31,7 +32,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     //bring the trip by id_account and id_scooter and end_date == null
     @Query("SELECT t FROM Trip t WHERE t.id_account = :id_account AND t.id_scooter = :id_scooter AND t.end_date IS NULL")
-    Trip getByAccountAndByScooter(@Param("id_account") long id_account, @Param("id_scooter") long id_scooter);
+    Trip getByUserAndByScooter(@Param("id_account") long id_account, @Param("id_scooter") long id_scooter);
 
     //find by id
     @Query("SELECT t FROM Trip t WHERE t.id_trip = :id_trip")

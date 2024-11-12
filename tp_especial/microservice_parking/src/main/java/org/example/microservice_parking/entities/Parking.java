@@ -12,12 +12,12 @@ public class Parking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_parking;
-    private double latitud;
-    private double longitud;
+    private double latitude;
+    private double longitude;
 
-    public Parking (double latitud, double longitud){
-        this.latitud = latitud;
-        this.longitud = longitud;
+    public Parking (double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Parking() {

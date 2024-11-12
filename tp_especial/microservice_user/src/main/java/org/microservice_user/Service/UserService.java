@@ -170,6 +170,10 @@ public class UserService {
         User user = userRepository.findById(id_user).get();
         return tripFeignClient.pauseTrip(user.getId_user());
     }
+    public TripDTO unpauseTrip(Long id_user) throws Exception {
+        User user = userRepository.findById(id_user).get();
+        return tripFeignClient.unpauseTrip(user.getId_user());
+    }
 
     public List<ScooterDTO> getScooterNearby(Long id_user, Double radius){
         User user = userRepository.findById(id_user).get();

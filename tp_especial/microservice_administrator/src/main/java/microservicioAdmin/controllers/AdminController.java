@@ -2,6 +2,7 @@ package microservicioAdmin.controllers;
 
 import lombok.RequiredArgsConstructor;
 import microservicioAdmin.dto.RateDTO;
+import microservicioAdmin.entities.Billing;
 import microservicioAdmin.entities.Rate;
 import microservicioAdmin.feignClients.model.ParkingDTO;
 import microservicioAdmin.feignClients.model.ScooterDTO;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admins")
 public class AdminController {
 
     @Autowired
@@ -34,7 +35,7 @@ public class AdminController {
     }
 
     //Editar el precio de una tarifa
-    @PutMapping("/update/{idRate}")
+    @PutMapping("/updateRate/{idRate}")
     public ResponseEntity<?> updateRate(@PathVariable Long idRate, @RequestBody Rate rateNew) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.updateRate(idRate, rateNew));
@@ -44,7 +45,7 @@ public class AdminController {
     }
 
     //Eliminar tarifa
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteRate/{id}")
     public ResponseEntity<?> deleteRate(@PathVariable Long id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteRate(id));
@@ -63,20 +64,62 @@ public class AdminController {
         }
     }
 
+// BILLING
+
+    //Guardar una tarifa
+    @PostMapping("/insertBilling")
+    public ResponseEntity<?> saveBilling(@RequestBody Billing billing) { //el add agrego en rate entidad no?
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.saveBilling(billing));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo ingresar, revise los campos e intente nuevamente.\"}");
+        }
+    }
+
+    /*//Editar el precio de una tarifa
+    @PutMapping("/updateBilling/{id_billing}")
+    public ResponseEntity<?> updateBilling(@PathVariable Long id_billing, @RequestBody Billing billing) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.updateBilling(id_billing, billing));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde para editar el precio de la tarifa.\"}");
+        }
+    }
+
+    //Eliminar tarifa
+    @DeleteMapping("/deleteBilling/{id_billing}")
+    public ResponseEntity<?> deleteBilling(@PathVariable Long id_billing) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteBilling(id_billing));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
+        }
+    }
+
+    //Obtener todas las tarifas
+    @GetMapping("/billings")
+    public ResponseEntity<?> getAllBilling() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.findAllBilling());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos las tarifas.\"}");
+        }
+    }*/
+
 //MONOPATIN:
-/*
+
     //insertar un monopatin
-    @PostMapping("")
+    @PostMapping("/insertScooter")
     public ResponseEntity<ScooterDTO> insertScooter(@RequestBody ScooterDTO scooterNew) throws Exception {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.insertScooter(scooterNew));
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-    }*/
+    }
 
     //editar scooter
-    @PutMapping("/update/{idScooter}")
+    @PutMapping("/updateScooter/{idScooter}")
     public ResponseEntity<?> updateScooter(@PathVariable Long idScooter, @RequestBody ScooterDTO scooterDTO) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.updateScooter(idScooter, scooterDTO));
@@ -88,7 +131,7 @@ public class AdminController {
 
 
     //eliminar scooter con el id que se pasa por parametro
-    @DeleteMapping("/delete/{idScooter}")
+    @DeleteMapping("/deleteScooter/{idScooter}")
     public ResponseEntity<?> deleteScooter(@PathVariable Long idScooter) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteScooter(idScooter));
@@ -130,12 +173,12 @@ public class AdminController {
     }
 
     //eliminar la parada con el id que se pasa por parametro
-    @GetMapping("/delete/{parkingId}")
-    public ResponseEntity<?> deleteParking(@PathVariable Long parkingId) {
+    @GetMapping("/delete/{idParking}")
+    public ResponseEntity<?> deleteParking(@PathVariable Long idParking) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteParking(parkingId));
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteParking(idParking));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde para eliminar la parada con id " + parkingId + ".\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde para eliminar la parada con id " + idParking + ".\"}");
         }
     }
 
@@ -149,17 +192,26 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/parkingById/{id}")
+    public ResponseEntity<?> getParkingById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.findParkingById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos los estacionamientos.\"}");
+        }
+    }
+
 //OTROS METODOS:
 
     //precio de tarifa
-    /*@GetMapping("/calculateCost/{idViaje}")
+    @GetMapping("/calculateCost/{idViaje}")
     public ResponseEntity<?> calculateRateOfTrip(@PathVariable Long idViaje) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.calculateRateOfTrip(idViaje));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente mas tarde para calcular el costo del viaje.\"}");
         }
-    }*/
+    }
 
     //anular cuenta
     @PutMapping("/accounts/{idAccount}/{annul}")
@@ -177,7 +229,7 @@ public class AdminController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.getBilledAmount(year, monthOne, monthTwo));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se pudieron traer la facuracion con ese en ese rango de meses.\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se pudieron traer la factquracion con ese en ese rango de meses.\"}");
         }
     }
 

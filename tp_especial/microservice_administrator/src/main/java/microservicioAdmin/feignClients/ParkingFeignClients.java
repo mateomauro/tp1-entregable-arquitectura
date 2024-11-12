@@ -13,16 +13,16 @@ public interface ParkingFeignClients {
     @PostMapping("/api/parkings")
     ParkingDTO insertParking(@RequestBody ParkingDTO parkingDTO);
 
-    @PutMapping("/api/parkings/update/{id_parking}")
+    @PutMapping("/api/parkings/{id_parking}")
     ParkingDTO updateParking(@PathVariable Long id_parking , @RequestBody ParkingDTO parkingDTO);
 
-    @DeleteMapping("/api/parkings/delete/{id_parking}")
+    @DeleteMapping("/api/parkings/{id_parking}")
     ParkingDTO deleteParking(@PathVariable long id_parking);
 
     @GetMapping("/api/parkings")
     List<ParkingDTO> getAllParkings();
 
-    @GetMapping("/api/parkings/parking/{id}")
-    ParkingDTO getById(Long idParking);
+    @GetMapping("/api/parkings/parkingById/{id}")
+    ParkingDTO getById(@PathVariable Long id);
 
 }

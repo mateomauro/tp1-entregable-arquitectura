@@ -1,4 +1,4 @@
-package org.example.microservice_trip.dtos;
+package org.example.microservice_trip.feignClient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +10,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScooterDto implements Serializable {
-
     private long id_scooter;
     private Double latitude;
-    private Double length;
+    private Double longitude;
     private String QR_Code;
     private boolean available;
     private boolean in_maintenance;
@@ -24,7 +23,7 @@ public class ScooterDto implements Serializable {
     public String toString() {
         return "Scooter{" +
                 "latitude=" + latitude +
-                ", length=" + length +
+                ", length=" + longitude +
                 ", QR_Code='" + QR_Code + '\'' +
                 ", available=" + available +
                 ", usage_time=" + usage_time +

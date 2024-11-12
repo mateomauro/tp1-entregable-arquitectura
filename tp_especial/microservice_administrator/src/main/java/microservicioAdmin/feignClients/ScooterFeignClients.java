@@ -14,7 +14,7 @@ public interface ScooterFeignClients {
     @PostMapping("/api/scooters")
     ScooterDTO insertScooter(@RequestBody ScooterDTO scooterDTO);
 
-    @PutMapping("/api/scooters/update/{idScooter}")
+    @PutMapping("/api/scooters/{idScooter}")
     ScooterDTO updateScooter(@PathVariable long idScooter, @RequestBody ScooterDTO scooterDTO);
 
     @GetMapping("/api/scooters/actives")

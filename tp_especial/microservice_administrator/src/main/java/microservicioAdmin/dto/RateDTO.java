@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import microservicioAdmin.entities.Rate;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -15,4 +16,5 @@ public class RateDTO {
     private Long idRate;
     private Double price;
     private Double priceForPause;
+    private LocalDate date;
 }

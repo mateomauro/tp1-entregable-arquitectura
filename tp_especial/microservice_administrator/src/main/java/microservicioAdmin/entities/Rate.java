@@ -6,7 +6,6 @@ import lombok.*;
 import java.time.LocalDate;
 @Entity
 @Data
-@NoArgsConstructor
 @ToString
 @AllArgsConstructor
 public class Rate {
@@ -18,6 +17,11 @@ public class Rate {
     @Column
     private Double priceForPause;
     @Column
-    private LocalDate date; //ver otro nombre q quede mejor q solo fecha
+    private LocalDate date;
 
+    public Rate(){
+        this.price = 1500.0;
+        this.priceForPause = 3000.0;
+        this.date = LocalDate.now();
+    }
 }

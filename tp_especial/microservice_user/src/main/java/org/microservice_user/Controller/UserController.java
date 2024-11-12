@@ -84,9 +84,9 @@ public class UserController {
         }
     }
 
-    /*
+
     // Comenzar Viaje ( Activar Monopatin ) - Se necesita el ID del User.
-    @PostMapping("/startTrip/user/{id_user}")
+    @GetMapping("/startTrip/user/{id_user}")
     public ResponseEntity<?> startTrip(@PathVariable Long id_user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.startTrip(id_user));
@@ -96,7 +96,7 @@ public class UserController {
     }
 
     // Finalizar Viaje ( Desactivar Monopatin ) - Se necesita el ID del User.
-    @PostMapping("/endTrip/user/{id_user}")
+    @GetMapping("/endTrip/user/{id_user}")
     public ResponseEntity<?> endTrip(@PathVariable Long id_user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.endTrip(id_user));
@@ -106,14 +106,23 @@ public class UserController {
     }
 
     // Pausar Viaje ( Pausar Monopatín ) - Se necesita el ID del User.
-    @PostMapping("/pauseTrip/user/{id_user}")
+    @GetMapping("/pauseTrip/user/{id_user}")
     public ResponseEntity<?> pauseTrip(@PathVariable Long id_user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.pauseTrip(id_user));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo vincular la cuenta con el usuario, intente nuevamente más tarde.\"}");
         }
-    }*/
+    }
+    // Despausar Viaje ( Despausar Monopatín ) - Se necesita el ID del User.
+    @GetMapping("/unpauseTrip/user/{id_user}")
+    public ResponseEntity<?> unpauseTrip(@PathVariable Long id_user){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.unpauseTrip(id_user));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo vincular la cuenta con el usuario, intente nuevamente más tarde.\"}");
+        }
+    }
 
     // Obtener Monopatines Cercanos - Se necesita el ID del User y el radius a buscar.
     @GetMapping("/scootersNearby/user/{id_user}/radius/{radius}")

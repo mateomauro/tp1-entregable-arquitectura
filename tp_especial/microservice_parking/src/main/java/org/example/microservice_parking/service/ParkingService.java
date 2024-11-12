@@ -23,7 +23,7 @@ public class ParkingService {
             List<Parking> parkings = this.parkingRepository.findAll();
             List<ParkingDto> parkingDtos = new ArrayList<>();
             for(Parking  parking:parkings){
-                parkingDtos.add(new ParkingDto(parking.getId_parking(),parking.getLatitud(), parking.getLongitud()));
+                parkingDtos.add(new ParkingDto(parking.getId_parking(),parking.getLatitude(), parking.getLongitude()));
             }
             return parkingDtos;
         }catch (Exception e){
@@ -34,8 +34,9 @@ public class ParkingService {
     //REGISTER A PARKING
     public ParkingDto save(ParkingDto parkingDto) throws Exception {
         try{
-            Parking parking = new Parking(parkingDto.getLatitud(), parkingDto.getLongitud());
+            Parking parking = new Parking(parkingDto.getLatitude(), parkingDto.getLongitude());
             parkingRepository.save(parking);
+            parkingDto.setId_parking(parking.getId_parking());
             return parkingDto;
         }catch (Exception e){
             throw new Exception(e.getMessage());
@@ -46,7 +47,7 @@ public class ParkingService {
     @Transactional
     public ParkingDto update(long id_parking, ParkingDto parking) throws Exception {
         try {
-            parkingRepository.update(id_parking,parking.getLatitud(), parking.getLongitud());
+            parkingRepository.update(id_parking,parking.getLatitude(), parking.getLongitude());
             return null;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -64,10 +65,10 @@ public class ParkingService {
     }
 
     //GET PARKING BY LATITUD AND LONGITUD
-    public ParkingDto getParkingByLatitudAndLongitud(double latitud, double longitud) throws Exception {
+    public ParkingDto getParkingByLatitudeAndLongitude(double latitude, double longitude) throws Exception {
         try {
-            Parking parking = parkingRepository.getParkingByLatitudAndLongitud(latitud,longitud);
-            return new ParkingDto(parking.getId_parking(),parking.getLatitud(),parking.getLongitud());
+            Parking parking = parkingRepository.getParkingByLatitudeAndLongitude(latitude, longitude);
+            return new ParkingDto(parking.getId_parking(),parking.getLatitude(),parking.getLongitude());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -77,7 +78,7 @@ public class ParkingService {
     public ParkingDto getParkingById(Long id_parking) throws Exception {
         try {
             Optional<Parking> parking = parkingRepository.findById(id_parking);
-            return new ParkingDto(parking.get().getId_parking(), parking.get().getLatitud(), parking.get().getLongitud());
+            return new ParkingDto(parking.get().getId_parking(), parking.get().getLatitude(), parking.get().getLongitude());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

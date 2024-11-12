@@ -11,7 +11,7 @@ import java.util.List;
 @FeignClient(name = "micro-trip", url="http://localhost:8085")
 public  interface TripFeignClients {
 
-    @GetMapping("/api/trips/{id_trip}")
+    @GetMapping("/api/trips/tripsById/{id_trip}")
     TripDTO getTripById(@PathVariable long id_trip);
 
     //lista de monopatines por x cantidad de viajes y año dado

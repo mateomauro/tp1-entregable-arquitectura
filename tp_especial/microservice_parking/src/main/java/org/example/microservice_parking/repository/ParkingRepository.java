@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
     @Modifying
-    @Query("UPDATE Parking SET latitud = :latitud, longitud = :longitud WHERE id_parking = :id_parking")
-    void update(@Param("id_parking") long id_parking,@Param("latitud") double latitud, @Param("longitud") double longitud);
+    @Query("UPDATE Parking p SET p.latitude = :latitude, p.longitude = :longitude WHERE p.id_parking = :id_parking")
+    void update(@Param("id_parking") long id_parking, @Param("latitude") double latitud, @Param("longitude") double longitude);
 
-    @Query("SELECT p FROM Parking p WHERE p.latitud = :latitud AND p.longitud = :longitud")
-    Parking getParkingByLatitudAndLongitud(@Param("latitud") double latitud, @Param("longitud") double longitud);
+    @Query("SELECT p FROM Parking p WHERE p.latitude = :latitude AND p.longitude = :longitude")
+    Parking getParkingByLatitudeAndLongitude(@Param("latitude") double latitude, @Param("longitude") double longitude);
 }

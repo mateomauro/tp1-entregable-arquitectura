@@ -2,30 +2,31 @@ package org.example.microservice_trip.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.example.microservice_trip.dtos.*;
 import org.example.microservice_trip.entities.Pause;
 import org.example.microservice_trip.entities.Trip;
 import org.example.microservice_trip.feignClient.ParkingFeignClient;
 import org.example.microservice_trip.feignClient.ScooterFeignClient;
+import org.example.microservice_trip.feignClient.model.ScooterDto;
 import org.example.microservice_trip.repository.PauseRepository;
 import org.example.microservice_trip.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 
-import java.sql.Time;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.Temporal;
 import java.util.*;
 
 @Service
 public class TripService{
+    @Autowired
     private TripRepository tripRepository;
+    @Autowired
     private PauseRepository pauseRepository;
+    @Autowired
     private ScooterFeignClient scooterFeignClient;
+    @Autowired
     private ParkingFeignClient parkingFeignClient;
 
 
@@ -67,31 +68,34 @@ public class TripService{
     }
 
     //START A TRIP
+    // TENDRÍA Q DEVOLVER TRIP DTO
     public Trip save(long id_account, long id_scooter) throws Exception {
-        try{
+        try {
             ScooterDto scooterDto = scooterFeignClient.getScooterById(id_scooter);
-            ParkingDto parkingDto = parkingFeignClient.getParkingByLatitudAndLongitud(scooterDto.getLatitude(),scooterDto.getLength());
+            ParkingDto parkingDto = parkingFeignClient.getParkingByLatitudeAndLongitude(scooterDto.getLatitude(),scooterDto.getLongitude());
             // Sets end_date to null and start_date to the current date
             Trip nuevoTrip = new Trip(id_scooter,id_account,null, new Date(),0,parkingDto.getId_parking(), -1);
             return tripRepository.save(nuevoTrip);
-        }catch (Exception e){
+        } catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
 
     //END A TRIP
     @Transactional
-    public Trip endTrip(long id_account, long id_scooter) throws Exception{
+    public TripDto endTrip(long id_user) throws Exception{
         try {
+            Long id_scooter = tripRepository.findIdScooter(id_user);
             ScooterDto scooterDto = scooterFeignClient.getScooterById(id_scooter);
-            ParkingDto parkingDtoEnd = parkingFeignClient.getParkingByLatitudAndLongitud(scooterDto.getLatitude(),scooterDto.getLength());
+            ParkingDto parkingDtoEnd = parkingFeignClient.getParkingByLatitudeAndLongitude(scooterDto.getLatitude(),scooterDto.getLongitude());
+            System.out.println(parkingDtoEnd);
             boolean scooterCan = parkingDtoEnd != null;
 
             if (!scooterCan){
                 throw new Exception("error");
             }
 
-            Trip trip = tripRepository.getByAccountAndByScooter(id_account,id_scooter);
+            Trip trip = tripRepository.getByUserAndByScooter(id_user,id_scooter);
             ParkingDto parkingDtoStart = parkingFeignClient.getParkingById(trip.getId_start_parking());
             double kmTraveled = this.calculateDistance(parkingDtoStart.getLatitud(),parkingDtoStart.getLongitud(),parkingDtoEnd.getLatitud(),parkingDtoEnd.getLongitud());
 
@@ -102,16 +106,17 @@ public class TripService{
             trip.setEnd_date(rigthNow);
             trip.setId_end_parking(parkingDtoEnd.getId_parking());
             trip.setKm_traveled(kmTraveled);
-            return trip;
+            return new TripDto(id_user, trip.getStart_date(), scooterDto.getId_scooter(), trip.getEnd_date(), trip.getKm_traveled());
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
 
     // PAUSE A TRIP
-    public Pause pauseTrip(long id_account, long id_scooter) throws Exception {
+    public Pause pauseTrip(long id_user) throws Exception {
         try {
-            Trip trip = tripRepository.getByAccountAndByScooter(id_account,id_scooter);
+            Long id_scooter = tripRepository.findIdScooter(id_user);
+            Trip trip = tripRepository.getByUserAndByScooter(id_user, id_scooter);
             return pauseRepository.save(new Pause(new Date(), null, trip));
         } catch (Exception e) {
             throw new Exception("Error while pausing trip: " + e.getMessage());
@@ -120,9 +125,10 @@ public class TripService{
 
     // UNPAUSE A TRIP
     @Transactional
-    public Pause unpauseTrip(long id_account, long id_scooter) throws Exception {
+    public Pause unpauseTrip(long id_user) throws Exception {
         try {
-            Trip trip = tripRepository.getByAccountAndByScooter(id_account, id_scooter);
+            Long id_scooter = tripRepository.findIdScooter(id_user);
+            Trip trip = tripRepository.getByUserAndByScooter(id_user, id_scooter);
             if (trip == null) {
                 throw new EntityNotFoundException("No se encontró el viaje con esos parámetros.");
             }

@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class ParkingDto {
     private long id_parking;
-    private double latitud;
-    private double longitud;
+    private double latitude;
+    private double longitude;
 
-    public ParkingDto(long id_parking,double latitud, double longitud){
-        this.latitud = latitud;
-        this.longitud = longitud;
+    public ParkingDto(long id_parking, double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.id_parking = id_parking;
     }
 }

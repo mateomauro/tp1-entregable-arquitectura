@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/microservice_trip/microservice_trip.iml" filepath="$PROJECT_DIR$/microservice_trip/microservice_trip.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/tp_especial.iml" filepath="$PROJECT_DIR$/.idea/tp_especial.iml" />
     </modules>
   </component>

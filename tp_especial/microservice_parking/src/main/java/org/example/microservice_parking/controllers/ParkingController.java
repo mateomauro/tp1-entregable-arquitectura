@@ -59,17 +59,17 @@ public class ParkingController {
     }
 
     //GET PARKING BY LATITUD AND LONGITUD
-    @GetMapping("/ParkingByLatitudAndLongitud/{latitud}/{longitud}")
-    public ResponseEntity<?> getParkingByLatitudAndLongitud(@PathVariable double latitud, @PathVariable double longitud){
+    @GetMapping("/parkingByLatitudeAndLongitude/{latitude}/{longitude}")
+    public ResponseEntity<?> getParkingByLatitudeAndLongitude(@PathVariable double latitude, @PathVariable double longitude){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingByLatitudAndLongitud(latitud, longitud));
+            return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingByLatitudeAndLongitude(latitude, longitude));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
         }
     }
 
     //GET PARKING BY ID
-    @GetMapping("/ParkingById/{id_parking}")
+    @GetMapping("/parkingById/{id_parking}")
     public ResponseEntity<?> getParkingById(@PathVariable long id_parking){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingById(id_parking));

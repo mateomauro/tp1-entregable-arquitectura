@@ -1,15 +1,20 @@
 package microservicioAdmin.services;
 
 import jakarta.transaction.Transactional;
+import microservicioAdmin.dto.BillingDTO;
 import microservicioAdmin.dto.RateDTO;
 import microservicioAdmin.dto.ReportCountScootersDTO;
+import microservicioAdmin.entities.Billing;
 import microservicioAdmin.entities.Rate;
 import microservicioAdmin.feignClients.*;
 import microservicioAdmin.feignClients.model.*;
-import microservicioAdmin.repository.AdminRepository;
+import microservicioAdmin.repository.BillingRepository;
+import microservicioAdmin.repository.RateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +24,9 @@ import java.util.Optional;
 public class AdminService {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private RateRepository rateRepository;
+    @Autowired
+    private BillingRepository billingRepository;
     @Autowired
     private TripFeignClients tripFeignClients;
     @Autowired
@@ -40,8 +47,8 @@ public class AdminService {
     public RateDTO saveRate(RateDTO rateNew) throws Exception {
         Rate rate = mapToRate(rateNew);
         try {
-            adminRepository.save(rate);
-            return new RateDTO();
+            rateRepository.save(rate);
+            return new RateDTO(rate.getIdRate(), rate.getPrice(), rate.getPriceForPause(), rate.getDate());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -58,9 +65,9 @@ public class AdminService {
     @Transactional //en caso de errores se revierten los datos
     public RateDTO updateRate(Long idRate, Rate rateNew) throws Exception {
         try {
-            if (adminRepository.existsById(idRate)) {
-                Rate r = this.adminRepository.save(rateNew);
-                return new RateDTO(idRate, rateNew.getPrice(), rateNew.getPriceForPause());
+            if (rateRepository.existsById(idRate)) {
+                Rate r = this.rateRepository.save(rateNew);
+                return new RateDTO(idRate, r.getPrice(), r.getPriceForPause(), r.getDate());
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -71,12 +78,12 @@ public class AdminService {
     //Eliminar una tarifa
     @Transactional
     public RateDTO deleteRate(Long id) throws Exception {
-        Optional<Rate> rateDTO = adminRepository.findById(id);
+        Optional<Rate> rateDTO = rateRepository.findById(id);
         try {
             if (rateDTO.isPresent()) { // isPresent ve si el optional trajo algo
                 Rate r = rateDTO.get();
                 RateDTO rDTO = new RateDTO();
-                adminRepository.delete(r);
+                rateRepository.delete(r);
                 return rDTO;
             }
         } catch (Exception e) {
@@ -89,7 +96,7 @@ public class AdminService {
     @Transactional
     public List<RateDTO> findAll() throws Exception {
         try {
-            List<Rate> rates = adminRepository.findAll();
+            List<Rate> rates = rateRepository.findAll();
             List<RateDTO> ratesNew = new ArrayList<>();
             for (Rate r : rates) {
                 RateDTO rateDTO = new RateDTO();
@@ -101,6 +108,20 @@ public class AdminService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+// BILLING:
+    @Transactional
+    public BillingDTO saveBilling(Billing billing) throws Exception {
+        try {
+            if (billingRepository.existsById(billing.getId_billing())) {
+                Billing billingNew = this.billingRepository.save(billing);
+                return new BillingDTO(billingNew.getId_billing(), billingNew.getDate(), billingNew.getTotalTrip());
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
     }
 
 //MONOPATIN:
@@ -134,10 +155,8 @@ public class AdminService {
 
     // traerme todos los monopatines
     public List<ScooterDTO> findAllScooter() throws Exception {
-        List<ScooterDTO> scooterDTOs = new ArrayList<>();
         try {
-            scooterDTOs = scooterFeignClients.findAllScooters();
-            return scooterDTOs;
+            return scooterFeignClients.findAllScooters();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -158,9 +177,8 @@ public class AdminService {
     @Transactional
     public ParkingDTO updateParking(Long idParking, ParkingDTO parkingDTO) throws Exception {
         try {
-                parkingFeignClients.updateParking(idParking, parkingDTO);
-
-                return parkingFeignClients.getById(idParking);
+            parkingFeignClients.updateParking(idParking, parkingDTO);
+            return parkingFeignClients.getById(idParking);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -178,10 +196,17 @@ public class AdminService {
 
     // traerme todos las paradas
     public List<ParkingDTO> findAllParking() throws Exception {
-        List<ParkingDTO> parkingDTOs = new ArrayList<>();
         try {
-            parkingDTOs = parkingFeignClients.getAllParkings();
-            return parkingDTOs;
+            return parkingFeignClients.getAllParkings();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    // traerme todos las paradas
+    public ParkingDTO findParkingById(Long id) throws Exception {
+        try {
+            return parkingFeignClients.getById(id);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -192,15 +217,23 @@ public class AdminService {
     //Calcular el costo total del viaje
     public RateDTO calculateRateOfTrip(Long idTrip) throws Exception {
         try {
-            if (tripFeignClients.getTripById(idTrip) != null) {
-                Rate rateNew = new Rate();
-                double kmTrip = tripFeignClients.getTripById(idTrip).getKm_traveled();
-                List<PauseDTO> pauseDTOs = pauseFeignClients.getAllPauseByIdTrip(idTrip) ;
-                if (pauseDTOs.isEmpty()) {
-                    rateNew.setPrice(rateNew.getPrice() * kmTrip);
-                } else {
-                    rateNew.setPriceForPause(rateNew.getPriceForPause() * kmTrip);
+            TripDTO tripDTO = tripFeignClients.getTripById(idTrip);
+            if (tripDTO != null) {
+                Rate rateNew = this.rateRepository.getLastRate();
+                int kmTrip = tripDTO.getKm_traveled();
+                List<PauseDTO> pauseDTOs = pauseFeignClients.getAllPauseByIdTrip(idTrip);
+                int timePause = 0;
+                for (PauseDTO pauseDTO : pauseDTOs) {
+                    Instant startInstant = pauseDTO.getStart_date().toInstant();
+                    Instant endInstant = pauseDTO.getEnd_date().toInstant();
+                    timePause += Duration.between(startInstant, endInstant).toMinutesPart();
                 }
+                double price = rateNew.getPrice() * kmTrip;
+                rateNew.setPrice(price);
+                if (timePause > 15)
+                    rateNew.setPrice(price + ((timePause / 15) * rateNew.getPriceForPause()));
+                this.billingRepository.save(new Billing(LocalDate.now(), rateNew.getPrice()));
+                return new RateDTO(rateNew.getIdRate(), rateNew.getPrice(), rateNew.getPriceForPause(), rateNew.getDate());
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -220,10 +253,9 @@ public class AdminService {
     //Facturacion en rango de meses de cierto año
     public double getBilledAmount(int year, int monthOne, int monthTwo) throws Exception {
         try {
-            return adminRepository.getBilledAmount(year, monthOne, monthTwo);
+            return billingRepository.getBilledAmount(year, monthOne, monthTwo);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
-
         }
     }
 
@@ -232,8 +264,8 @@ public class AdminService {
     public RateDTO updateRateForDate(LocalDate date, Rate rateNew) throws Exception {
         try {
             if (!date.isBefore(LocalDate.now())) {
-                adminRepository.save(rateNew);
-                return new RateDTO(rateNew.getIdRate(), rateNew.getPrice(), rateNew.getPriceForPause());
+                rateRepository.save(rateNew);
+                return new RateDTO(rateNew.getIdRate(), rateNew.getPrice(), rateNew.getPriceForPause(), rateNew.getDate());
             }
         } catch (Exception e) {
             throw new Exception("Error al actualizar la tarifa: " + e.getMessage());
