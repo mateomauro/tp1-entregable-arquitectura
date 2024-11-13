@@ -18,27 +18,27 @@ public class ParkingService {
     @Autowired
     private final ParkingRepository parkingRepository;
 
-    public List<ParkingDto> findAll() throws Exception{
-        try{
+    public List<ParkingDto> findAll() throws Exception {
+        try {
             List<Parking> parkings = this.parkingRepository.findAll();
             List<ParkingDto> parkingDtos = new ArrayList<>();
-            for(Parking  parking:parkings){
-                parkingDtos.add(new ParkingDto(parking.getId_parking(),parking.getLatitude(), parking.getLongitude()));
+            for (Parking parking : parkings) {
+                parkingDtos.add(new ParkingDto(parking.getId_parking(), parking.getLatitude(), parking.getLongitude()));
             }
             return parkingDtos;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
     //REGISTER A PARKING
     public ParkingDto save(ParkingDto parkingDto) throws Exception {
-        try{
+        try {
             Parking parking = new Parking(parkingDto.getLatitude(), parkingDto.getLongitude());
             parkingRepository.save(parking);
             parkingDto.setId_parking(parking.getId_parking());
             return parkingDto;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -47,7 +47,7 @@ public class ParkingService {
     @Transactional
     public ParkingDto update(long id_parking, ParkingDto parking) throws Exception {
         try {
-            parkingRepository.update(id_parking,parking.getLatitude(), parking.getLongitude());
+            parkingRepository.update(id_parking, parking.getLatitude(), parking.getLongitude());
             return null;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -56,9 +56,11 @@ public class ParkingService {
 
 
     // DELETE A PARKING
-    public void delete(long id_parking) throws Exception {
+    public ParkingDto delete(long id_parking) throws Exception {
         try {
+            Parking parking = parkingRepository.findById(id_parking).get();
             this.parkingRepository.deleteById(id_parking);
+            return new ParkingDto(parking.getId_parking(), parking.getLatitude(), parking.getLongitude());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -68,7 +70,7 @@ public class ParkingService {
     public ParkingDto getParkingByLatitudeAndLongitude(double latitude, double longitude) throws Exception {
         try {
             Parking parking = parkingRepository.getParkingByLatitudeAndLongitude(latitude, longitude);
-            return new ParkingDto(parking.getId_parking(),parking.getLatitude(),parking.getLongitude());
+            return new ParkingDto(parking.getId_parking(), parking.getLatitude(), parking.getLongitude());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

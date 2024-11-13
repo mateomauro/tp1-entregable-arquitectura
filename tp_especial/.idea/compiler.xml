@@ -11,6 +11,7 @@
         <module name="microservice_skateboard" />
         <module name="microservice_scooter" />
         <module name="microservice_trip" />
+        <module name="microService_administrator" />
         <module name="microservice_administrator" />
         <module name="microservice_parking" />
         <module name="microservice_maintenance" />
@@ -19,6 +20,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="microService_administrator" options="-parameters -parameters" />
       <module name="microservice_administrator" options="-parameters -parameters" />
       <module name="microservice_maintenance" options="-parameters" />
       <module name="microservice_parking" options="-parameters" />

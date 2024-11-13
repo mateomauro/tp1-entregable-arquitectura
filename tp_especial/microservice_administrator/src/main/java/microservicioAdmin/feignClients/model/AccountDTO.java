@@ -15,4 +15,5 @@ public class AccountDTO {
     private Long id_account;
     private LocalDate dateHigh;
     private Double balance;
+    private Boolean annulled;
 }

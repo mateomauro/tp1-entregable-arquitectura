@@ -14,5 +14,4 @@ public class Pause implements Serializable {
     private long id_scooter;
     private int hours;
     private int minutes;
-
 }

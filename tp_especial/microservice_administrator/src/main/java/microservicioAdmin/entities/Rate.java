@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 public class Rate {
     @Id
@@ -19,9 +20,10 @@ public class Rate {
     @Column
     private LocalDate date;
 
-    public Rate(){
-        this.price = 1500.0;
-        this.priceForPause = 3000.0;
+    public Rate(Double price, Double priceForPause){
+        this.price = price;
+        this.priceForPause = priceForPause;
         this.date = LocalDate.now();
     }
+
 }

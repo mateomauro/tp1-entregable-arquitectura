@@ -14,10 +14,16 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE Account a SET a.dateHigh = :dateHigh, a.balance = :balance WHERE a.id_account = :id_account")
-    void updateAccount(@Param("id_account") Long id, @Param("dateHigh") LocalDate dateHigh, @Param("balance") Double balance);
+    Account updateAccount(@Param("id_account") Long id, @Param("dateHigh") LocalDate dateHigh, @Param("balance") Double balance);
 
     @Modifying
     @Transactional
     @Query("UPDATE Account a SET a.annulled = :annulled WHERE a.id_account = :id_account")
     void updateAnnulledAccount(@Param("id_account") Long id, @Param("annulled") Boolean annulled);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Account a SET a.balance = :balance WHERE a.id_account = :id_account")
+    Account updateBalance(@Param("id_account") Long id, @Param("balance") Double balance);
+
 }

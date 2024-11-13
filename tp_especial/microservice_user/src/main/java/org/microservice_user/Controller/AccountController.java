@@ -65,21 +65,21 @@ public class AccountController {
     }
 
     // Cargar Saldo en cuenta - Se necesita el ID de la Account a cargar y el monto ( balance ).
-    @PostMapping("/loadBalance/account/{id_account}/load/{balance}")
-    public ResponseEntity<?> loadBalance(@PathVariable Long id_account, @PathVariable double balance){
+    @PutMapping("/loadBalance/account/{id_account}")
+    public ResponseEntity<?> loadBalance(@PathVariable Long id_account, @RequestBody AccountRequestDTO accountRequestDTO) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.loadBalance(id_account, balance));
-        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.OK).body(accountService.loadBalance(id_account, accountRequestDTO));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo agregar el saldo a la cuenta, intente nuevamente más tarde.\"}");
         }
     }
 
     // Descontar Saldo en cuenta - Se necesita el ID de la Account a descontar y el monto ( discount ).
-    @PostMapping("/discountBalance/account/{id_account}/discount/{discount}")
-    public ResponseEntity<?> discountBalance(@PathVariable Long id_account, @PathVariable Long discount){
+    @PutMapping("/discountBalance/account/{id_account}")
+    public ResponseEntity<?> discountBalance(@PathVariable Long id_account, @RequestBody AccountRequestDTO accountRequestDTO) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.discountBalance(id_account, discount));
-        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.OK).body(accountService.discountBalance(id_account, accountRequestDTO));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error al intentar descontar el saldo de la cuenta, por favor intente nuevamente.\"}");
         }
     }

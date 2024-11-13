@@ -11,9 +11,8 @@ import java.util.List;
 public interface ScooterFeignClient {
 
     @GetMapping("/api/scooters")
-    public List<Scooter> getAllScooter();
+    List<Scooter> getAllScooter();
 
     @GetMapping("/api/scooters/{id}/toMaintenance")
-    public Scooter disableScooterMaintenance(@PathVariable long id);
-
+    Scooter disableScooterMaintenance(@PathVariable long id);
 }

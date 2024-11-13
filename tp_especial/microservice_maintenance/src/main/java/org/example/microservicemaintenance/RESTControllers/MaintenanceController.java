@@ -2,6 +2,7 @@ package org.example.microservicemaintenance.RESTControllers;
 
 import org.example.microservicemaintenance.Services.MaintenanceService;
 import org.example.microservicemaintenance.Entities.Maintenance;
+import org.example.microservicemaintenance.exception.MaintenanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,8 +55,11 @@ public class MaintenanceController {
     public ResponseEntity<?> repairSkateBoard(){
         try{
             return ResponseEntity.status(HttpStatus.CREATED).body(maintenanceService.checkMaintenance());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: No se pudo ingresar, revise los campos e intente nuevamente.");
+        } catch (MaintenanceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado: " + e.getMessage());
         }
     }
 
@@ -76,5 +80,4 @@ public class MaintenanceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: no se pude modificar, revise de nuevo los campos");
         }
     }
-
 }

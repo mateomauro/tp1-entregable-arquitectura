@@ -56,10 +56,10 @@ public class UserService {
     // CRUD - CREATE - POST
     public UserResponseDTO addUser(UserRequestDTO userRequestDTO) throws Exception {
         User user = mapToUser(userRequestDTO);
-        try{
+        try {
             userRepository.save(user);
             return new UserResponseDTO(user.getId_user(), user.getName(), user.getLastName(), user.getEmail(), user.getPhone_number(), user.getRole(), user.getLatitude(), user.getLongitude(), user.getAccounts());
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -71,8 +71,6 @@ public class UserService {
         try {
             if (userRepository.existsById(id)) {
                 userRepository.updateUser(id, user.getName(), user.getLastName(), user.getEmail(), user.getPhone_number(), user.getRole(), user.getLatitude(), user.getLongitude());
-                //user.setId_user(id);
-                //userRepository.save(user);
                 return new UserResponseDTO(id, user.getName(), user.getLastName(), user.getEmail(), user.getPhone_number(), user.getRole(), user.getLatitude(), user.getLongitude(), user.getAccounts());
             }
         } catch (Exception e) {
@@ -143,12 +141,14 @@ public class UserService {
         user.setLongitude(userResponseDTO.getLongitude());
         return user;
     }
+
     private Account mapToAccount(AccountRequestDTO accountDTO) throws Exception {
         Account account = new Account();
         account.setDateHigh(accountDTO.getDateHigh());
         account.setBalance(accountDTO.getBalance());
         return account;
     }
+
     // TODO // REVISAR EXCEPTIONS, TRY { } CATCH { } ->>>>
     public TripDTO startTrip(Long id_user) throws Exception {
         User user = userRepository.findById(id_user).get();
@@ -170,12 +170,13 @@ public class UserService {
         User user = userRepository.findById(id_user).get();
         return tripFeignClient.pauseTrip(user.getId_user());
     }
+
     public TripDTO unpauseTrip(Long id_user) throws Exception {
         User user = userRepository.findById(id_user).get();
         return tripFeignClient.unpauseTrip(user.getId_user());
     }
 
-    public List<ScooterDTO> getScooterNearby(Long id_user, Double radius){
+    public List<ScooterDTO> getScooterNearby(Long id_user, Double radius) {
         User user = userRepository.findById(id_user).get();
         return scooterFeignClient.getScooterNearby(user.getLatitude(), user.getLongitude(), radius);
     }

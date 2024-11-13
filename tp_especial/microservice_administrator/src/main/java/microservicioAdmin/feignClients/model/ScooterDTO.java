@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class ScooterDTO implements Serializable {
     private long id_scooter;
     private Double latitude;
-    private Double length;
+    private Double longitude;
     private String QR_Code;
     private boolean available;
     private boolean in_maintenance;
@@ -24,7 +24,7 @@ public class ScooterDTO implements Serializable {
     public String toString() {
         return "Scooter{" +
                 "latitude=" + latitude +
-                ", length=" + length +
+                ", length=" + longitude +
                 ", QR_Code='" + QR_Code + '\'' +
                 ", available=" + available +
                 ", usage_time=" + usage_time +

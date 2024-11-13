@@ -19,9 +19,8 @@ public interface PauseRepository extends JpaRepository<Pause, Long> {
     @Query("UPDATE Pause p SET p.end_date = :end_date WHERE p.trip.id_trip = :id_trip AND p.end_date IS NULL")
     void unpauseTrip(@Param("id_trip") long id_trip, @Param("end_date") Date end_date);
 
-
     @Query("SELECT new Pause(p.id_pause, p.start_date, p.end_date, p.trip) FROM Pause p WHERE p.end_date = :end_date AND p.trip.id_trip = :id_trip")
-    Pause getByDateAndByidTrip(@Param("id_trip") long id_trip,@Param("end_date") Date end_date);
+    Pause getByDateAndByidTrip(@Param("id_trip") long id_trip, @Param("end_date") Date end_date);
 
     @Query("SELECT p FROM Pause p WHERE p.trip.id_trip = :id_trip AND p.end_date IS NULL")
     List<Pause> findByTripIdAndEndDateNull(@Param("id_trip") long id_trip);

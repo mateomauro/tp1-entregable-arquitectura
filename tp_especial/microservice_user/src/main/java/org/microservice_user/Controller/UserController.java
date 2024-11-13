@@ -84,9 +84,8 @@ public class UserController {
         }
     }
 
-
     // Comenzar Viaje ( Activar Monopatin ) - Se necesita el ID del User.
-    @GetMapping("/startTrip/user/{id_user}")
+    @PostMapping("/startTrip/user/{id_user}")
     public ResponseEntity<?> startTrip(@PathVariable Long id_user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.startTrip(id_user));
@@ -96,7 +95,7 @@ public class UserController {
     }
 
     // Finalizar Viaje ( Desactivar Monopatin ) - Se necesita el ID del User.
-    @GetMapping("/endTrip/user/{id_user}")
+    @PostMapping("/endTrip/user/{id_user}")
     public ResponseEntity<?> endTrip(@PathVariable Long id_user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.endTrip(id_user));
@@ -106,7 +105,7 @@ public class UserController {
     }
 
     // Pausar Viaje ( Pausar Monopatín ) - Se necesita el ID del User.
-    @GetMapping("/pauseTrip/user/{id_user}")
+    @PostMapping("/pauseTrip/user/{id_user}")
     public ResponseEntity<?> pauseTrip(@PathVariable Long id_user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.pauseTrip(id_user));
@@ -115,7 +114,7 @@ public class UserController {
         }
     }
     // Despausar Viaje ( Despausar Monopatín ) - Se necesita el ID del User.
-    @GetMapping("/unpauseTrip/user/{id_user}")
+    @PostMapping("/unpauseTrip/user/{id_user}")
     public ResponseEntity<?> unpauseTrip(@PathVariable Long id_user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.unpauseTrip(id_user));
@@ -133,7 +132,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo vincular la cuenta con el usuario, intente nuevamente más tarde.\"}");
         }
     }
-
-
-
 }

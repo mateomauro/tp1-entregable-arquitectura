@@ -47,8 +47,8 @@ public class AdminService {
     public RateDTO saveRate(RateDTO rateNew) throws Exception {
         Rate rate = mapToRate(rateNew);
         try {
-            rateRepository.save(rate);
-            return new RateDTO(rate.getIdRate(), rate.getPrice(), rate.getPriceForPause(), rate.getDate());
+            this.rateRepository.save(rate);
+            return mapToRateDTO(rate);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -58,6 +58,7 @@ public class AdminService {
         Rate rate = new Rate();
         rate.setPrice(rateDTO.getPrice());
         rate.setPriceForPause(rateDTO.getPriceForPause());
+        rate.setDate(rateDTO.getDate());
         return rate;
     }
 
@@ -66,8 +67,8 @@ public class AdminService {
     public RateDTO updateRate(Long idRate, Rate rateNew) throws Exception {
         try {
             if (rateRepository.existsById(idRate)) {
-                Rate r = this.rateRepository.save(rateNew);
-                return new RateDTO(idRate, r.getPrice(), r.getPriceForPause(), r.getDate());
+                this.rateRepository.updateRate(idRate, rateNew.getPrice(), rateNew.getPriceForPause(), rateNew.getDate());
+                return new RateDTO(idRate, rateNew.getPrice(), rateNew.getPriceForPause(), rateNew.getDate());
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -78,18 +79,20 @@ public class AdminService {
     //Eliminar una tarifa
     @Transactional
     public RateDTO deleteRate(Long id) throws Exception {
-        Optional<Rate> rateDTO = rateRepository.findById(id);
         try {
-            if (rateDTO.isPresent()) { // isPresent ve si el optional trajo algo
-                Rate r = rateDTO.get();
-                RateDTO rDTO = new RateDTO();
-                rateRepository.delete(r);
-                return rDTO;
+            Rate rateDelete = rateRepository.findById(id).orElse(null);
+            if (rateRepository.existsById(id)) {
+                rateRepository.deleteById(id);
+                if( rateDelete != null)
+                    return this.mapToRateDTO(rateDelete);
             }
-        } catch (Exception e) {
+        }catch(Exception e){
             throw new Exception(e.getMessage());
         }
         return null;
+    }
+    private RateDTO mapToRateDTO(Rate rate) {
+        return new RateDTO(rate.getIdRate(), rate.getPrice(), rate.getPriceForPause(), rate.getDate());
     }
 
     //Devolver todas las tarifas
@@ -99,9 +102,7 @@ public class AdminService {
             List<Rate> rates = rateRepository.findAll();
             List<RateDTO> ratesNew = new ArrayList<>();
             for (Rate r : rates) {
-                RateDTO rateDTO = new RateDTO();
-                rateDTO.setPrice(r.getPrice());
-                rateDTO.setPriceForPause(r.getPriceForPause());
+                RateDTO rateDTO = new RateDTO(r.getIdRate(), r.getPrice(), r.getPriceForPause(), r.getDate());
                 ratesNew.add(rateDTO);
             }
             return ratesNew;
@@ -114,8 +115,8 @@ public class AdminService {
     @Transactional
     public BillingDTO saveBilling(Billing billing) throws Exception {
         try {
-            if (billingRepository.existsById(billing.getId_billing())) {
-                Billing billingNew = this.billingRepository.save(billing);
+            if (billing.getId_billing() == null || !billingRepository.existsById(billing.getId_billing())) {
+                Billing billingNew = billingRepository.save(billing);
                 return new BillingDTO(billingNew.getId_billing(), billingNew.getDate(), billingNew.getTotalTrip());
             }
         } catch (Exception e) {
@@ -187,11 +188,11 @@ public class AdminService {
     //Eliminar un parada con el id pasado por parametro
     public ParkingDTO deleteParking(Long idParking) throws Exception {
         try {
-            parkingFeignClients.deleteParking(idParking);
+            return parkingFeignClients.deleteParking(idParking);
+
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
     }
 
     // traerme todos las paradas
@@ -215,7 +216,7 @@ public class AdminService {
 //OTROS METODOS:
 
     //Calcular el costo total del viaje
-    public RateDTO calculateRateOfTrip(Long idTrip) throws Exception {
+    public BillingDTO calculateRateOfTrip(Long idTrip) throws Exception {
         try {
             TripDTO tripDTO = tripFeignClients.getTripById(idTrip);
             if (tripDTO != null) {
@@ -232,8 +233,9 @@ public class AdminService {
                 rateNew.setPrice(price);
                 if (timePause > 15)
                     rateNew.setPrice(price + ((timePause / 15) * rateNew.getPriceForPause()));
-                this.billingRepository.save(new Billing(LocalDate.now(), rateNew.getPrice()));
-                return new RateDTO(rateNew.getIdRate(), rateNew.getPrice(), rateNew.getPriceForPause(), rateNew.getDate());
+                Billing billing = new Billing(LocalDate.now(), rateNew.getPrice());
+                this.billingRepository.save(billing);
+                return new BillingDTO(billing.getId_billing() ,LocalDate.now(), rateNew.getPrice());
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -251,7 +253,7 @@ public class AdminService {
     }
 
     //Facturacion en rango de meses de cierto año
-    public double getBilledAmount(int year, int monthOne, int monthTwo) throws Exception {
+    public Double getBilledAmount(int year, int monthOne, int monthTwo) throws Exception {
         try {
             return billingRepository.getBilledAmount(year, monthOne, monthTwo);
         } catch (Exception e) {
@@ -261,9 +263,10 @@ public class AdminService {
 
     //ajuste de precios a partir de cierta fecha
     @Transactional
-    public RateDTO updateRateForDate(LocalDate date, Rate rateNew) throws Exception {
+    public RateDTO updateRateForDate(Rate rateNew) throws Exception {
         try {
-            if (!date.isBefore(LocalDate.now())) {
+            if (LocalDate.now().isEqual(rateNew.getDate()) || LocalDate.now().isAfter(rateNew.getDate())) {
+                rateNew.setIdRate(rateRepository.getLastRate().getIdRate());
                 rateRepository.save(rateNew);
                 return new RateDTO(rateNew.getIdRate(), rateNew.getPrice(), rateNew.getPriceForPause(), rateNew.getDate());
             }

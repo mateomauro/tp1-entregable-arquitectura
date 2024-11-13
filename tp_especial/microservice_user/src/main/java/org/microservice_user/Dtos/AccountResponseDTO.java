@@ -29,12 +29,6 @@ public class AccountResponseDTO {
 
     private List<User> users;
 
-    public AccountResponseDTO(LocalDate dateHigh, Double balance, Boolean annulled) {
-        this.dateHigh = dateHigh;
-        this.balance = balance;
-        this.annulled = annulled;
-        this.users = new ArrayList<>();
-    }
     public AccountResponseDTO(Long id_account, LocalDate dateHigh, Double balance, Boolean annulled) {
         this.id_account = id_account;
         this.dateHigh = dateHigh;

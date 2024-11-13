@@ -12,7 +12,7 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
     @Modifying
     @Query("UPDATE Parking p SET p.latitude = :latitude, p.longitude = :longitude WHERE p.id_parking = :id_parking")
-    void update(@Param("id_parking") long id_parking, @Param("latitude") double latitud, @Param("longitude") double longitude);
+    void update(@Param("id_parking") long id_parking, @Param("latitude") double latitude, @Param("longitude") double longitude);
 
     @Query("SELECT p FROM Parking p WHERE p.latitude = :latitude AND p.longitude = :longitude")
     Parking getParkingByLatitudeAndLongitude(@Param("latitude") double latitude, @Param("longitude") double longitude);

@@ -53,8 +53,7 @@ public class AccountService {
     public AccountResponseDTO updateAccount(Long id, AccountRequestDTO accountRequestDTO) throws Exception {
         try {
             if (accountRepository.existsById(id)) {
-                accountRepository.updateAccount(id, accountRequestDTO.getDateHigh(), accountRequestDTO.getBalance());
-                Account account = accountRepository.findById(id).get();
+                Account account = accountRepository.updateAccount(id, accountRequestDTO.getDateHigh(), accountRequestDTO.getBalance());
                 return new AccountResponseDTO(id, account.getDateHigh(), account.getBalance(), account.getAnnulled());
             }
         } catch (Exception e) {
@@ -78,13 +77,11 @@ public class AccountService {
     }
 
     // Cargar saldo en cuenta
-    public AccountResponseDTO loadBalance(Long accountId, double balance) throws Exception {
-        Account account = accountRepository.findById(accountId).orElse(null);
+    public AccountResponseDTO loadBalance(Long accountId, AccountRequestDTO accountRequestDTO) throws Exception {
         try {
-            if (account != null) {
-                account.setBalance(account.getBalance() + balance);
-                accountRepository.save(account);
-                return new AccountResponseDTO(account.getId_account(), account.getDateHigh(), account.getBalance(), account.getAnnulled());
+            if (accountRepository.existsById(accountId)) {
+                Account accountModify = accountRepository.updateBalance(accountId, accountRequestDTO.getBalance());
+                return new AccountResponseDTO(accountModify.getId_account(), accountModify.getDateHigh(), accountModify.getBalance(), accountModify.getAnnulled());
             }
         } catch (Exception e) {
             throw new Exception("User or Account not found");
@@ -93,13 +90,12 @@ public class AccountService {
     }
 
     // Descontar saldo en cuenta
-    public AccountResponseDTO discountBalance(Long accountId, double discount) throws Exception {
+    public AccountResponseDTO discountBalance(Long accountId, AccountRequestDTO accountRequestDTO) throws Exception {
         Account account = accountRepository.findById(accountId).orElse(null);
         try {
-            if (account != null && account.getBalance() >= discount) {
-                account.setBalance(account.getBalance() - discount);
-                accountRepository.save(account);
-                return new AccountResponseDTO(account.getId_account(), account.getDateHigh(), account.getBalance(), account.getAnnulled());
+            if (account != null && account.getBalance() >= accountRequestDTO.getBalance()) {
+                Account accountModify = accountRepository.updateBalance(accountId, accountRequestDTO.getBalance());
+                return new AccountResponseDTO(accountModify.getId_account(), accountModify.getDateHigh(), accountModify.getBalance(), accountModify.getAnnulled());
             }
         } catch (Exception e) {
             throw new Exception("Account not found");

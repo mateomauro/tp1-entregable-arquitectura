@@ -5,10 +5,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @FeignClient(name = "micro-user", url = "http://localhost:8081")
-public interface AccountFeignClients{
+public interface AccountFeignClients {
 
     @PutMapping("/api/accounts/annulledAccount/{id_account}/{annulled}")
     AccountDTO annulledAccount(@PathVariable Long id_account, @PathVariable Boolean annulled);

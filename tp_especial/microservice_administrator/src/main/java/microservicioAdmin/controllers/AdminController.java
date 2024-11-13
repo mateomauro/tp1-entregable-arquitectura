@@ -68,43 +68,13 @@ public class AdminController {
 
     //Guardar una tarifa
     @PostMapping("/insertBilling")
-    public ResponseEntity<?> saveBilling(@RequestBody Billing billing) { //el add agrego en rate entidad no?
+    public ResponseEntity<?> saveBilling(@RequestBody Billing billing) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.saveBilling(billing));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo ingresar, revise los campos e intente nuevamente.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo ingresar la facturacion, revise los campos e intente nuevamente.\"}");
         }
     }
-
-    /*//Editar el precio de una tarifa
-    @PutMapping("/updateBilling/{id_billing}")
-    public ResponseEntity<?> updateBilling(@PathVariable Long id_billing, @RequestBody Billing billing) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.updateBilling(id_billing, billing));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde para editar el precio de la tarifa.\"}");
-        }
-    }
-
-    //Eliminar tarifa
-    @DeleteMapping("/deleteBilling/{id_billing}")
-    public ResponseEntity<?> deleteBilling(@PathVariable Long id_billing) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteBilling(id_billing));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, revise los campos e intente nuevamente.");
-        }
-    }
-
-    //Obtener todas las tarifas
-    @GetMapping("/billings")
-    public ResponseEntity<?> getAllBilling() {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.findAllBilling());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obteniendo todos las tarifas.\"}");
-        }
-    }*/
 
 //MONOPATIN:
 
@@ -127,7 +97,6 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde para editar los monopatines.\"}");
         }
     }
-
 
 
     //eliminar scooter con el id que se pasa por parametro
@@ -163,7 +132,7 @@ public class AdminController {
     }
 
     //editar una parada
-    @GetMapping("/update/{idParking}")
+    @PutMapping("/updateParking/{idParking}")
     public ResponseEntity<?> updateParking(@PathVariable Long idParking, @RequestBody ParkingDTO parkingNew) throws Exception {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.updateParking(idParking, parkingNew));
@@ -173,7 +142,7 @@ public class AdminController {
     }
 
     //eliminar la parada con el id que se pasa por parametro
-    @GetMapping("/delete/{idParking}")
+    @DeleteMapping("/deleteParking/{idParking}")
     public ResponseEntity<?> deleteParking(@PathVariable Long idParking) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.deleteParking(idParking));
@@ -192,6 +161,7 @@ public class AdminController {
         }
     }
 
+    // estacionamiento por id
     @GetMapping("/parkingById/{id}")
     public ResponseEntity<?> getParkingById(@PathVariable Long id) {
         try {
@@ -215,7 +185,7 @@ public class AdminController {
 
     //anular cuenta
     @PutMapping("/accounts/{idAccount}/{annul}")
-    public ResponseEntity<?> annulledAccount(@PathVariable Long idAccount, @PathVariable boolean annul) {
+    public ResponseEntity<?> annulledAccount(@PathVariable Long idAccount, @PathVariable Boolean annul) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.annulledAccount(idAccount, annul));
         } catch (Exception e) {
@@ -234,27 +204,28 @@ public class AdminController {
     }
 
     //ajuste de precios a partir de cierta fecha
-    @PutMapping("/updateRate/{date}")
-    public ResponseEntity<?> updateRateForDate(@PathVariable LocalDate date, @RequestBody Rate rateNew) {
+    @PutMapping("/updateRate/byDate")
+    public ResponseEntity<?> updateRateForDate(@RequestBody Rate rateNew) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.updateRateForDate(date, rateNew));
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.updateRateForDate(rateNew));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se pudo realizar ese ajuste de precio\"}");
         }
     }
 
     // monopatines con más de X viajes en un cierto año.
-    /*@GetMapping("/scooters/{year}/{countTrip}")
+    @GetMapping("/scooters/{year}/{countTrip}")
     public ResponseEntity<?> fetchScootersByTripsInYear(@PathVariable int year, @PathVariable int countTrip) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.fetchScootersByTripsInYear(year, countTrip));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se encontraron monopatines con esa cantidad de viajes, en dicho año\"}");
         }
-    }*/
+    }
 
+    // cantidad de monopatines en operacion y en mantenimiento
     @GetMapping("/scooters/inOperation")
-    public ResponseEntity<?> countScootersInOperationAndMaintenance(){
+    public ResponseEntity<?> countScootersInOperationAndMaintenance() {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.countScootersInOperationAndMaintenance());
         } catch (Exception e) {

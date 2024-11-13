@@ -17,10 +17,10 @@ public class ParkingController {
 
     //FIND ALL PARKING
     @GetMapping("")
-    public ResponseEntity<?> findAll(){
-        try{
+    public ResponseEntity<?> findAll() {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.findAll());
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde obtener los estacionamiento.\"}");
         }
     }
@@ -28,10 +28,10 @@ public class ParkingController {
 
     //REGISTER A PARKING
     @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody ParkingDto entity){
-        try{
+    public ResponseEntity<?> save(@RequestBody ParkingDto entity) {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.save(entity));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo ingresar, revise los campos e intente nuevamente.\"}");
         }
     }
@@ -39,10 +39,10 @@ public class ParkingController {
 
     //MODIFY A PARKING
     @PutMapping("/{id_parking}")
-    public ResponseEntity<?> update(@PathVariable long id_parking, @RequestBody ParkingDto parking){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(parkingService.update(id_parking,parking));
-        }catch (Exception e){
+    public ResponseEntity<?> update(@PathVariable long id_parking, @RequestBody ParkingDto parking) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(parkingService.update(id_parking, parking));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo editar, revise los campos e intente nuevamente.\"}");
         }
     }
@@ -51,8 +51,7 @@ public class ParkingController {
     @DeleteMapping("/{id_parking}")
     public ResponseEntity<?> delete(@PathVariable long id_parking) {
         try {
-            parkingService.delete(id_parking);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.OK).body(parkingService.delete(id_parking));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo eliminar, intente nuevamente.\"}");
         }
@@ -60,20 +59,20 @@ public class ParkingController {
 
     //GET PARKING BY LATITUD AND LONGITUD
     @GetMapping("/parkingByLatitudeAndLongitude/{latitude}/{longitude}")
-    public ResponseEntity<?> getParkingByLatitudeAndLongitude(@PathVariable double latitude, @PathVariable double longitude){
-        try{
+    public ResponseEntity<?> getParkingByLatitudeAndLongitude(@PathVariable double latitude, @PathVariable double longitude) {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingByLatitudeAndLongitude(latitude, longitude));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
         }
     }
 
     //GET PARKING BY ID
     @GetMapping("/parkingById/{id_parking}")
-    public ResponseEntity<?> getParkingById(@PathVariable long id_parking){
-        try{
+    public ResponseEntity<?> getParkingById(@PathVariable long id_parking) {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingById(id_parking));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
         }
     }
