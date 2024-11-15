@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "9840043d-0637-4188-bd99-6fd571eb36af",
+		"name": "Microservice_User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38880631"
+	},
+	"item": [
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get scooters nearby",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users/scootersNearby/user/1/radius/1000",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"scootersNearby",
+						"user",
+						"1",
+						"radius",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"User\",\r\n    \"lastName\": \"New\",\r\n    \"email\": \"usernew@hotmail.com\",\r\n    \"phone_number\": \"2494000111\",\r\n    \"role\": \"client\",\r\n    \"latitude\": 0.0,\r\n    \"longitude\": 0.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/users",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add account to user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dateHigh\": \"2024-11-06\",\r\n    \"balance\": 100000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/users/createAccount/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"createAccount",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Link account to user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users/linkAccount/user/2/account/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"linkAccount",
+						"user",
+						"2",
+						"account",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start trip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users/startTrip/user/1/account/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"startTrip",
+						"user",
+						"1",
+						"account",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "End trip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users/endTrip/user/1/account/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"endTrip",
+						"user",
+						"1",
+						"account",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pause trip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users/pauseTrip/user/1/account/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"pauseTrip",
+						"user",
+						"1",
+						"account",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unpause trip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users/unpauseTrip/user/1/account/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"unpauseTrip",
+						"user",
+						"1",
+						"account",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"User\",\r\n    \"lastName\": \"New\",\r\n    \"email\": \"usernew@hotmail.com\",\r\n    \"phone_number\": \"2494000111\",\r\n    \"role\": \"client\",\r\n    \"latitude\": 1000.0,\r\n    \"longitude\": 2000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/users/update/8",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"update",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/users/delete/8",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"delete",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/accounts",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dateHigh\": \"2024-11-05\",\r\n    \"balance\": 50000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/accounts",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update accounts",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dateHigh\": \"2024-11-05\",\r\n    \"balance\": 70000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/accounts/update/2",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load balance in account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/accounts/loadBalance/account/1/balance/100000",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"loadBalance",
+						"account",
+						"1",
+						"balance",
+						"100000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discount balance in account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/accounts/discountBalance/account/2/balance/20000",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"discountBalance",
+						"account",
+						"2",
+						"balance",
+						"20000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Annulled account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/accounts/annulledAccount/2/true",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"annulledAccount",
+						"2",
+						"true"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/accounts/delete/2",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"delete",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

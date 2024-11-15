@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "87729c67-6e80-472a-8968-d44c46d7bf07",
+		"name": "Microservice_Trip",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38880631"
+	},
+	"item": [
+		{
+			"name": "start a trip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/trips/startTrip/user/1/scooter/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"trips",
+						"startTrip",
+						"user",
+						"1",
+						"scooter",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pause a trip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/trips/pauseTrip/user/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"trips",
+						"pauseTrip",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unpause a trip",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/trips/unpauseTrip/user/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"trips",
+						"unpauseTrip",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "end a trip",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/trips/endTrip/user/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"trips",
+						"endTrip",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all trips",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/trips",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"trips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all the pause by scooter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/trips/pauseByScooter",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"trips",
+						"pauseByScooter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all pauses by id trip",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/trips/pauseByIdTrip/trip/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"trips",
+						"pauseByIdTrip",
+						"trip",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

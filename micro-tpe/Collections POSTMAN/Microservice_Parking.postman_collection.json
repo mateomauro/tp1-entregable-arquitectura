@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "c92c9f14-6f45-4102-a285-cce1c0bed6fd",
+		"name": "Microservice_Parking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38880631"
+	},
+	"item": [
+		{
+			"name": "Get all parkings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/parkings",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"parkings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Parking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"latitude\": 1000,\r\n    \"longitude\": 1000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/parkings",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"parkings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Parking",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"latitude\": 100.0,\r\n    \"longitude\": 100.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/api/parkings/1",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"parkings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Parking",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/api/parkings/3",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"api",
+						"parkings",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
