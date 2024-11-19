@@ -24,7 +24,6 @@ public class User {
 
     @ManyToMany
     @JsonIgnore
-    //@JsonManagedReference me tiraba error con "content type application/json-charset UFT-8
     private List<Account> accounts;
 
     public User() {

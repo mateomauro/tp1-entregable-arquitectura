@@ -1,5 +1,6 @@
 package org.example.microservice_parking.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.example.microservice_parking.dtos.ParkingDto;
 import org.example.microservice_parking.service.ParkingService;
@@ -38,7 +39,7 @@ public class ParkingController {
 
 
     //MODIFY A PARKING
-    @PutMapping("/{id_parking}")
+    @PutMapping(value = "/{id_parking}")
     public ResponseEntity<?> update(@PathVariable Long id_parking, @RequestBody ParkingDto parking) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.update(id_parking, parking));
@@ -48,7 +49,7 @@ public class ParkingController {
     }
 
     //DELETE A PARKING
-    @DeleteMapping("/{id_parking}")
+    @DeleteMapping(value = "/{id_parking}")
     public ResponseEntity<?> delete(@PathVariable Long id_parking) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.delete(id_parking));
@@ -58,7 +59,7 @@ public class ParkingController {
     }
 
     //GET PARKING BY LATITUD AND LONGITUD
-    @GetMapping("/parkingByLatitudeAndLongitude/{latitude}/{longitude}")
+    @GetMapping(value = "/parkingByLatitudeAndLongitude/{latitude}/{longitude}")
     public ResponseEntity<?> getParkingByLatitudeAndLongitude(@PathVariable Double latitude, @PathVariable Double longitude) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingByLatitudeAndLongitude(latitude, longitude));

@@ -1,9 +1,10 @@
 package org.example.microservice_parking.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.microservice_parking.dtos.ParkingDto;
+import org.example.microservice_parking.entities.Counter;
 import org.example.microservice_parking.entities.Parking;
+import org.example.microservice_parking.repository.CounterRepository;
 import org.example.microservice_parking.repository.ParkingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,15 @@ public class ParkingService {
     @Autowired
     private final ParkingRepository parkingRepository;
 
+    @Autowired
+    private CounterRepository counterRepository;
+
     public List<ParkingDto> findAll() throws Exception {
         try {
             List<Parking> parkings = this.parkingRepository.findAll();
             List<ParkingDto> parkingDtos = new ArrayList<>();
             for (Parking parking : parkings) {
-                parkingDtos.add(new ParkingDto(parking.getId_parking(), parking.getLatitude(), parking.getLongitude()));
+                parkingDtos.add(new ParkingDto(parking.getId_parking(),parking.getLatitude(), parking.getLongitude()));
             }
             return parkingDtos;
         } catch (Exception e) {
@@ -34,8 +38,8 @@ public class ParkingService {
     //REGISTER A PARKING
     public ParkingDto save(ParkingDto parkingDto) throws Exception {
         try {
-            Parking parking = new Parking(parkingDto.getLatitude(), parkingDto.getLongitude());
-            parkingRepository.save(parking);
+            Parking parking = new Parking(this.getNextParkingId(), parkingDto.getLatitude(), parkingDto.getLongitude());
+            parking = parkingRepository.save(parking);
             parkingDto.setId_parking(parking.getId_parking());
             return parkingDto;
         } catch (Exception e) {
@@ -43,11 +47,16 @@ public class ParkingService {
         }
     }
 
+
     //MODIFY A PARKING
-    @Transactional
     public ParkingDto update(Long id_parking, ParkingDto parking) throws Exception {
         try {
-            parkingRepository.update(id_parking, parking.getLatitude(), parking.getLongitude());
+            Parking park = parkingRepository.findById(id_parking).orElse(null);
+            if(park != null) {
+                park.setLatitude(parking.getLatitude());
+                park.setLongitude(parking.getLongitude());
+                parkingRepository.save(park);
+            }
             return new ParkingDto(id_parking, parking.getLatitude(), parking.getLongitude());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -79,11 +88,24 @@ public class ParkingService {
     //GET PARKING BY ID
     public ParkingDto getParkingById(Long id_parking) throws Exception {
         try {
-            Optional<Parking> parking = parkingRepository.findById(id_parking);
-            return new ParkingDto(parking.get().getId_parking(), parking.get().getLatitude(), parking.get().getLongitude());
+            Parking parking = parkingRepository.findById(id_parking).get();
+            return new ParkingDto(parking.getId_parking(), parking.getLatitude(), parking.getLongitude());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
+
+    private Long getNextParkingId() {
+        Counter counter = counterRepository.findById("parkingId").orElse(new Counter("parkingId", 1L));
+        if (counter.getSeq() == null) {
+            counter.setSeq(1L);
+        } else {
+            counter.setSeq(counter.getSeq() + 1);
+        }
+        counterRepository.save(counter);
+
+        return counter.getSeq();
+    }
+
 
 }

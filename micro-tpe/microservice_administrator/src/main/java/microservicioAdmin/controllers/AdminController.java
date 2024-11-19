@@ -1,6 +1,7 @@
 package microservicioAdmin.controllers;
 
 import lombok.RequiredArgsConstructor;
+import microservicioAdmin.Security.AuthorityConstant;
 import microservicioAdmin.dto.RateDTO;
 import microservicioAdmin.entities.Billing;
 import microservicioAdmin.entities.Rate;
@@ -10,6 +11,7 @@ import microservicioAdmin.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;

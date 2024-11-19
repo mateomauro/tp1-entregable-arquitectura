@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: micro-admin
+  config:
+    import: optional:configserver:http://localhost:8081
+  main:
+    allow-bean-definition-overriding:
+      true
+
+#Database configuration
+
+#Hibernate Configuration
+#hibernate.dialect= org.hibernate.dialect.MySQL8Dialect
+#hibernate.hbm2ddl.auto=create-drop
+#hibernate.ejb.naming_strategy= org.hibernate.cfg.ImprovedNamingStrategy
+#hibernate.show_sql=true
+#hibernate.format_sql=true
+
+
+#server.port=8086

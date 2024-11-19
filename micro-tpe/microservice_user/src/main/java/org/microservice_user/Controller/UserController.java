@@ -129,7 +129,7 @@ public class UserController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.getScooterNearby(id_user, radius));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo vincular la cuenta con el usuario, intente nuevamente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. No se pudo obtener los monopatines cercanos al usuario, intente nuevamente más tarde.\"}");
         }
     }
 }
