@@ -3,18 +3,19 @@ package org.example.microservice_parking;
 import org.example.microservice_parking.dtos.ParkingDto;
 import org.example.microservice_parking.service.ParkingService;
 import org.junit.After;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 @SpringBootTest
-class MicroserviceParkingApplicationTests {
+public class MicroserviceParkingApplicationTests {
 
     @Autowired
     private ParkingService parkingService;
 
     private ParkingDto parkingDto;
+
 
     @Test
     public void test_update() throws Exception {
