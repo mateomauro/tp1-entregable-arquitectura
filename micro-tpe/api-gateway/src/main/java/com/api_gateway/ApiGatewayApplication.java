@@ -1,6 +1,6 @@
-package com.uncledavecode.api_gateway;
+package com.api_gateway;
 
-import com.uncledavecode.api_gateway.Utils.LoadDatabase;
+import com.api_gateway.Utils.LoadDatabase;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

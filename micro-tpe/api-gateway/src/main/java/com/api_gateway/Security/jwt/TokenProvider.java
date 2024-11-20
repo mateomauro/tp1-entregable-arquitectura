@@ -1,4 +1,4 @@
-package com.uncledavecode.api_gateway.Security.jwt;
+package com.api_gateway.Security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

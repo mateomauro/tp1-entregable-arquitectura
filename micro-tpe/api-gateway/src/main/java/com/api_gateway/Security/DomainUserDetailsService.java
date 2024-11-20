@@ -1,8 +1,8 @@
-package com.uncledavecode.api_gateway.Security;
+package com.api_gateway.Security;
 
-import com.uncledavecode.api_gateway.Entity.Authority;
-import com.uncledavecode.api_gateway.Entity.User;
-import com.uncledavecode.api_gateway.Repository.UserRepository;
+import com.api_gateway.Entity.Authority;
+import com.api_gateway.Entity.User;
+import com.api_gateway.Repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,9 +1,9 @@
-package com.uncledavecode.api_gateway.Service;
+package com.api_gateway.Service;
 
-import com.uncledavecode.api_gateway.DTO.UserDTO;
-import com.uncledavecode.api_gateway.Entity.User;
-import com.uncledavecode.api_gateway.Repository.AuthorityRepository;
-import com.uncledavecode.api_gateway.Repository.UserRepository;
+import com.api_gateway.DTO.UserDTO;
+import com.api_gateway.Entity.User;
+import com.api_gateway.Repository.AuthorityRepository;
+import com.api_gateway.Repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,7 +1,7 @@
-package com.uncledavecode.api_gateway.Utils;
+package com.api_gateway.Utils;
 
-import com.uncledavecode.api_gateway.Entity.Authority;
-import com.uncledavecode.api_gateway.Repository.AuthorityRepository;
+import com.api_gateway.Entity.Authority;
+import com.api_gateway.Repository.AuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

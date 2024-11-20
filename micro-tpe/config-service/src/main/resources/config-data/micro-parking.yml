@@ -3,10 +3,10 @@ server:
 spring:
   application:
     name: micro-parking
-  datasource:
-    #uri: mongodb://localhost:27017/microservice_parking
-    #username: root
-  uri: mongodb+srv://root:tpegrupo16@tpearqui:w56qg:mongodb:net/?retryWrites=true&w=majority&appName=TpeArqui
+  data:
+    mongodb:
+      database: microservice_parking
+      uri: mongodb://localhost:27017/
 eureka:
   client:
     fetch-registry: true

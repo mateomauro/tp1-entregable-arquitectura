@@ -1,4 +1,4 @@
-package com.uncledavecode.api_gateway.Security.jwt;
+package com.api_gateway.Security.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -10,6 +10,10 @@ import org.microservice_user.Entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    @Query("SELECT u FROM User u WHERE u.email = :email")
+    User findByEmail(@Param("email") String email);
+
     @Modifying
     @Transactional
     @Query("UPDATE User u SET u.name = :name, u.lastName = :lastName, u.email = :email, u.phone_number = :phoneNumber, u.role = :role, u.latitude = :latitude, u.longitude = :longitude WHERE u.id_user = :id_user")

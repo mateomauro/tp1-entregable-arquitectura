@@ -1,7 +1,7 @@
-package com.uncledavecode.api_gateway.Controller;
+package com.api_gateway.Controller;
 
-import com.uncledavecode.api_gateway.DTO.UserDTO;
-import com.uncledavecode.api_gateway.Service.UserService;
+import com.api_gateway.DTO.UserDTO;
+import com.api_gateway.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

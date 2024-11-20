@@ -54,6 +54,15 @@ public class UserService {
         }
     }
 
+    public UserResponseDTO findByEmail(String email) throws Exception {
+        try {
+            User user = userRepository.findByEmail(email);
+            return new UserResponseDTO(user.getId_user(), user.getName(), user.getLastName(), user.getEmail(), user.getPhone_number(), user.getRole(), user.getLatitude(), user.getLongitude());
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
     // CRUD - CREATE - POST
     public UserResponseDTO addUser(UserRequestDTO userRequestDTO) throws Exception {
         User user = mapToUser(userRequestDTO);

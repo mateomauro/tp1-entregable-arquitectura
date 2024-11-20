@@ -1,5 +1,8 @@
 package org.example.microservicemaintenance.RESTControllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.example.microservicemaintenance.Services.MaintenanceService;
 import org.example.microservicemaintenance.Entities.Maintenance;
 import org.example.microservicemaintenance.exception.MaintenanceNotFoundException;
@@ -15,6 +18,11 @@ public class MaintenanceController {
     @Autowired
     private MaintenanceService maintenanceService;
 
+    @Operation(summary = "Obtiene todos los mantenimientos", description = "Devuelve todos los registros de mantenimiento de los monopatines.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Mantenimientos obtenidos correctamente"),
+            @ApiResponse(responseCode = "400", description = "Error en la solicitud")
+    })
     @GetMapping("")
     public ResponseEntity<?> getAllMaintenance(){
         try {
@@ -24,6 +32,11 @@ public class MaintenanceController {
         }
     }
 
+    @Operation(summary = "Obtiene un mantenimiento por ID", description = "Devuelve el detalle de un mantenimiento específico por su ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Mantenimiento encontrado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Mantenimiento no encontrado")
+    })
     @GetMapping("/{id_maintenance}")
     public ResponseEntity<?> getOneMaintenance(@PathVariable long id_maintenance){
         try{
@@ -33,6 +46,11 @@ public class MaintenanceController {
         }
     }
 
+    @Operation(summary = "Genera un reporte de mantenimiento", description = "Genera un reporte de mantenimiento con opción de incluir pausas.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Reporte generado correctamente"),
+            @ApiResponse(responseCode = "400", description = "Error al generar el reporte")
+    })
     @GetMapping("/generateReport")
     public ResponseEntity<?> generateReportMaintenance(@RequestParam(value = "includePauses", required = false) String includePauses) {
         try {
@@ -44,6 +62,11 @@ public class MaintenanceController {
         }
     }
 
+    @Operation(summary = "Obtiene todos los scooters no reparados", description = "Devuelve todos los scooters que aún no han sido reparados.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Scooters no reparados obtenidos correctamente"),
+            @ApiResponse(responseCode = "400", description = "Error en la solicitud")
+    })
     @GetMapping("/scooterNotRepaired")
     public ResponseEntity<?> getAllScooterMaintenance(){
         try{
@@ -53,6 +76,11 @@ public class MaintenanceController {
         }
     }
 
+    @Operation(summary = "Inicia mantenimiento de scooters", description = "Revisa los scooters y los pone en mantenimiento si cumplen con las condiciones.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Mantenimiento iniciado correctamente"),
+            @ApiResponse(responseCode = "400", description = "No hay scooters que necesiten mantenimiento")
+    })
     @PostMapping("")
     public ResponseEntity<?> repairSkateBoard(){
         try{
@@ -65,6 +93,11 @@ public class MaintenanceController {
         }
     }
 
+    @Operation(summary = "Elimina un mantenimiento por ID", description = "Elimina el registro de mantenimiento correspondiente al ID proporcionado.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Mantenimiento eliminado correctamente"),
+            @ApiResponse(responseCode = "400", description = "Error al eliminar el mantenimiento")
+    })
     @DeleteMapping("/{id_maintenance}")
     public ResponseEntity<?>deleteOneMaintenance(@PathVariable long id_maintenance){
         try{
@@ -74,6 +107,11 @@ public class MaintenanceController {
         }
     }
 
+    @Operation(summary = "Modifica un mantenimiento", description = "Actualiza un mantenimiento existente por su ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Mantenimiento modificado correctamente"),
+            @ApiResponse(responseCode = "400", description = "Error al modificar el mantenimiento")
+    })
     @PutMapping("/{id_maintenance}")
     public ResponseEntity<?> modificOneMaintenance(@PathVariable long id_maintenance, @RequestBody Maintenance maintenance){
         try{

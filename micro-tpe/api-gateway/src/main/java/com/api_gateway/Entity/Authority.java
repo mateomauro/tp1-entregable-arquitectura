@@ -1,4 +1,4 @@
-package com.uncledavecode.api_gateway.Entity;
+package com.api_gateway.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

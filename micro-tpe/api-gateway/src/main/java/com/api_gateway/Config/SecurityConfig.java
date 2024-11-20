@@ -1,8 +1,8 @@
-package com.uncledavecode.api_gateway.Config;
+package com.api_gateway.Config;
 
-import com.uncledavecode.api_gateway.Security.AuthorityConstant;
-import com.uncledavecode.api_gateway.Security.jwt.JwtFilter;
-import com.uncledavecode.api_gateway.Security.jwt.TokenProvider;
+import com.api_gateway.Security.AuthorityConstant;
+import com.api_gateway.Security.jwt.JwtFilter;
+import com.api_gateway.Security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

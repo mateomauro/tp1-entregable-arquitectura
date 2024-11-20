@@ -1,4 +1,4 @@
-package com.uncledavecode.api_gateway.Entity;
+package com.api_gateway.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

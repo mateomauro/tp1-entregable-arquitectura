@@ -1,11 +1,13 @@
-package com.uncledavecode.api_gateway.DTO;
+package com.api_gateway.DTO;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
-public class LoginDTO {
+public class UserDTO {
 
     @NotNull( message = "El usuario es un campo requerido." )
     @NotEmpty( message = "El usuario es un campo requerido." )
@@ -15,7 +17,7 @@ public class LoginDTO {
     @NotEmpty( message = "La contraseña es un campo requerido." )
     private String password;
 
-    public String toString(){
-        return "Username: " + username + ", Password: [FORBIDDEN] ";
-    }
+    @NotNull( message = "Los roles son un campo requerido." )
+    @NotEmpty( message = "Los roles son un campo requerido." )
+    private Set<String> authorities;
 }

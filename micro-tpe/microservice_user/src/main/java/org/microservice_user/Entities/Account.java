@@ -20,8 +20,6 @@ public class Account {
     private Boolean annulled;
 
     @ManyToMany(mappedBy = "accounts")
-    //@JsonBackReference
-    // Hay que ver esto del JSON IGNORE porque si llamo al "getAllAccounts()" NO me muestra los usuarios que tiene esa account.
     @JsonIgnore
     private List<User> users;
 

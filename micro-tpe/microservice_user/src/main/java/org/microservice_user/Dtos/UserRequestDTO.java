@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +33,12 @@ public class UserRequestDTO {
     @NotEmpty(message = "el campo longitude del user no puede estar vacío")
     @NotNull( message = "La longitude es un campo obligatorio.")
     private Double longitude;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRequestDTO that = (UserRequestDTO) o;
+        return Objects.equals(email, that.email);
+    }
 }

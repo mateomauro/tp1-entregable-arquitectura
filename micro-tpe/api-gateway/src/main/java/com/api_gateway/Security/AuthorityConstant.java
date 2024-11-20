@@ -1,4 +1,4 @@
-package com.uncledavecode.api_gateway.Security;
+package com.api_gateway.Security;
 
 public class AuthorityConstant {
 

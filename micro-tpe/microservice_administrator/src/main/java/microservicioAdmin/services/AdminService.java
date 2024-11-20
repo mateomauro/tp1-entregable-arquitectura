@@ -253,7 +253,6 @@ public class AdminService {
             TripDTO tripDTO = tripFeignClients.getTripById(idTrip);
             if (tripDTO != null) {
                 Rate rateLast = this.rateRepository.getLastRate(LocalDate.now());
-                System.out.println("km reccoridos" + km_traveled);
                 List<PauseDTO> pauseDTOs = pauseFeignClients.getAllPauseByIdTrip(idTrip);
                 int timePause = 0;
                 for (PauseDTO pauseDTO : pauseDTOs) {
@@ -262,7 +261,6 @@ public class AdminService {
                     timePause += Duration.between(startInstant, endInstant).toMinutesPart();
                 }
                 double price = rateLast.getPrice() * km_traveled;
-                System.out.println("price " + price);
                 if (timePause > 15)
                     price = price + (((double) timePause / 15) * rateLast.getPriceForPause());
                 Billing billing = new Billing(LocalDate.now(), price);
@@ -297,15 +295,8 @@ public class AdminService {
     @Transactional
     public RateDTO updateRateForDate(Rate rateNew) throws Exception {
         try {
-            // SOLO AGARRAR LA ULTIMA TARIFA SI LA FECHA DE LA TARIFA ES MENOR O IGUAL A LOCALDATE.NOW()
-            // ACA SOLO SE ACTUALIZA ESA TARIFA SI LA FECHA ES MENOR O IGUAL A HOY Y ESTA MAL POR QUE
-            // QUIERO QUE A PARTIR DE CIERTA FECHA ( rateNew.getDate() ) SE ACTUALICEN LOS PRECIOS
-            // ENTONCES TENDRÍA QUE SER UN POST PERO AGARRAR LA TARIFA SOLO SI LA FECHA CUMPLE TAL CONDICIÓN
-            //if (LocalDate.now().isEqual(rateNew.getDate()) || LocalDate.now().isAfter(rateNew.getDate())) {
-            //rateNew.setIdRate(rateRepository.getLastRate().getIdRate());
             rateRepository.save(rateNew);
             return new RateDTO(rateNew.getPrice(), rateNew.getPriceForPause(), rateNew.getDate());
-            //}
         } catch (Exception e) {
             throw new Exception("Error al actualizar la tarifa: " + e.getMessage());
         }

@@ -1,9 +1,9 @@
-package com.uncledavecode.api_gateway.Controller;
+package com.api_gateway.Controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.uncledavecode.api_gateway.DTO.LoginDTO;
-import com.uncledavecode.api_gateway.Security.jwt.JwtFilter;
-import com.uncledavecode.api_gateway.Security.jwt.TokenProvider;
+import com.api_gateway.DTO.LoginDTO;
+import com.api_gateway.Security.jwt.JwtFilter;
+import com.api_gateway.Security.jwt.TokenProvider;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
